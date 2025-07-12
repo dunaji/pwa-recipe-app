@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>なつどん飯店</title>
+    <!-- PWA manifest & アイコン設定 -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="なつどん飯店">
+    <meta name="theme-color" content="#ff9800">
+    <!-- Google Fonts: Kiwi Maru -->
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSSファイルの読み込み -->
+    <link rel="stylesheet" href="style.css">
+    <!-- アイコン用のFont Awesomeの読み込み -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- ヘッダー部分：アプリのタイトルを表示 -->
+    <header class="header">
+        <img src="ryourityou.png" class="header-icon" alt="料理長">
+        <h1>なつどん飯店
+          <svg width="32" height="32" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle; margin-left:0.3em;"><g><path d="M496.366,214.635c-10.877-23.746-26.644-42.705-44.134-57.888c-26.274-22.782-56.395-37.42-81.839-48.669c-12.71-5.608-24.291-10.356-33.447-14.59c-4.565-2.109-8.524-4.092-11.62-5.878c-3.104-1.769-5.332-3.388-6.422-4.392c-8.674-7.9-17.822-15.112-28.234-20.547c-10.364-5.427-22.189-8.958-34.971-8.934c-12.774-0.023-24.599,3.508-34.964,8.934c-10.412,5.435-19.567,12.648-28.241,20.547c-1.454,1.374-5.039,3.808-10,6.422c-8.729,4.645-21.55,10.088-36.109,16.518c-21.866,9.693-47.792,21.724-71.822,38.818c-12.015,8.563-23.572,18.406-33.826,29.956c-10.254,11.532-19.196,24.796-25.824,39.972C5.143,237.275,0,260.61,0,283.692c-0.032,31.929,9.962,63.394,30.366,90.26c20.389,26.906,50.904,49.08,91.105,63.914c36.686,13.532,81.231,20.389,134.229,20.396c53.005-0.007,97.551-6.864,134.236-20.396c40.114-14.803,70.748-36.985,91.296-63.868c20.57-26.842,30.8-58.298,30.768-90.212C512,260.523,506.644,237.046,496.366,214.635z M455.21,354.101c-16.281,21.281-41.322,39.98-76.626,53.037c-31.899,11.802-72.699,18.374-122.885,18.366c-50.178,0.008-90.979-6.564-122.877-18.366c-35.382-13.089-60.242-31.74-76.349-52.974c-16.075-21.266-23.675-45.256-23.715-70.472c0-18.217,4.053-37.08,12.174-55.668c7.781-17.798,19.773-32.514,34.339-45.154c21.795-18.958,49.294-32.83,74.201-44.008c12.465-5.609,24.251-10.554,34.56-15.412c3.792-1.793,7.322-3.587,10.72-5.419c-3.35,6.051-6.391,12.18-9.014,18.358c-8.01,18.896-12.497,38.258-12.497,57.161c0,1.367,0.016,2.733,0.071,4.1c0.126,3.618,3.16,6.446,6.778,6.319c3.609-0.126,6.438-3.168,6.311-6.778c-0.04-1.208-0.063-2.417-0.063-3.642c0-16.818,4.021-34.489,11.462-52.042c6.628-15.617,15.973-31.115,27.483-45.809c2.228-1.484,4.431-2.86,6.58-3.974c2.039-1.058,4.029-1.895,6.004-2.63c-0.316,3.982-0.521,7.994-0.529,12.087c0.008,20.357,3.8,41.868,10.348,62.493c6.549,20.626,15.855,40.374,27.072,57.168c2.014,3.01,6.082,3.824,9.084,1.81c3.018-2.007,3.824-6.075,1.817-9.085c-10.443-15.633-19.29-34.354-25.484-53.859c-6.201-19.504-9.732-39.806-9.724-58.527c-0.008-5.032,0.316-9.906,0.846-14.662c0.134,0,0.268-0.024,0.403-0.024c4.945,0.016,9.543,0.941,14.242,2.742c-0.213,1.707-0.332,3.421-0.332,5.135c0.008,9.938,3.484,19.575,8.966,28.612c8.271,13.563,21.147,26.061,35.777,36.993c14.637,10.91,31.06,20.207,46.559,26.914c3.318,1.438,7.173-0.094,8.611-3.413c1.438-3.317-0.094-7.181-3.413-8.618c-19.394-8.374-40.762-21.36-56.892-36.022c-8.073-7.323-14.828-15.057-19.441-22.656c-4.226-6.96-6.604-13.714-6.983-20.017c4.527,3.096,9.203,6.833,14.038,11.257c4.968,4.487,10.506,7.796,16.668,11.051c10.751,5.616,23.596,10.846,37.617,16.928c20.989,9.077,44.451,19.97,65.266,34.806c10.411,7.41,20.152,15.791,28.675,25.365c8.532,9.582,15.854,20.342,21.534,32.72c8.46,18.462,12.648,37.271,12.648,55.495C479.209,308.812,471.467,332.788,455.21,354.101z" fill="#4B4B4B"/></g></svg>
+        </h1>
+    </header>
+
+    <main class="main-container">
+        <!-- タブナビゲーション：画面上部の切り替えボタン -->
+        <div class="tab-navigation">
+            <!-- レシピ登録タブを開くボタン -->
+            <button class="tab-btn active" data-tab="register">
+                <i class="fas fa-plus"></i>
+                <span>登録</span>
+            </button>
+            <!-- レシピ一覧タブを開くボタン -->
+            <button class="tab-btn" data-tab="recipes">
+                <i class="fas fa-book"></i>
+                <span>レシピ</span>
+            </button>
+            <!-- 買い物リストタブを開くボタン -->
+            <button class="tab-btn" data-tab="shopping">
+                <i class="fas fa-shopping-cart"></i>
+                <span>買い物メモ</span>
+            </button>
+        </div>
+
+        <!-- レシピ登録タブの内容（初期表示） -->
+        <div class="tab-content active" id="register">
+            <div class="card">
+                <div class="card-header">
+                    <h2>レシピ登録</h2> <!-- ここでレシピの新規登録を行う -->
+                </div>
+                <div class="card-content">
+                    <!-- レシピ登録用フォーム -->
+                    <form id="recipe-form">
+                        <!-- 料理名の入力欄 -->
+                        <div class="form-group">
+                            <label for="recipe-name">料理名</label>
+                            <input type="text" id="recipe-name" placeholder="料理名を入力" required>
+                        </div>
+
+                        <!-- 材料の入力欄（複数行可） -->
+                        <div class="form-group">
+                            <div class="ingredients-header">
+                                <label>材料</label>
+                                <!-- 材料行を追加するボタン -->
+                                <button type="button" id="add-ingredient" class="btn-icon">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div id="ingredients-container">
+                                <div class="ingredient-row">
+                                    <input type="text" placeholder="材料名" class="ingredient-name" required>
+                                    <input type="text" placeholder="数量" class="ingredient-quantity">
+                                    <!-- 材料行を削除するボタン（1行目は非表示） -->
+                                    <button type="button" class="btn-remove-ingredient" style="display: none;">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 写真アップロード欄 -->
+                        <div class="form-group">
+                            <label>写真</label>
+                            <div class="photo-upload" id="photo-upload">
+                                <i class="fas fa-camera"></i>
+                                <p>写真をアップロード</p>
+                                <input type="file" id="photo-input" accept="image/*" style="display: none;">
+                            </div>
+                            <div id="photo-preview" class="photo-preview" style="display: none;">
+                                <img id="preview-image" alt="プレビュー">
+                                <button type="button" id="remove-photo" class="btn-remove-photo">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary">レシピを登録</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- レシピ一覧タブ -->
+        <div class="tab-content" id="recipes">
+            <div class="recipes-header">
+                <h2>レシピ一覧</h2>
+                <button id="add-to-shopping" class="btn-secondary" style="display: none;">
+                    買い物リストの作成
+                </button>
+            </div>
+            <div id="recipes-container" class="recipes-container">
+                <!-- レシピがここに動的に追加されます -->
+            </div>
+        </div>
+
+        <!-- 買い物リストタブ -->
+        <div class="tab-content" id="shopping">
+            <div class="card">
+                <div class="card-header">
+                    <div class="shopping-header">
+                        <h2>食材一覧</h2>
+                        <button id="clear-shopping" class="btn-secondary" title="リスト初期化">
+  <svg width="24" height="24" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><g><path d="M88.594,464.731C90.958,491.486,113.368,512,140.234,512h231.523c26.858,0,49.276-20.514,51.641-47.269l25.642-335.928H62.952L88.594,464.731z M420.847,154.93l-23.474,307.496c-1.182,13.37-12.195,23.448-25.616,23.448H140.234c-13.42,0-24.434-10.078-25.591-23.132L91.145,154.93H420.847z" fill="#4B4B4B"/><path d="M182.954,435.339c5.877-0.349,10.35-5.4,9.992-11.269l-10.137-202.234c-0.358-5.876-5.401-10.349-11.278-9.992c-5.877,0.357-10.35,5.409-9.993,11.277l10.137,202.234C172.033,431.231,177.085,435.696,182.954,435.339z" fill="#4B4B4B"/><path d="M256,435.364c5.885,0,10.656-4.763,10.656-10.648V222.474c0-5.885-4.771-10.648-10.656-10.648c-5.885,0-10.657,4.763-10.657,10.648v202.242C245.344,430.601,250.115,435.364,256,435.364z" fill="#4B4B4B"/><path d="M329.046,435.339c5.878,0.357,10.921-4.108,11.278-9.984l10.129-202.234c0.348-5.868-4.116-10.92-9.993-11.277c-5.877-0.357-10.92,4.116-11.277,9.992L319.054,424.07C318.697,429.938,323.17,434.99,329.046,435.339z" fill="#4B4B4B"/><path d="M439.115,64.517c0,0-34.078-5.664-43.34-8.479c-8.301-2.526-80.795-13.566-80.795-13.566l-2.722-19.297C310.388,9.857,299.484,0,286.642,0h-30.651H225.34c-12.825,0-23.728,9.857-25.616,23.175l-2.721,19.297c0,0-72.469,11.039-80.778,13.566c-9.261,2.815-43.357,8.479-43.357,8.479C62.544,67.365,55.332,77.172,55.332,88.38v21.926h200.66h200.676V88.38C456.668,77.172,449.456,67.365,439.115,64.517z M276.318,38.824h-40.636c-3.606,0-6.532-2.925-6.532-6.532s2.926-6.532,6.532-6.532h40.636c3.606,0,6.532,2.925,6.532,6.532S279.924,38.824,276.318,38.824z" fill="#4B4B4B"/></g></svg>
+</button>
+                        <div id="shopping-history-area" class="shopping-history-area"></div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div id="shopping-selected-recipes" style="display:none;"></div>
+                    <div id="shopping-container" class="shopping-container">
+                        <!-- 買い物アイテムがここに動的に追加されます -->
+                    </div>
+                    <div class="shopping-complete-row">
+                        <button id="complete-shopping" class="btn-primary" disabled>買い物完了</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScriptファイルの読み込み（アプリの動作を制御） -->
+    <script src="script.js"></script>
+</body>
+</html>

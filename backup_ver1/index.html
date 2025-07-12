@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レシピ管理アプリ</title>
+    <!-- CSSファイルの読み込み -->
+    <link rel="stylesheet" href="style.css">
+    <!-- アイコン用のFont Awesomeの読み込み -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- ヘッダー部分：アプリのタイトルを表示 -->
+    <header class="header">
+        <h1>レシピ管理アプリ</h1>
+    </header>
+
+    <main class="main-container">
+        <!-- タブナビゲーション：画面上部の切り替えボタン -->
+        <div class="tab-navigation">
+            <!-- レシピ登録タブを開くボタン -->
+            <button class="tab-btn active" data-tab="register">
+                <i class="fas fa-plus"></i>
+                <span>登録</span>
+            </button>
+            <!-- レシピ一覧タブを開くボタン -->
+            <button class="tab-btn" data-tab="recipes">
+                <i class="fas fa-book"></i>
+                <span>レシピ</span>
+            </button>
+            <!-- 買い物リストタブを開くボタン -->
+            <button class="tab-btn" data-tab="shopping">
+                <i class="fas fa-shopping-cart"></i>
+                <span>買い物</span>
+            </button>
+        </div>
+
+        <!-- レシピ登録タブの内容（初期表示） -->
+        <div class="tab-content active" id="register">
+            <div class="card">
+                <div class="card-header">
+                    <h2>レシピ登録</h2> <!-- ここでレシピの新規登録を行う -->
+                </div>
+                <div class="card-content">
+                    <!-- レシピ登録用フォーム -->
+                    <form id="recipe-form">
+                        <!-- 料理名の入力欄 -->
+                        <div class="form-group">
+                            <label for="recipe-name">料理名</label>
+                            <input type="text" id="recipe-name" placeholder="料理名を入力" required>
+                        </div>
+
+                        <!-- 材料の入力欄（複数行可） -->
+                        <div class="form-group">
+                            <div class="ingredients-header">
+                                <label>材料</label>
+                                <!-- 材料行を追加するボタン -->
+                                <button type="button" id="add-ingredient" class="btn-icon">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div id="ingredients-container">
+                                <div class="ingredient-row">
+                                    <input type="text" placeholder="材料名" class="ingredient-name" required>
+                                    <input type="text" placeholder="数量" class="ingredient-quantity">
+                                    <!-- 材料行を削除するボタン（1行目は非表示） -->
+                                    <button type="button" class="btn-remove-ingredient" style="display: none;">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 写真アップロード欄 -->
+                        <div class="form-group">
+                            <label>写真</label>
+                            <div class="photo-upload" id="photo-upload">
+                                <i class="fas fa-camera"></i>
+                                <p>写真をアップロード</p>
+                                <input type="file" id="photo-input" accept="image/*" style="display: none;">
+                            </div>
+                            <div id="photo-preview" class="photo-preview" style="display: none;">
+                                <img id="preview-image" alt="プレビュー">
+                                <button type="button" id="remove-photo" class="btn-remove-photo">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary">レシピを登録</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- レシピ一覧タブ -->
+        <div class="tab-content" id="recipes">
+            <div class="recipes-header">
+                <h2>レシピ一覧</h2>
+                <button id="add-to-shopping" class="btn-secondary" style="display: none;">
+                    買い物リストの作成
+                </button>
+            </div>
+            <div id="recipes-container" class="recipes-container">
+                <!-- レシピがここに動的に追加されます -->
+            </div>
+        </div>
+
+        <!-- 買い物リストタブ -->
+        <div class="tab-content" id="shopping">
+            <div class="shopping-header">
+                <h2>買い物リスト</h2>
+                <button id="clear-shopping" class="btn-secondary">リスト初期化</button>
+                <div id="shopping-history-area" class="shopping-history-area"></div>
+            </div>
+            <div id="shopping-container" class="shopping-container">
+                <!-- 買い物アイテムがここに動的に追加されます -->
+            </div>
+            <div class="shopping-complete-row">
+                <button id="complete-shopping" class="btn-primary" disabled>買い物完了</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScriptファイルの読み込み（アプリの動作を制御） -->
+    <script src="script.js"></script>
+</body>
+</html>
