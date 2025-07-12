@@ -5,6 +5,55 @@
   box-sizing: border-box;
 }
 
+/* 編集モード（レシピ編集時）の見出し・ボタン色 */
+.editing-mode .section-title {
+  background: linear-gradient(90deg, #e1d7fa 0%, #b39ddb 100%) !important;
+  color: #5e35b1 !important;
+}
+.editing-mode .btn-primary {
+  background: linear-gradient(90deg, #e1d7fa 0%, #b39ddb 100%) !important;
+  color: #5e35b1 !important;
+  border: 1px solid #b39ddb !important;
+}
+
+/* サブボタン・小ボタン等 */
+.btn-history {
+  background: linear-gradient(90deg, #f5e6da 0%, #e7c8a1 100%) !important;
+  color: #8a5a1e !important;
+  border: 1px solid #e7c8a1 !important;
+  box-shadow: 0 1px 2px rgba(231, 200, 161, 0.12);
+  font-weight: 600;
+}
+.btn-history:hover {
+  background: linear-gradient(90deg, #fff8e1 0%, #f5e6da 100%) !important;
+  color: #8a5a1e !important;
+  border-color: #e7c8a1 !important;
+}
+.btn-history:hover {
+  background: linear-gradient(90deg, #fff8e1 0%, #ffe082 100%);
+  color: #a05a00;
+  border-color: #ffe082;
+}
+
+.btn-small {
+  font-size: 0.92em;
+  padding: 0.18em 0.8em;
+  border-radius: 5px;
+  min-width: 0;
+  height: 2em;
+  line-height: 1.3;
+  margin: 0;
+  background: #f7f7fa;
+  color: #666;
+  border: 1px solid #ddd;
+  box-shadow: none;
+}
+.btn-small:hover {
+  background: #ececf3;
+  color: #333;
+  border-color: #bbb;
+}
+
 /* 画面全体の基本スタイル */
 body {
   font-family: 'Kiwi Maru', 'Hiragino Maru Gothic ProN', 'Yuji Mai', 'Yuji Syuku', 'Meiryo', cursive, sans-serif;
@@ -324,26 +373,56 @@ input[type="text"]:focus {
   margin-bottom: 1rem;
 }
 
-.recipes-header h2 {
-  background: linear-gradient(90deg, #ff9800 70%, #ffc107 100%);
-  color: #fff;
-  border-radius: 12px;
-  padding: 0.4em 1.2em;
-  margin-bottom: 0.8em;
+.section-title {
+  background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+  color: #fff !important;
+  border-radius: 6px;
+  padding: 0.05em 0.5em;
+  margin-bottom: 0.4em;
   display: inline-block;
-  box-shadow: 0 2px 8px rgba(255,152,0,0.10);
-
-  font-size: 1.25rem;
+  box-shadow: 0 1px 2px rgba(255,152,0,0.06);
+  font-size: 1.1rem;
   font-weight: 600;
 }
 
 .recipe-item {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  margin-bottom: 1rem;
-  padding: 1rem;
+  /* app-cardのデザインを適用して統一 */
+  background: rgba(255,255,255,0.95);
+  border-radius: 18px;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.10);
+  margin-bottom: 1.3em;
+  padding: 1.1em 1em 1em 1em;
+  border: 1.5px solid #e9e9e9;
   transition: all 0.2s ease;
+}
+
+/* 編集・削除ボタンを縦並び＆大きなアイコン */
+.recipe-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+}
+.btn-edit, .btn-delete, .btn-favorite {
+  width: 42px;
+  height: 42px;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-edit {
+  background: #fff !important;
+  border: none !important;
+  color: #2196f3 !important;
+  box-shadow: none !important;
+}
+.btn-edit i {
+  color: #2196f3 !important;
+}
+.btn-edit i, .btn-delete i {
+  font-size: 1.4rem;
 }
 
 .recipe-item.selected {
@@ -416,6 +495,30 @@ input[type="text"]:focus {
 
 .btn-delete:hover {
   background: #ffebee;
+}
+
+.btn-favorite {
+  width: 42px;
+  height: 42px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #fff;
+  transition: color 0.2s;
+}
+.btn-favorite .fa-star {
+  color: gold;
+  background: none;
+}
+.btn-favorite .fa-star-o {
+  color: gold;
+  background: none;
+  /* 枠線だけゴールド、塗りつぶしは白 */
+  filter: drop-shadow(0 0 0 gold);
+}
+.btn-favorite:hover .fa-star-o {
+  color: gold;
 }
 
 /* 買い物リスト表示・履歴・完了ボタンのスタイル */
@@ -595,6 +698,44 @@ input[type="text"]:focus {
 .toast-message.toast-success {
   background: #1bc96c;
   color: #fff;
+}
+
+/* アプリ全体で使える濃い目のカード */
+.app-card {
+  background: rgba(255,255,255,0.95);
+  border-radius: 18px;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.10);
+  padding: 1.3em 1.1em 1.1em 1.1em;
+  margin-bottom: 1.3em;
+  border: 1.5px solid #e9e9e9;
+}
+
+/* レシピ一覧上部の操作エリア用カード（.app-cardで統一するため未使用）
+.recipe-list-header-card {
+  display:none;
+}
+*/
+
+/* 履歴モーダル */
+#history-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.history-modal-content {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.18);
+  padding: 2em 1.5em 1.5em 1.5em;
+  min-width: 320px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
 }
 
 /* データがない時の空表示スタイル */

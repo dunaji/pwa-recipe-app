@@ -49,9 +49,9 @@
 
         <!-- レシピ登録タブの内容（初期表示） -->
         <div class="tab-content active" id="register">
-            <div class="card">
+            <div class="card app-card">
                 <div class="card-header">
-                    <h2>レシピ登録</h2> <!-- ここでレシピの新規登録を行う -->
+                    <h2 class="section-title" id="register-title">レシピ登録</h2> <!-- ここでレシピの新規登録を行う -->
                 </div>
                 <div class="card-content">
                     <!-- レシピ登録用フォーム -->
@@ -107,11 +107,27 @@
 
         <!-- レシピ一覧タブ -->
         <div class="tab-content" id="recipes">
-            <div class="recipes-header">
-                <h2>レシピ一覧</h2>
+            <div class="app-card">
+              <div class="recipes-header">
+                <h2 class="section-title">レシピ一覧</h2>
                 <button id="add-to-shopping" class="btn-secondary" style="display: none;">
                     買い物リストの作成
                 </button>
+              </div>
+              <!-- 並び替えUI -->
+              <div class="sort-controls" style="margin-bottom: 0.7em;">
+                <label for="recipe-sort-select" style="font-size:0.95em; margin-right:0.4em;">並び替え:</label>
+                <select id="recipe-sort-select" style="font-size:1em; padding: 0.2em 0.8em; border-radius:6px;">
+                  <option value="popular">よく作る順</option>
+                  <option value="name">名前順</option>
+                  <option value="createdAt">新着順</option>
+                  <option value="favorite">お気に入り順</option>
+                </select>
+                <select id="recipe-sort-order" style="font-size:1em; padding: 0.2em 0.8em; border-radius:6px; margin-left:0.5em;">
+                  <option value="desc">降順</option>
+                  <option value="asc">昇順</option>
+                </select>
+              </div>
             </div>
             <div id="recipes-container" class="recipes-container">
                 <!-- レシピがここに動的に追加されます -->
@@ -120,14 +136,20 @@
 
         <!-- 買い物リストタブ -->
         <div class="tab-content" id="shopping">
-            <div class="card">
+            <div class="card app-card">
                 <div class="card-header">
                     <div class="shopping-header">
-                        <h2>食材一覧</h2>
-                        <button id="clear-shopping" class="btn-secondary" title="リスト初期化">
-  <svg width="24" height="24" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><g><path d="M88.594,464.731C90.958,491.486,113.368,512,140.234,512h231.523c26.858,0,49.276-20.514,51.641-47.269l25.642-335.928H62.952L88.594,464.731z M420.847,154.93l-23.474,307.496c-1.182,13.37-12.195,23.448-25.616,23.448H140.234c-13.42,0-24.434-10.078-25.591-23.132L91.145,154.93H420.847z" fill="#4B4B4B"/><path d="M182.954,435.339c5.877-0.349,10.35-5.4,9.992-11.269l-10.137-202.234c-0.358-5.876-5.401-10.349-11.278-9.992c-5.877,0.357-10.35,5.409-9.993,11.277l10.137,202.234C172.033,431.231,177.085,435.696,182.954,435.339z" fill="#4B4B4B"/><path d="M256,435.364c5.885,0,10.656-4.763,10.656-10.648V222.474c0-5.885-4.771-10.648-10.656-10.648c-5.885,0-10.657,4.763-10.657,10.648v202.242C245.344,430.601,250.115,435.364,256,435.364z" fill="#4B4B4B"/><path d="M329.046,435.339c5.878,0.357,10.921-4.108,11.278-9.984l10.129-202.234c0.348-5.868-4.116-10.92-9.993-11.277c-5.877-0.357-10.92,4.116-11.277,9.992L319.054,424.07C318.697,429.938,323.17,434.99,329.046,435.339z" fill="#4B4B4B"/><path d="M439.115,64.517c0,0-34.078-5.664-43.34-8.479c-8.301-2.526-80.795-13.566-80.795-13.566l-2.722-19.297C310.388,9.857,299.484,0,286.642,0h-30.651H225.34c-12.825,0-23.728,9.857-25.616,23.175l-2.721,19.297c0,0-72.469,11.039-80.778,13.566c-9.261,2.815-43.357,8.479-43.357,8.479C62.544,67.365,55.332,77.172,55.332,88.38v21.926h200.66h200.676V88.38C456.668,77.172,449.456,67.365,439.115,64.517z M276.318,38.824h-40.636c-3.606,0-6.532-2.925-6.532-6.532s2.926-6.532,6.532-6.532h40.636c3.606,0,6.532,2.925,6.532,6.532S279.924,38.824,276.318,38.824z" fill="#4B4B4B"/></g></svg>
-</button>
-                        <div id="shopping-history-area" class="shopping-history-area"></div>
+                        <div style="display:flex;align-items:center;gap:8px;">
+  <h2 class="section-title" style="margin:0;">食材一覧</h2>
+  <button id="clear-shopping" class="btn-secondary" title="リスト初期化" style="background:none;border:none;cursor:pointer;color:#e53935;font-size:1.3em;padding:0 4px;">
+    <i class="fas fa-trash"></i>
+  </button>
+</div>
+                        <div id="shopping-history-area" class="shopping-history-area">
+  <div style="margin-top:4px;">
+    <button id="show-all-history" class="btn-history btn-small">買い物履歴</button>
+  </div>
+</div>
                     </div>
                 </div>
                 <div class="card-content">
@@ -143,6 +165,19 @@
         </div>
     </main>
 
+    <!-- 履歴モーダル -->
+    <div id="history-modal" class="history-modal" style="display:none;">
+      <div class="history-modal-content">
+        <button id="close-history-modal" class="btn-secondary" style="float:right;">✕</button>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:0;">
+  <h3 style="margin:0;">買い物履歴一覧</h3>
+  <button id="btn-delete-all-history" style="background:none;border:none;cursor:pointer;color:#e53935;font-size:1.3em;" title="すべて削除">
+    <i class="fas fa-trash"></i>
+  </button>
+</div>
+        <div id="history-modal-list" style="max-height:45vh; overflow-y:auto;"></div>
+      </div>
+    </div>
     <!-- JavaScriptファイルの読み込み（アプリの動作を制御） -->
     <script src="script.js"></script>
 </body>
