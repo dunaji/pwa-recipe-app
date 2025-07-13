@@ -231,11 +231,13 @@ class RecipeApp {
     if (document.getElementById("photo-preview").style.display === "none") {
       imgSrc = null;
     }
+    const notes = document.getElementById("recipe-notes").value.trim();
     const recipe = {
       id: Date.now(),
       name: name,
       ingredients: ingredients,
       image: imgSrc,
+      notes: notes,
       createdAt: new Date().toISOString(),
       favorite: false,
     }
@@ -256,6 +258,7 @@ class RecipeApp {
   // レシピ登録フォームを初期状態に戻す処理
   resetForm() {
     document.getElementById("recipe-form").reset()
+    document.getElementById("recipe-notes").value = "";
     this.editingRecipeId = null;
     document.querySelector(".btn-primary").textContent = "レシピを登録";
     // 見出しを「レシピ登録」に戻す
@@ -328,7 +331,10 @@ class RecipeApp {
     container.innerHTML = sortedRecipes
       .map((recipe) => {
         const count = recipeCounts[recipe.id] || 0;
-        let countHtml = `<div class="recipe-count" style="font-size:0.88em; color:#ff9800; margin-bottom:0.2em;">作成回数: ${count}回</div>`;
+        let countHtml = `<div class="recipe-count" style="display:flex;flex-direction:column;align-items:flex-end;font-size:0.88em;color:#ff9800;margin-bottom:0.2em;line-height:1.15;">
+  <span style='font-weight:bold;'>調理数</span>
+  <span>${count}回</span>
+</div>`;
         return `
           <div class="recipe-item ${this.selectedRecipes.has(recipe.id) ? "selected" : ""}" data-id="${recipe.id}">
             <div class="recipe-header">
@@ -343,7 +349,7 @@ class RecipeApp {
                   ${recipe.ingredients.map(ing => `<span class="ingredient-badge">${ing.name} ${ing.quantity}</span>`).join("")}
                 </div>
               </div>
-              <div class="recipe-actions" style="display:flex;flex-direction:column;align-items:center;gap:14px;justify-content:center;">
+              <div class="recipe-actions">
                 <button class="btn-favorite" onclick="app.toggleFavorite(${recipe.id})">
                   <i class="${recipe.favorite ? 'fas fa-star' : 'far fa-star'}"></i>
                 </button>
@@ -371,17 +377,27 @@ class RecipeApp {
     // 詳細ボタンのイベントリスナー
     container.querySelectorAll(".btn-detail").forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        const recipeItem = e.target.closest('.recipe-item');
-        const ingredients = recipeItem.querySelector('.recipe-ingredients');
-        if (ingredients.style.display === 'none') {
-          ingredients.style.display = '';
-          btn.textContent = '閉じる';
-        } else {
-          ingredients.style.display = 'none';
-          btn.textContent = '詳細';
-        }
+        const recipeId = Number(btn.closest('.recipe-item').dataset.id);
+        const recipe = this.recipes.find(r => r.id === recipeId);
+        if (!recipe) return;
+        // モーダル表示
+        document.getElementById("modal-recipe-title").textContent = recipe.name;
+        // 写真は詳細モーダルに表示しない
+        const thumbDiv = document.getElementById("modal-recipe-image");
+        thumbDiv.innerHTML = "";
+        const ingUl = document.getElementById("modal-recipe-ingredients");
+        ingUl.innerHTML = (recipe.ingredients || []).map(i => `<li>${i.name} ${i.quantity ? '('+i.quantity+')' : ''}</li>`).join('');
+        document.getElementById("modal-recipe-notes").textContent = recipe.notes || '';
+        document.getElementById("recipe-detail-modal").style.display = "flex";
       });
     });
+    // モーダル閉じるボタン
+    const closeDetailBtn = document.getElementById("close-detail-modal");
+    if (closeDetailBtn) {
+      closeDetailBtn.onclick = () => {
+        document.getElementById("recipe-detail-modal").style.display = "none";
+      };
+    }
   }
 
   // レシピ編集フォームに値をセットし、編集モードにする
@@ -396,6 +412,7 @@ class RecipeApp {
     const registerTab = document.getElementById('register');
     if (registerTab) registerTab.classList.add('editing-mode');
     document.getElementById("recipe-name").value = recipe.name;
+    document.getElementById("recipe-notes").value = recipe.notes || "";
     // 材料行をセット
     const container = document.getElementById("ingredients-container");
     container.innerHTML = "";
@@ -457,6 +474,7 @@ class RecipeApp {
     if (document.getElementById("photo-preview").style.display === "none") {
       imgSrc = null;
     }
+    const notes = document.getElementById("recipe-notes").value.trim();
     // 上書き
     const idx = this.recipes.findIndex(r => r.id === this.editingRecipeId);
     if (idx === -1) return;
@@ -464,7 +482,8 @@ class RecipeApp {
       ...this.recipes[idx],
       name,
       ingredients,
-      image: imgSrc
+      image: imgSrc,
+      notes
     };
     this.saveRecipes();
     this.renderRecipes();
@@ -697,7 +716,7 @@ class RecipeApp {
     // 履歴保存・リスト初期化を自動で実行
     const now = new Date();
     const historyEntry = {
-      date: now.toLocaleString(),
+      date: now.toLocaleDateString(), // 時間なしで日付のみ
       items: this.shoppingList.map(item => ({ name: item.name, quantity: item.quantity })),
       recipeNames: this.shoppingListRecipes || [],
       recipeIds: this.shoppingListRecipeIds || []
@@ -707,6 +726,7 @@ class RecipeApp {
     this.renderShoppingHistory();
     // リスト初期化
     this.shoppingList = [];
+    this.shoppingListRecipes = [];
     this.saveShoppingList();
     this.renderShoppingList();
     this.showMessage("買い物お疲れさまでした！", "success");
