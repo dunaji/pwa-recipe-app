@@ -5,6 +5,245 @@
   box-sizing: border-box;
 }
 
+/* ヘッダー内のストレージ使用量表示 */
+.header {
+  position: relative;
+}
+
+.storage-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  color: #555;
+  border: 1px solid #e0e0e0;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.storage-status:hover {
+  background: #f5f5f5;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.storage-status i {
+  font-size: 1.2em;
+  color: #5c6bc0;
+}
+
+/* タブレットサイズ以下の調整 */
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .storage-status {
+    top: 5px;
+    right: 5px;
+    font-size: 0.7em;
+    padding: 3px 6px;
+  }
+}
+
+/* 編集モード（レシピ編集時）の見出し・ボタン色 */
+.editing-mode .section-title {
+  background: linear-gradient(90deg, #e1d7fa 0%, #b39ddb 100%) !important;
+  color: #5e35b1 !important;
+}
+.editing-mode .btn-primary {
+  background: linear-gradient(90deg, #e1d7fa 0%, #b39ddb 100%) !important;
+  color: #5e35b1 !important;
+  border: 1px solid #b39ddb !important;
+}
+
+/* 写真アップロード関連スタイル */
+.photo-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.photo-upload-small {
+  margin-bottom: 0.5rem;
+}
+
+.photo-upload-small label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+  font-size: 0.95em;
+}
+
+.photo-upload-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #f5f5f5;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.photo-upload-inner:hover {
+  background: #e8f5e9;
+  border-color: #81c784;
+}
+
+.photo-upload-inner i {
+  font-size: 1.2em;
+  color: #666;
+}
+
+.photo-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border: 2px dashed #ddd;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  min-height: 120px;
+}
+
+.photo-upload:hover {
+  background: #f0f7ff;
+  border-color: #90caf9;
+}
+
+.photo-upload i {
+  font-size: 1.8em;
+  color: #90caf9;
+  margin-bottom: 0.5rem;
+}
+
+.photo-upload p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.photo-preview {
+  position: relative;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 100%;
+}
+
+.photo-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: cover;
+}
+
+.photo-preview-small {
+  position: relative;
+  display: inline-block;
+  margin-top: 0.5rem;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.photo-preview-small img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.btn-remove-photo {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.8em;
+  transition: all 0.2s ease;
+}
+
+.btn-remove-photo:hover {
+  background: #f44336;
+  transform: scale(1.1);
+}
+
+.main-photo-upload {
+  margin-top: 0.5rem;
+}
+
+.main-photo-upload label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+/* サブボタン・小ボタン等 */
+.btn-history {
+  background: linear-gradient(90deg, #f5e6da 0%, #e7c8a1 100%) !important;
+  color: #8a5a1e !important;
+  border: 1px solid #e7c8a1 !important;
+  box-shadow: 0 1px 2px rgba(231, 200, 161, 0.12);
+  font-weight: 600;
+}
+.btn-history:hover {
+  background: linear-gradient(90deg, #fff8e1 0%, #f5e6da 100%) !important;
+  color: #8a5a1e !important;
+  border-color: #e7c8a1 !important;
+}
+.btn-history:hover {
+  background: linear-gradient(90deg, #fff8e1 0%, #ffe082 100%);
+  color: #a05a00;
+  border-color: #ffe082;
+}
+
+.btn-small {
+  font-size: 0.92em;
+  padding: 0.18em 0.8em;
+  border-radius: 5px;
+  min-width: 0;
+  height: 2em;
+  line-height: 1.3;
+  margin: 0;
+  background: #f7f7fa;
+  color: #666;
+  border: 1px solid #ddd;
+  box-shadow: none;
+}
+.btn-small:hover {
+  background: #ececf3;
+  color: #333;
+  border-color: #bbb;
+}
+
 /* 画面全体の基本スタイル */
 body {
   font-family: 'Kiwi Maru', 'Hiragino Maru Gothic ProN', 'Yuji Mai', 'Yuji Syuku', 'Meiryo', cursive, sans-serif;
@@ -85,6 +324,39 @@ body {
 
 .tab-btn i {
   font-size: 1.2rem;
+}
+
+/* タブヘッダーのスタイル */
+.tab-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.tab-header h2 {
+  margin: 0;
+  font-size: 1.3em;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-clear {
+  background: none;
+  border: none;
+  color: #f44336;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.1em;
+  opacity: 0.7;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
 }
 
 /* タブごとの表示内容（登録・レシピ・買い物） */
@@ -210,56 +482,127 @@ input[type="text"]:focus {
 /* 写真アップロード・プレビュー表示のスタイル */
 .photo-upload {
   border: 2px dashed #ddd;
-  border-radius: 12px;
-  padding: 2rem;
+  border-radius: 8px;
+  padding: 1.5rem;
   text-align: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+  margin-bottom: 1rem;
 }
 
 .photo-upload:hover {
   border-color: #ff9800;
-  background: #fff5e6;
+  background-color: #fff8e1;
 }
 
 .photo-upload i {
-  font-size: 3rem;
-  color: #ccc;
+  font-size: 2rem;
+  color: #ff9800;
   margin-bottom: 0.5rem;
+  display: block;
 }
 
 .photo-upload p {
+  margin: 0;
   color: #666;
   font-size: 0.9rem;
 }
 
 .photo-preview {
   position: relative;
-  display: inline-block;
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
 }
 
 .photo-preview img {
   width: 100%;
-  max-width: 300px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 12px;
+  height: auto;
+  display: block;
 }
 
 .btn-remove-photo {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 32px;
-  height: 32px;
-  background: rgba(244, 67, 54, 0.9);
+  background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
   border-radius: 50%;
-  cursor: pointer;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-remove-photo:hover {
+  background: #f44336;
+  transform: scale(1.1);
+}
+
+/* フォームアクションボタン */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.btn-secondary {
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+  border-color: #bbb;
+}
+
+/* メモ用写真セクション */
+#note-photo-upload {
+  margin-top: 1.5rem;
+  background-color: #f0f7ff;
+  border-color: #bbdefb;
+}
+
+#note-photo-upload:hover {
+  background-color: #e3f2fd;
+  border-color: #90caf9;
+}
+
+#note-photo-upload i {
+  color: #2196f3;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+  .form-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+  .form-actions .btn {
+    width: 100%;
+  }
 }
 
 /* ボタン（登録・追加・削除など）のスタイル */
@@ -316,6 +659,14 @@ input[type="text"]:focus {
   font-family: 'Kiwi Maru', 'Hiragino Maru Gothic ProN', 'Yuji Mai', 'Yuji Syuku', 'Meiryo', cursive, sans-serif !important;
 }
 
+/* レシピ名のスタイル */
+.recipe-name {
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
 /* レシピ一覧表示・選択時のスタイル */
 .recipes-header {
   display: flex;
@@ -324,26 +675,79 @@ input[type="text"]:focus {
   margin-bottom: 1rem;
 }
 
-.recipes-header h2 {
-  background: linear-gradient(90deg, #ff9800 70%, #ffc107 100%);
-  color: #fff;
-  border-radius: 12px;
-  padding: 0.4em 1.2em;
-  margin-bottom: 0.8em;
+.section-title {
+  background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+  color: #fff !important;
+  border-radius: 6px;
+  padding: 0.05em 0.5em;
+  margin-bottom: 0.4em;
   display: inline-block;
-  box-shadow: 0 2px 8px rgba(255,152,0,0.10);
-
-  font-size: 1.25rem;
+  box-shadow: 0 1px 2px rgba(255,152,0,0.06);
+  font-size: 1.1rem;
   font-weight: 600;
 }
 
 .recipe-item {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  margin-bottom: 1rem;
-  padding: 1rem;
+  /* app-cardのデザインを適用して統一 */
+  background: rgba(255,255,255,0.95);
+  border-radius: 18px;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.10);
+  margin-bottom: 1.3em;
+  padding: 1.1em 1em 1em 1em;
+  border: 1.5px solid #e9e9e9;
   transition: all 0.2s ease;
+}
+
+/* 編集・削除・お気に入りボタンのコンテナ */
+.recipe-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  width: 44px; /* ボタン幅 + 余白分を確保 */
+  margin: 0 auto; /* 中央揃え */
+}
+
+/* 共通ボタンスタイル */
+.btn-edit, .btn-delete, .btn-favorite {
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0; /* マージンをリセット */
+  padding: 0; /* パディングをリセット */
+}
+.btn-edit {
+  width: 36px;
+  height: 36px;
+  background: #e3f2fd;
+  border: 1.5px solid #90caf9;
+  color: #1976d2;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(25, 118, 210, 0.2);
+}
+
+.btn-edit:hover {
+  background: #bbdefb;
+  color: #0d47a1;
+  border-color: #64b5f6;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(25, 118, 210, 0.25);
+}
+.btn-edit i {
+  color: #1976d2;
+}
+.btn-edit i, .btn-delete i {
+  font-size: 1.4rem;
 }
 
 .recipe-item.selected {
@@ -418,6 +822,40 @@ input[type="text"]:focus {
   background: #ffebee;
 }
 
+.btn-favorite {
+  width: 36px;
+  height: 36px;
+  background: #fff8e1;
+  border: 1.5px solid #ffd54f;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px #ffd54f22;
+}
+
+.btn-favorite .fa-star {
+  color: #ffc107;
+}
+
+.btn-favorite .fa-star-o {
+  color: #ffc107;
+  opacity: 0.7;
+}
+
+.btn-favorite:hover {
+  background: #fff3e0;
+  border-color: #ffb300;
+}
+
+.btn-favorite:hover .fa-star,
+.btn-favorite:hover .fa-star-o {
+  color: #ffa000;
+}
+
 /* 買い物リスト表示・履歴・完了ボタンのスタイル */
 #shopping-selected-recipes {
   color: #b5e07a !important;
@@ -489,16 +927,191 @@ input[type="text"]:focus {
   margin-bottom: 1rem;
 }
 
-.shopping-item {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 12px;
-  margin-bottom: 0.5rem;
-  padding: 1rem;
+/* 基本スタイル - 材料アイテム用 */
+#shopping-container .shopping-item {
   display: flex;
   align-items: center;
-  gap: 12px;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
+  position: relative;
+  border-left: 4px solid #ff4081; /* ピンク（材料用） */
+  background-color: #fff5f7; /* 薄いピンクの背景 */
+}
+
+/* カスタムアイテム用のスタイル - より詳細なセレクタで上書き */
+#shopping-container .shopping-section.custom-items .shopping-item,
+#shopping-container .shopping-item[data-custom="true"] {
+  border-left-color: #2196f3 !important; /* 青（カスタムアイテム用） */
+  background-color: #f0f7ff !important; /* 薄い青の背景 */
+}
+
+/* チェックボックス関連 */
+#shopping-container .shopping-section.custom-items .item-checkbox:checked ~ .checkmark,
+#shopping-container .shopping-item[data-custom="true"] .item-checkbox:checked ~ .checkmark {
+  background-color: #4caf50 !important;
+}
+
+#shopping-container .shopping-section.custom-items .checkmark,
+#shopping-container .shopping-item[data-custom="true"] .checkmark {
+  background-color: #e1f5fe !important;
+}
+
+/* ホバー時のスタイル */
+#shopping-container .shopping-section.custom-items .shopping-item:hover,
+#shopping-container .shopping-item[data-custom="true"]:hover {
+  background-color: #e1f5fe !important;
+  border-left-color: #1e88e5 !important;
+}
+
+.shopping-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 調味料セクションの折りたたみスタイル */
+.shopping-section.seasoning-section .section-content {
+  max-height: 1000px; /* 十分に大きな値 */
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.shopping-section.seasoning-section.collapsed .section-content {
+  max-height: 0;
+  overflow: hidden;
+}
+
+/* トグルアイコンの回転アニメーション */
+.shopping-section.seasoning-section .toggle-icon {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.shopping-section.seasoning-section.collapsed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.item-checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-left: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.item-checkbox {
+  opacity: 0;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.item-checkbox-container:hover .item-checkbox ~ .checkmark {
+  background-color: #ddd;
+}
+
+.item-checkbox:checked ~ .checkmark {
+  background-color: #4caf50;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.item-checkbox:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.item-name {
+  flex: 1;
+  font-size: 1rem;
+  color: #333;
+  margin-right: 10px;
+  word-break: break-word;
+}
+
+.item-quantity {
+  background-color: #e0e0e0;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: #555;
+  margin-right: 10px;
+}
+
+/* 買い物リストの削除ボタン */
+.btn-remove {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+  padding: 0;
+  margin-left: 8px;
+}
+
+.btn-remove:hover {
+  color: #666;
+  background-color: #f0f0f0;
+}
+
+.btn-remove i {
+  font-size: 16px;
+}
+
+/* チェックボックスがチェックされたときの削除ボタンのスタイル */
+.shopping-item input[type="checkbox"]:checked ~ .btn-remove {
+  opacity: 0.7;
+}
+
+.empty-message {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+  font-style: italic;
+}
+
+/* チェックがついたアイテムのスタイル */
+.shopping-item input[type="checkbox"]:checked + .item-name {
+  text-decoration: line-through;
+  color: #888;
 }
 
 .shopping-item.completed {
@@ -532,6 +1145,53 @@ input[type="text"]:focus {
   font-size: 0.85rem;
   color: #666;
   margin-left: 8px;
+}
+
+/* 履歴カードのスタイル */
+.history-card {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.history-date {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.history-category {
+  margin-top: 10px;
+}
+
+.history-category h4 {
+  margin: 10px 0 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.history-recipe-items,
+.history-custom-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0 10px;
+}
+
+.history-recipe-items li,
+.history-custom-items li {
+  padding: 5px 0;
+  border-bottom: 1px dashed #eee;
+  font-size: 14px;
+}
+
+.recipe-name {
+  font-size: 12px;
+  color: #888;
+  margin-left: 5px;
 }
 
 /* スマホなど画面幅が狭い時のレイアウト調整 */
@@ -597,6 +1257,318 @@ input[type="text"]:focus {
   color: #fff;
 }
 
+/* アプリ全体で使える濃い目のカード */
+.app-card {
+  background: linear-gradient(135deg, rgba(255,251,233,0.95) 80%, rgba(255,224,178,0.95) 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(255,152,0,0.13), 0 1.5px 8px rgba(0,0,0,0.09);
+  padding: 1.3em 1.2em 1.2em 1.2em;
+  margin-bottom: 1.5em;
+  border: 2px solid #ffe0b2;
+  transition: box-shadow 0.2s, transform 0.15s;
+  position: relative;
+}
+.app-card:hover {
+  box-shadow: 0 8px 32px rgba(255,152,0,0.22), 0 2px 12px rgba(0,0,0,0.12);
+  transform: translateY(-2px) scale(1.018);
+  border-color: #ffd54f;
+}
+
+.card {
+  background: rgba(255,253,231,0.95);
+  border-radius: 15px;
+  box-shadow: 0 2px 8px #ffd54f55;
+  padding: 1em 1em 0.8em 1em;
+  margin-bottom: 1em;
+  border: 1.5px solid #ffe0b2;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+}
+.card:hover {
+  box-shadow: 0 6px 24px #ffd54f66, 0 2px 12px #ffecb366;
+  border-color: #ffd54f;
+}
+
+.recipe-item {
+  background: rgba(255,251,233,0.95);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px #ffd54f44;
+  margin-bottom: 1.1em;
+  padding: 0.9em 1em 0.7em 1em;
+  border: 1.5px solid #ffe0b2;
+  transition: box-shadow 0.17s, border-color 0.17s, transform 0.13s;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1em;
+}
+
+.recipe-item:hover {
+  box-shadow: 0 8px 28px #ffd54f44, 0 2px 10px #ffecb388;
+  border-color: #ffd54f;
+  transform: scale(1.012);
+}
+
+.recipe-item .recipe-thumb {
+  width: 70px;
+  height: 70px;
+  min-width: 70px;
+  min-height: 70px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #ffe0b2;
+  box-shadow: 0 1px 4px #ffd54f33;
+  margin-right: 0.7em;
+  border: 1.5px solid #ffd54f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.recipe-item .recipe-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.recipe-item .recipe-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.recipe-item .recipe-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.recipe-item .recipe-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 14px;
+  margin-left: 1em;
+  min-width: 48px;
+  margin-top: 0;
+  height: auto;
+}
+
+.recipe-item .recipe-title {
+  font-family: 'Kiwi Maru', sans-serif;
+  font-size: 1.19em;
+  color: #ff9800;
+  font-weight: bold;
+  margin-bottom: 0.2em;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.recipe-item .recipe-title::before {
+  content: '🍳';
+  margin-right: 0.2em;
+  font-size: 1.1em;
+}
+
+.recipe-item .recipe-actions {
+  display: flex;
+  gap: 0.5em;
+  margin-top: 0.5em;
+}
+
+.recipe-item .btn-detail,
+.recipe-item .btn-edit,
+.recipe-item .btn-delete {
+  background: #fffde7;
+  border: 1.5px solid #ffd54f;
+  color: #ff9800;
+  border-radius: 8px;
+  padding: 0.3em 0.8em;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.13s, color 0.13s;
+  box-shadow: 0 1px 3px #ffd54f22;
+  margin-right: 0.2em;
+}
+.recipe-item .btn-detail:hover,
+.recipe-item .btn-edit:hover,
+.recipe-item .btn-delete:hover {
+  background: #ffe0b2;
+  color: #e65100;
+}
+
+.recipe-item .favorite-star {
+  color: #ffd600;
+  font-size: 1.3em;
+  margin-left: 0.3em;
+  vertical-align: middle;
+  text-shadow: 0 1px 4px #ffd54f99;
+}
+
+.recipes-header {
+  background: none;
+  border-bottom: 2px solid #ffe0b2;
+  margin-bottom: 1em;
+  padding-bottom: 0.4em;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.recipes-header .section-title {
+  font-family: 'Kiwi Maru', sans-serif;
+  color: #ff9800;
+  font-size: 1.35em;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 0 #fffde7,0 2px 6px #ffd54f80;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.recipes-header .section-title::before {
+  content: '🍽️';
+  font-size: 1.1em;
+  margin-right: 0.18em;
+}
+
+/* 履歴モーダル */
+.history-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.history-modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.history-modal-header {
+  padding: 16px 20px;
+  background: #ff9800;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-modal-header h2 {
+  margin: 0;
+  font-size: 1.3em;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  cursor: pointer;
+  padding: 0 8px;
+  line-height: 1;
+}
+
+.history-list {
+  padding: 16px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.history-entry {
+  background: #fff9c4;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border-left: 4px solid #ffc107;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.history-date {
+  font-size: 0.9em;
+  color: #5d4037;
+  font-weight: 500;
+}
+
+.history-items {
+  margin: 0;
+  padding: 0 0 0 1.5rem;
+  list-style: none;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+  color: #3e2723;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.item-name {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.item-quantity {
+  color: #757575;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.history-modal-actions {
+  padding: 16px;
+  border-top: 1px solid #eee;
+  text-align: right;
+}
+
+.btn-danger {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s;
+}
+
+.btn-danger:hover {
+  background-color: #c62828;
+}
+
 /* データがない時の空表示スタイル */
 .empty-state {
   text-align: center;
@@ -612,4 +1584,1713 @@ input[type="text"]:focus {
 
 .empty-state p {
   font-size: 1rem;
+}
+
+/* カスタムアイテムスタイル */
+.custom-items-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.custom-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.custom-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+}
+
+.custom-item:last-child {
+  border-bottom: none;
+}
+
+/* カスタムアイテムのコンテナ */
+.custom-items-container {
+  padding: 0;
+  width: 100%;
+}
+
+/* カスタムアイテムのスタイル */
+#custom-items-list .custom-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin: 6px 0;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  border-left: 4px solid #ff9800;
+  background: white;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#custom-items-list .custom-item:hover {
+  background-color: #fff8e1;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255,152,0,0.1);
+  border-color: #ffe0b2;
+}
+
+/* カスタムアイテムリストのコンテナ */
+#custom-items-list {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* チェックボックスと削除ボタンのスタイルを買い物リストに合わせる */
+#custom-items-list .custom-item .item-checkbox-container {
+  margin-right: 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#custom-items-list .custom-item .item-checkbox {
+  margin-right: 8px;
+}
+
+#custom-items-list .custom-item .item-name {
+  flex: 1;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+#custom-items-list .custom-item .item-quantity {
+  margin: 0 12px;
+  font-size: 0.9rem;
+  color: #666;
+  background: #f5f5f5;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+#custom-items-list .custom-item .btn-remove {
+  background: none;
+  border: none;
+  color: #f44336;
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+}
+
+#custom-items-list .custom-item .btn-remove:hover {
+  opacity: 1;
+  background-color: #ffebee;
+}
+
+/* 選択されたレシピヘッダーのスタイル */
+.selected-recipes-header {
+  background: #ffffff; /* 白背景 */
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+}
+
+/* 選択されたレシピ見出しのスタイルを上書き */
+#shoppingList .shopping-list-container .selected-recipes-header h3,
+#shoppingList .shopping-list-container .selected-recipes-header h3:not([class*="color-"]) {
+  color: #333333 !important;
+  margin: 0 0 8px 0 !important;
+  font-size: 1.1em !important;
+  font-weight: 600 !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+  padding-bottom: 8px !important;
+  text-align: left !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.recipe-tag {
+  background: #f5f5f5;
+  color: #555;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  border: 1px solid #e0e0e0;
+}
+
+.empty-tag {
+  color: #999;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* チェックボックスのスタイル */
+.custom-item-checkbox {
+  display: inline-block;
+  position: relative;
+  padding-left: 28px;
+  margin-right: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* デフォルトのチェックボックスを非表示 */
+.custom-item-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* カスタムチェックボックス */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid #ff9800;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+/* チェックマークのスタイル */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* チェックされたときのスタイル */
+.custom-item-checkbox input:checked ~ .checkmark {
+  background-color: #ff9800;
+}
+
+.custom-item-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* アイテムの詳細スタイル */
+.item-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-name {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 2px;
+  word-break: break-word;
+}
+
+.item-quantity {
+  font-size: 0.85em;
+  color: #666;
+}
+
+/* 削除ボタン */
+.btn-remove {
+  background: none;
+  border: none;
+  color: #f44336; /* 常に赤色 */
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 材料以外タブのゴミ箱ボタン */
+#clear-custom-items {
+  color: #f44336 !important; /* 常に赤色を強制 */
+  background: none !important; /* 背景色を削除 */
+  padding: 0 6px !important;
+  margin: 0 !important;
+  font-size: 1.1em;
+}
+
+#clear-custom-items i {
+  margin: 0 !important;
+}
+
+/* アクションボタン */
+.custom-items-actions {
+  padding: 1rem 1rem 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.custom-item-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.custom-item-checkbox .checkmark {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  margin-right: 12px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.custom-item-checkbox input:checked + .checkmark {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+
+.custom-item-checkbox input:checked + .checkmark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.custom-item-checkbox input:disabled + .checkmark {
+  background-color: #f5f5f5;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.custom-item-checkbox input:disabled:checked + .checkmark {
+  background-color: #e0e0e0;
+  border-color: #bdbdbd;
+}
+
+.custom-item .item-name {
+  font-size: 1rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.custom-item .item-quantity {
+  font-size: 0.9rem;
+  color: #666;
+  background: #f5f5f5;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* 追加ボタン */
+#add-custom-items-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#add-custom-items-btn:hover {
+  background-color: #43a047;
+}
+
+#add-custom-items-btn:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+/* 選択されたレシピのスタイル */
+.selected-recipes {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.selected-title {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.recipe-tag {
+  background-color: #f1f8e9; /* 薄い黄緑の背景色 */
+  color: #33691e; /* 濃い黄緑のテキスト色 */
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  border: 1px solid #dcedc8; /* 薄い黄緑のボーダー */
+}
+
+/* セクション共通スタイル */
+.shopping-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.shopping-section h3.section-title,
+.shopping-section .section-header h3 {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 1.1rem;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 調味料セクションのスタイル */
+.shopping-section.seasoning-section {
+  padding: 15px;
+}
+
+.shopping-section.seasoning-section .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+
+.shopping-section.seasoning-section .section-content {
+  padding: 0;
+}
+
+.shopping-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.shopping-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f5f5f5;
+  border-left: 4px solid #ff80ab;
+  padding-left: 12px;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.shopping-item:last-child {
+  border-bottom: none;
+}
+
+.item-checkbox {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.item-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.checkmark {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+}
+
+.item-checkbox input:checked + .checkmark {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+
+.item-checkbox input:checked + .checkmark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.item-details {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item-name {
+  font-size: 1rem;
+  color: #333;
+}
+
+.item-quantity {
+  font-size: 0.9rem;
+  color: #666;
+  background: #f5f5f5;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.btn-remove {
+  background: none;
+  border: none;
+  color: #f44336;
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+}
+
+.btn-remove:hover {
+  opacity: 1;
+  background-color: #ffebee;
+}
+
+/* カスタムアイテムのスタイル */
+.shopping-section.custom-items {
+  margin-top: 0;
+}
+
+/* フォームスタイル */
+#custom-item-form .form-group {
+  margin-bottom: 1rem;
+}
+
+#custom-item-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+#custom-item-form input[type="text"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+#custom-item-form input[type="text"]:focus {
+  border-color: #ff9800;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+}
+
+/* レシピ選択用チェックボックス */
+.recipe-checkbox {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ff9800;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+  margin-right: 10px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.recipe-checkbox:checked {
+  background-color: #ff9800;
+  border-color: #ff9800;
+}
+
+.recipe-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  color: white;
+  font-size: 14px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+}
+
+.recipe-checkbox:hover {
+  border-color: #f57c00;
+}
+
+.recipe-checkbox:checked:hover {
+  background-color: #f57c00;
+  border-color: #f57c00;
+}
+
+/* セクションヘッダーのスタイル */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+/* 一括削除ボタンのスタイル */
+.btn-clear-custom {
+  background: none;
+  border: none;
+  color: #f44336;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-clear-custom:hover {
+  background-color: #ffebee;
+  transform: scale(1.05);
+}
+
+.btn-clear-custom:active {
+  transform: scale(0.95);
+}
+
+/* 買い物リストのスタイル */
+.shopping-list-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+}
+
+.selected-recipes-header {
+  padding: 1rem;
+  background: #ffffff; /* 白背景 */
+  border: 1px solid #f0f0f0; /* 薄いグレーのボーダー */
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.selected-recipes-header h3 {
+  margin: 0 0 0.5rem 0;
+  color: #33691e; /* 濃い黄緑のテキスト色 */
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* 履歴カードのスタイル */
+.history-list {
+  padding: 0 1rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* アコーディオン機能のスタイル */
+.history-card {
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+}
+
+.history-card:last-child {
+  margin-bottom: 0;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  background: #fff;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.history-header:hover {
+  background-color: #f9f9f9;
+}
+
+.history-header > button {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.history-header .accordion-toggle {
+  flex: 1;
+  text-align: left;
+  padding: 0.25rem 0;
+}
+
+.history-date {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+  margin-right: 0.5rem;
+}
+
+.btn-delete-history {
+  color: #757575;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.btn-delete-history:hover {
+  color: #d32f2f;
+  background-color: rgba(211, 47, 47, 0.08);
+}
+
+.accordion-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: #888;
+  transition: transform 0.3s ease;
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background: #fff;
+  border-top: 1px solid #f5f5f5;
+}
+
+.accordion-content.active {
+  max-height: 1000px; /* 十分に大きな値 */
+  transition: max-height 0.5s ease-in;
+}
+
+.accordion-content > .recipe-tags {
+  padding: 0.5rem 1.25rem 0;
+}
+
+.history-items-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 0 1rem 1rem;
+  margin-top: 0.5rem;
+}
+
+.history-category {
+  flex: 1;
+  min-width: 200px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.8rem 1rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.history-category:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.history-category h4 {
+  margin: 0 0 0.75rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed #e0e0e0;
+  color: #666;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.history-category h4::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 16px;
+  background: #ff9a9e;
+  margin-right: 8px;
+  border-radius: 3px;
+}
+
+.history-category.seasonings h4::before {
+  background: #a5d6a7;
+}
+
+.history-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-items li {
+  padding: 0.5rem 0.75rem;
+  margin: 0.25rem 0;
+  background: #f9f9f9;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #555;
+  transition: all 0.2s ease;
+  border-left: 3px solid #ffcdd2;
+}
+
+.history-category.seasonings .history-items li {
+  border-left-color: #c8e6c9;
+}
+
+.history-items li:hover {
+  background: #fff5f5;
+  transform: translateX(4px);
+}
+
+.history-category.seasonings .history-items li:hover {
+  background: #f5fff5;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .history-items-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .history-category {
+    width: 100%;
+  }
+}
+
+.history-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid #f0f0f0;
+  position: relative;
+  transform: scale(0.98);
+}
+
+.history-card:hover {
+  transform: scale(1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: #e0e0e0;
+}
+
+.history-date {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  color: white;
+  padding: 0.8rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.history-date::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+  transform: skewX(-20deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { 
+    opacity: 0; 
+    transform: translateY(10px) scale(0.98);
+  }
+  50% { 
+    opacity: 1; 
+    transform: translateY(0) scale(0.98);
+  }
+  100% { 
+    opacity: 0; 
+    transform: translateY(-10px) scale(0.98);
+  }
+}
+
+.selected-recipes {
+  padding: 1.2rem 1.2rem 0.8rem;
+  background: #fff9f9;
+  border-bottom: 1px dashed #ffd6e0;
+}
+
+.selected-recipes h4 {
+  color: #ff6b88;
+  font-size: 0.95rem;
+  margin: 0 0 0.8rem 0;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0.5rem 0 0;
+}
+
+.recipe-tag {
+  background: #fff0f5 !important;
+  color: #ff4081 !important;
+  padding: 0.4rem 1rem !important;
+  border-radius: 20px !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(255, 105, 180, 0.1);
+  transition: all 0.2s ease;
+  border: 1px solid #ffd6e7;
+  position: relative;
+  overflow: hidden;
+}
+
+.recipe-tag::before {
+  content: '🍳';
+  margin-right: 0.4em;
+  font-size: 1em;
+  opacity: 0.8;
+}
+
+.recipe-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 105, 180, 0.15);
+  background: #fff9fb !important;
+}
+
+.history-category {
+  padding: 1.2rem;
+  position: relative;
+}
+
+.history-category:not(:last-child) {
+  border-bottom: 1px solid #fff0f5;
+}
+
+.history-category h4 {
+  color: #ff6b88;
+  font-size: 1rem;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 1.8rem;
+}
+
+.history-category h4::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.2rem;
+  height: 1.2rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* 購入したアイテムカテゴリ - 買い物カートアイコン */
+.history-category:nth-child(2) h4::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6b88'%3E%3Cpath d='M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 3c0 .55.45 1 1 1h1l1.6 7.31c.2.9.98 1.69 1.9 1.69h11.7c.92 0 1.7-.79 1.9-1.69L22 4h1c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1zm16 15c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z'/%3E%3C/svg%3E");
+}
+
+/* 調味料カテゴリ - スパイスアイコン */
+.history-category:nth-child(3) h4::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a5d6a7'%3E%3Cpath d='M20.5 11H19V7c0-1.1-.9-2-2-2h-3V3.5C14 2.12 12.88 1 11.5 1S9 2.12 9 3.5V5H6c-1.1 0-2 .9-2 2v4H2.5c-.83 0-1.5.67-1.5 1.5S1.67 14 2.5 14h18c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5zM10 3.5c0-.28.22-.5.5-.5s.5.22.5.5V5h-1V3.5zM6 9h12v2H6V9zm12 4l-6 6-6-6h12z'/%3E%3C/svg%3E");
+}
+
+/* 調味料カテゴリの色を緑に設定 */
+.history-category.seasonings h4 {
+  color: #4caf50;
+}
+
+.history-category.seasonings h4::before {
+  background-color: #a5d6a7;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M20.5 11H19V7c0-1.1-.9-2-2-2h-3V3.5C14 2.12 12.88 1 11.5 1S9 2.12 9 3.5V5H6c-1.1 0-2 .9-2 2v4H2.5c-.83 0-1.5.67-1.5 1.5S1.67 14 2.5 14h18c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5zM10 3.5c0-.28.22-.5.5-.5s.5.22.5.5V5h-1V3.5zM6 9h12v2H6V9zm12 4l-6 6-6-6h12z'/%3E%3C/svg%3E");
+  background-size: 60%;
+  background-position: center;
+  opacity: 0.9;
+}
+
+.history-recipe-items,
+.history-custom-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.history-recipe-items li,
+.history-custom-items li {
+  padding: 0.7rem 1rem 0.7rem 2.5rem;
+  position: relative;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  transition: all 0.2s ease;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #fff0f5;
+}
+
+.history-recipe-items li:hover,
+.history-custom-items li:hover {
+  background: #fff9fb;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(255, 105, 180, 0.1);
+}
+
+.history-recipe-items li::before {
+  content: '🍴';
+  position: absolute;
+  left: 1rem;
+  top: 0.7rem;
+  font-size: 1em;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.history-custom-items li::before {
+  content: '🛍️';
+  position: absolute;
+  left: 1rem;
+  top: 0.7rem;
+  font-size: 1em;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px) scale(0.98);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(0.98);
+  }
+}
+
+.history-card {
+  animation: fadeIn 0.4s ease-out forwards;
+  transform-origin: top center;
+}
+
+/* スクロールバーのスタイリング */
+.history-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.history-list::-webkit-scrollbar-track {
+  background: #fff0f5;
+  border-radius: 4px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background: #ffb6c1;
+  border-radius: 4px;
+}
+
+.history-list::-webkit-scrollbar-thumb:hover {
+  background: #ff8fa3;
+}
+
+.shopping-section {
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.shopping-section:last-child {
+  border-bottom: none;
+}
+
+.shopping-section.custom-items {
+  background-color: #f9f9f9;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border: 1px solid #f0f0f0;
+}
+
+/* 材料リストのスタイリング */
+.shopping-section.ingredients {
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid #f0f0f0;
+  background-color: #fff;
+}
+
+.section-title {
+  color: #555;
+  font-size: 1rem;
+  margin: 0 0 0.75rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed #e0e0e0;
+  font-weight: 600;
+}
+
+.ingredients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.shopping-item {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  border-left: 4px solid #ff80ab; /* デフォルトでピンクの左ボーダー */
+  border-top: 1px solid #f0f0f0;
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 0.25rem;
+}
+
+/* カスタムアイテム用のスタイル */
+.shopping-item.custom-item {
+  border-left: 4px solid #64b5f6; /* 青色の左ボーダー */
+}
+
+/* 買い物リストセクションのスタイル */
+.shopping-section.seasoning-section.collapsed .section-content {
+  display: none;
+}
+
+.shopping-section.seasoning-section .section-header {
+  cursor: pointer;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+  border-left: 4px solid #ffb74d; /* 左ボーダーをグラデーション開始色に合わせる */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-bottom: none; /* 下の横棒を削除 */
+}
+
+.shopping-section.seasoning-section .section-header:hover {
+  background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.shopping-section.seasoning-section .section-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.shopping-section.seasoning-section .toggle-icon {
+  margin-left: 8px;
+  font-size: 0.9em;
+  transition: transform 0.2s ease;
+  color: white;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));
+}
+
+.shopping-section.seasoning-section.collapsed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.shopping-section.seasoning-section .section-content {
+  padding: 0;
+}
+
+/* 調味料セクションヘッダーのリセットを削除し、必要なスタイルのみを適用 */
+#shopping-container .shopping-section.seasoning-section .section-header {
+  border-bottom: none !important;
+  min-height: auto !important;
+  padding: 8px 15px !important;
+  background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%) !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 4px solid #ffb74d !important;
+  border-radius: 4px 4px 0 0;
+  margin-bottom: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+#shopping-container .shopping-section.seasoning-section .section-header h3 {
+  margin: 0 !important;
+  font-size: 1.1rem !important;
+  color: white !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+  display: flex;
+  align-items: center;
+}
+
+/* トグルアイコンのスタイルを復元 */
+#shopping-container .shopping-section.seasoning-section .toggle-icon {
+  margin-left: 8px !important;
+  font-size: 0.9em !important;
+  transition: transform 0.3s ease !important;
+  color: white !important;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2)) !important;
+  display: inline-block !important;
+}
+
+#shopping-container .shopping-section.seasoning-section.collapsed .toggle-icon {
+  transform: rotate(-90deg) !important;
+}
+
+#shopping-container .shopping-section.seasoning-section .section-header:hover {
+  background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+/* 調味料セクションヘッダーにのみ適用される基本スタイル */
+/* 買い物履歴ボタンのスタイル */
+.btn-history {
+  background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 6px 12px !important;
+  font-size: 0.9em !important;
+  cursor: pointer !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.2s ease !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  margin: 0 !important;
+  line-height: 1.5 !important;
+}
+
+.btn-history:hover {
+  background: linear-gradient(90deg, #ffa726 0%, #f57c00 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15) !important;
+}
+
+.btn-history:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 調味料セクションヘッダーのスタイル - より詳細なセレクタで上書き */
+#shopping-container .shopping-section.seasoning-section > .section-header,
+#shopping-container .shopping-section.seasoning-section > .section-header *,
+#shopping-container .shopping-section.seasoning-section > .section-header::before,
+#shopping-container .shopping-section.seasoning-section > .section-header::after {
+  border-bottom: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+}
+
+#shopping-container .shopping-section.seasoning-section .section-header {
+  cursor: pointer !important;
+  padding: 8px 15px !important;
+  display: flex !important;
+  align-items: center !important;
+  background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%) !important;
+  border-radius: 4px !important; /* 上下左右すべての角を丸くする */
+  margin: 0 !important;
+  transition: all 0.3s ease !important;
+  border-left: 4px solid #ffb74d !important;
+  box-shadow: none !important;
+  min-height: auto !important;
+  height: auto !important;
+  line-height: 1.2 !important;
+  border-bottom: none !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* ホバー時のスタイル */
+#shopping-container .shopping-section.seasoning-section .section-header:hover {
+  background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%) !important;
+  transform: translateY(0) !important;
+  box-shadow: none !important;
+  -webkit-transform: translateY(0) !important;
+  -moz-transform: translateY(-1px) !important;
+}
+
+/* タイトルテキストのスタイル */
+#shopping-container .shopping-section.seasoning-section .section-header h3 {
+  color: white !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.2 !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+
+/* 調味料セクションのトグルアイコン */
+#shopping-container .shopping-section.seasoning-section .section-header .toggle-icon,
+#shopping-container .shopping-section.seasoning-section .section-header .toggle-icon::before,
+#shopping-container .shopping-section.seasoning-section .section-header .toggle-icon i {
+  color: white !important;
+  fill: white !important;
+  stroke: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+#shopping-container .shopping-section.seasoning-section .section-header .toggle-icon {
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+  background: none !important;
+  border: none !important;
+  -webkit-text-fill-color: white !important;
+}
+
+.shopping-section.seasoning-section.collapsed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.shopping-section {
+  margin-bottom: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.section-header {
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  user-select: none;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.toggle-icon {
+  transition: transform 0.2s ease;
+  font-size: 0.8em;
+  color: #666;
+}
+
+.section-content {
+  max-height: 1000px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.seasoning-section.collapsed .section-content {
+  max-height: 0;
+}
+
+.seasoning-section.collapsed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.ingredients-list {
+  padding: 8px 0;
+}
+
+.shopping-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+  background: #fff;
+  transform: translateY(0);
+  border-left: 4px solid #ff80ab; /* デフォルトのピンクボーダー */
+}
+
+/* 調味料アイテムのスタイル - 詳細度を上げて適用 */
+#shopping-container .shopping-section.seasoning-section .shopping-item[data-seasoning="true"] {
+  border-left: 4px solid #66bb6a !important; /* 緑色のボーダー */
+  background-color: #f1f8e9 !important; /* 薄い緑の背景 */
+}
+
+#shopping-container .shopping-section.seasoning-section .shopping-item[data-seasoning="true"]:hover {
+  background-color: #e8f5e9 !important; /* ホバー時の色を少し濃く */
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* チェックボックスがチェックされた調味料アイテム */
+#shopping-container .shopping-section.seasoning-section .shopping-item[data-seasoning="true"].completed {
+  opacity: 0.7;
+  background-color: #e8f5e9 !important;
+}
+
+#shopping-container .shopping-section.seasoning-section .shopping-item[data-seasoning="true"] .item-name,
+#shopping-container .shopping-section.seasoning-section .shopping-item[data-seasoning="true"] .item-quantity {
+  color: #2e7d32; /* 緑色のテキスト */
+}
+
+#shopping-container .shopping-section.seasoning-section .shopping-item[data-seasoning="true"].completed .item-name,
+#shopping-container .shopping-section.seasoning-section .shopping-item[data-seasoning="true"].completed .item-quantity {
+  text-decoration: line-through;
+  color: #81c784; /* 薄い緑色のテキスト */
+}
+
+.shopping-item:last-child {
+  border-bottom: none;
+}
+
+.shopping-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fafafa;
+}
+
+.item-checkbox-container {
+  margin-right: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.item-name {
+  flex: 1;
+  margin-right: 12px;
+  font-size: 0.95em;
+}
+
+.item-quantity {
+  color: #666;
+  margin-right: 12px;
+  white-space: nowrap;
+  font-size: 0.9em;
+}
+
+.btn-remove {
+  background: none;
+  border: none;
+  color: #f44336;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 1.2em;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.btn-remove:hover {
+  opacity: 1;
+}
+
+.completed .item-name {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.recipe-tag {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+
+.empty-tag {
+  color: #999;
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+/* 材料・調味料入力行のスタイル */
+.ingredient-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.ingredient-name,
+.seasoning-name,
+.ingredient-quantity,
+.seasoning-quantity {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1em;
+  font-family: inherit;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ingredient-name:focus,
+.seasoning-name:focus,
+.ingredient-quantity:focus,
+.seasoning-quantity:focus {
+  outline: none;
+  border-color: #ff9800;
+  box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+}
+
+.ingredient-name,
+.seasoning-name {
+  flex: 3;
+  min-width: 0;
+}
+
+.ingredient-quantity,
+.seasoning-quantity {
+  flex: 2;
+  min-width: 0;
+}
+
+.btn-remove-ingredient,
+.btn-remove-seasoning {
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+  color: #c62828;
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-remove-ingredient:hover,
+.btn-remove-seasoning:hover {
+  background: #ffcdd2;
+}
+
+.btn-remove-ingredient i,
+.btn-remove-seasoning i {
+  font-size: 14px;
+}
+
+/* 材料・調味料のヘッダースタイル */
+.ingredients-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.ingredients-header label {
+  font-weight: 600;
+  color: #333;
+  font-size: 1em;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: #ff9800;
+  cursor: pointer;
+  font-size: 1.2em;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.btn-icon:hover {
+  background-color: rgba(255, 152, 0, 0.1);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+  .shopping-item {
+    padding: 10px 12px;
+  }
+  
+  .item-name {
+    font-size: 0.9em;
+  }
+  
+  .item-quantity {
+    font-size: 0.85em;
+  }
+  
+  .btn-remove {
+    font-size: 1.1em;
+  }
+}
+
+.shopping-item.completed {
+  opacity: 0.7;
+  background-color: #f9f9f9;
+}
+
+.shopping-item.completed .item-name,
+.shopping-item.completed .item-quantity,
+.shopping-item.completed .recipe-source {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.item-checkbox {
+  margin-right: 0.75rem;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.item-name {
+  flex: 1;
+  font-size: 0.95rem;
+  color: #333;
+  margin-right: 0.5rem;
+  word-break: break-word;
+}
+
+.item-quantity {
+  font-size: 0.85rem;
+  color: #666;
+  background: #f5f5f5;
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+
+.recipe-source {
+  font-size: 0.75rem;
+  color: #888;
+  background: #f0f0f0;
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+  white-space: nowrap;
+  margin-right: 0.5rem;
+}
+
+.btn-remove {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 0.3rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.btn-remove:hover {
+  color: #ff5252;
 }
