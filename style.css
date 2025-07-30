@@ -207,24 +207,6 @@
 }
 
 /* サブボタン・小ボタン等 */
-.btn-history {
-  background: linear-gradient(90deg, #f5e6da 0%, #e7c8a1 100%) !important;
-  color: #8a5a1e !important;
-  border: 1px solid #e7c8a1 !important;
-  box-shadow: 0 1px 2px rgba(231, 200, 161, 0.12);
-  font-weight: 600;
-}
-.btn-history:hover {
-  background: linear-gradient(90deg, #fff8e1 0%, #f5e6da 100%) !important;
-  color: #8a5a1e !important;
-  border-color: #e7c8a1 !important;
-}
-.btn-history:hover {
-  background: linear-gradient(90deg, #fff8e1 0%, #ffe082 100%);
-  color: #a05a00;
-  border-color: #ffe082;
-}
-
 .btn-small {
   font-size: 0.92em;
   padding: 0.18em 0.8em;
@@ -605,6 +587,35 @@ input[type="text"]:focus {
   }
 }
 
+/* ゴミ箱アイコン共通スタイル */
+.icon-trash {
+  width: 32px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: none !important;
+  border: none !important;
+  color: #e53935 !important;
+  border-radius: 50% !important;
+  font-size: 1.3em !important;
+  padding: 0 4px !important;
+  margin-left: 6px;
+  cursor: pointer !important;
+  opacity: 0.85;
+  transition: background 0.15s, color 0.15s, opacity 0.15s;
+}
+.icon-trash i, .icon-trash .fa-trash {
+  font-size: 1.1em !important;
+  color: inherit !important;
+  pointer-events: none;
+}
+.icon-trash:hover {
+  background: rgba(229,57,53,0.12) !important;
+  color: #b71c1c !important;
+  opacity: 1;
+}
+
 /* ボタン（登録・追加・削除など）のスタイル */
 .btn-primary {
   width: 100%;
@@ -651,6 +662,28 @@ input[type="text"]:focus {
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
   font-family: 'Kiwi Maru', 'Hiragino Maru Gothic ProN', 'Yuji Mai', 'Yuji Syuku', 'Meiryo', cursive, sans-serif !important;
+  height: 36px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.38em;
+  writing-mode: initial !important;
+  transform: none !important;
+  white-space: nowrap;
+  margin-left: 0;
+  align-self: flex-start;
+  min-width: 140px;
+  width: auto;
+  box-sizing: border-box;
+  overflow: visible;
+  opacity: 1 !important;
+}
+#add-to-shopping i {
+  font-size: 1.22em;
+  margin-right: 0.38em;
+  color: #fff;
+  vertical-align: middle;
 }
 
 #add-to-shopping:hover {
@@ -670,21 +703,156 @@ input[type="text"]:focus {
 /* レシピ一覧表示・選択時のスタイル */
 .recipes-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 1.2em;
   margin-bottom: 1rem;
 }
 
+.header-title-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#delete-all-recipes {
+  transition: all 0.2s ease;
+  opacity: 0.7;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#delete-all-recipes:hover {
+  opacity: 1;
+  background-color: rgba(229, 57, 53, 0.1);
+  transform: scale(1.1);
+}
+
+#delete-all-recipes:active {
+  transform: scale(0.95);
+}
+
 .section-title {
-  background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
-  color: #fff !important;
-  border-radius: 6px;
-  padding: 0.05em 0.5em;
-  margin-bottom: 0.4em;
-  display: inline-block;
-  box-shadow: 0 1px 2px rgba(255,152,0,0.06);
-  font-size: 1.1rem;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: 'Kiwi Maru', 'Hiragino Maru Gothic ProN', 'Yuji Mai', 'Yuji Syuku', 'Meiryo', cursive, sans-serif;
+  font-size: 1.18em;
+  font-weight: bold;
+  color: #222;
+  background: none;
+  box-shadow: none;
+  margin-bottom: 0.6em;
+  padding: 0;
+  letter-spacing: 0.01em;
+  transition: color 0.18s, text-shadow 0.18s;
+}
+.section-title i {
+  font-size: 1.22em;
+  margin-right: 0.28em;
+  color: #ff9800;
+  vertical-align: middle;
+  transition: color 0.18s, transform 0.18s;
+}
+.section-title:hover,
+.section-title:focus {
+  color: #111;
+  text-shadow: 0 2px 8px #ffd54f33;
+}
+.section-title:hover i,
+.section-title:focus i {
+  color: #e65100;
+  transform: scale(1.13);
+}
+/* セクションごとに色を変えたい場合は下記を追加 */
+#register-title i { color: #1976d2; }
+#register-title:hover i { color: #004ba0; }
+
+/* .recipes-header .section-title { color: #ff9800; } 削除で黒指定が効く */
+/* .recipes-header .section-title:hover,
+.recipes-header .section-title:focus {
+  color: #e65100;
+} 削除で黒指定が効く */
+.recipes-header .section-title i { color: #ff9800; }
+.recipes-header .section-title:hover i { color: #e65100; }
+
+.shopping-header .section-title i { color: #43a047; }
+.shopping-header .section-title:hover i { color: #1b5e20; }
+
+.tab-header .section-title i { color: #6d4c41; }
+.tab-header .section-title:hover i { color: #3e2723; }
+
+/* タブボタンのアイコン・テキスト中央揃え */
+.tab-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.98em;
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.18s;
+  padding: 12px 8px;
+}
+.tab-btn i {
+  font-size: 1.22em;
+  margin-bottom: 2px;
+  color: inherit;
+  transition: color 0.18s, transform 0.18s;
+}
+.tab-btn.active {
+  color: #ff9800;
+  background: #fff8e1;
+  box-shadow: 0 2px 10px rgba(255,152,0,0.06);
+  transform: scale(1.04);
+}
+.tab-btn:hover,
+.tab-btn:focus {
+  color: #e65100;
+  background: #fffde7;
+  box-shadow: 0 4px 16px #ffd54f22;
+  transform: scale(1.06);
+}
+.tab-btn:hover i,
+.tab-btn:focus i {
+  color: #e65100;
+  transform: scale(1.13);
+}
+
+/* ボタン類もプロっぽく */
+.btn-delete, .btn-remove, .icon-trash, .btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  font-size: 1.22em;
+  border-radius: 50%;
+  border: none;
+  background: #fffde7;
+  color: #ff9800;
+  box-shadow: 0 1px 3px #ffd54f22;
+  margin: 0 2px;
+  padding: 0;
+  transition: background 0.13s, color 0.13s, transform 0.13s;
+  cursor: pointer;
+}
+.btn-delete:hover, .btn-remove:hover, .icon-trash:hover, .btn-secondary:hover {
+  background: #ffe0b2;
+  color: #e65100;
+  transform: scale(1.11);
+}
+.btn-delete i, .btn-remove i, .icon-trash i, .btn-secondary i {
+  font-size: 1.22em;
+  color: inherit;
 }
 
 .recipe-item {
@@ -717,8 +885,8 @@ input[type="text"]:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0; /* マージンをリセット */
-  padding: 0; /* パディングをリセット */
+  margin: 0 !important; /* マージンを完全リセット */
+  padding: 0 !important; /* パディングも完全リセット */
 }
 .btn-edit {
   width: 36px;
@@ -1391,12 +1559,12 @@ input[type="text"]:focus {
   border: 1.5px solid #ffd54f;
   color: #ff9800;
   border-radius: 8px;
-  padding: 0.3em 0.8em;
+  padding: 0;
   font-size: 1em;
   cursor: pointer;
   transition: background 0.13s, color 0.13s;
   box-shadow: 0 1px 3px #ffd54f22;
-  margin-right: 0.2em;
+  margin: 0;
 }
 .recipe-item .btn-detail:hover,
 .recipe-item .btn-edit:hover,
@@ -1408,7 +1576,6 @@ input[type="text"]:focus {
 .recipe-item .favorite-star {
   color: #ffd600;
   font-size: 1.3em;
-  margin-left: 0.3em;
   vertical-align: middle;
   text-shadow: 0 1px 4px #ffd54f99;
 }
@@ -1435,11 +1602,7 @@ input[type="text"]:focus {
   gap: 0.3em;
 }
 
-.recipes-header .section-title::before {
-  content: '🍽️';
-  font-size: 1.1em;
-  margin-right: 0.18em;
-}
+/* .recipes-header .section-title::before { 削除：FontAwesomeのみ表示 } */
 
 /* 履歴モーダル */
 .history-modal {
@@ -1977,11 +2140,11 @@ input[type="text"]:focus {
 
 .shopping-section h3.section-title,
 .shopping-section .section-header h3 {
-  margin: 0 0 12px 0;
+  margin: 0 0 8px 0;
   color: #333;
-  font-size: 1.1rem;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #f0f0f0;
+  font-size: 1.06rem;
+  padding-bottom: 0;
+  border-bottom: none;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1989,7 +2152,12 @@ input[type="text"]:focus {
 
 /* 調味料セクションのスタイル */
 .shopping-section.seasoning-section {
-  padding: 15px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #f0f0f0;
 }
 
 .shopping-section.seasoning-section .section-header {
@@ -1997,8 +2165,9 @@ input[type="text"]:focus {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: 0;
-  margin: 0 0 12px 0;
+  padding: 0 0 8px 0;
+  margin: 0 0 8px 0;
+  border-bottom: 1px dashed #e0e0e0;
 }
 
 .shopping-section.seasoning-section .section-content {
@@ -2258,13 +2427,14 @@ input[type="text"]:focus {
 
 /* アコーディオン機能のスタイル */
 .history-card {
-  margin-bottom: 1rem;
-  border-radius: 12px;
+  margin-bottom: 0.5rem;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
   background: #fff;
   border: 1px solid #f0f0f0;
+  padding: 6px 8px;
 }
 
 .history-card:last-child {
@@ -2276,7 +2446,7 @@ input[type="text"]:focus {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 0.75rem 1.25rem;
+  padding: 0.4rem 0.7rem;
   background: #fff;
   border: none;
   transition: background-color 0.2s ease;
@@ -2305,8 +2475,9 @@ input[type="text"]:focus {
 .history-date {
   font-weight: 600;
   color: #333;
-  font-size: 0.95rem;
-  margin-right: 0.5rem;
+  font-size: 0.92rem;
+  margin-right: 0.3rem;
+  padding: 0.2rem 0.6rem;
 }
 
 .btn-delete-history {
@@ -2700,29 +2871,35 @@ input[type="text"]:focus {
 }
 
 .shopping-section.custom-items {
-  background-color: #f9f9f9;
-  padding: 0.75rem;
-  border-radius: 8px;
-  margin-top: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 1rem 1.2rem;
+  margin-top: 1.2rem;
   border: 1px solid #f0f0f0;
 }
 
 /* 材料リストのスタイリング */
 .shopping-section.ingredients {
-  padding: 0.75rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
   border: 1px solid #f0f0f0;
-  background-color: #fff;
 }
 
 .section-title {
-  color: #555;
-  font-size: 1rem;
-  margin: 0 0 0.75rem 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px dashed #e0e0e0;
-  font-weight: 600;
+  color: #222;
+  font-size: 1.08rem;
+  margin: 0 0 8px 0;
+  padding-bottom: 0;
+  border-bottom: none;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .ingredients-list {
@@ -2761,90 +2938,19 @@ input[type="text"]:focus {
   padding: 12px 15px;
   display: flex;
   align-items: center;
-  background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%);
+  background: #fff !important;
   border-radius: 8px;
   margin-bottom: 8px;
-  transition: all 0.2s ease;
-  border-left: 4px solid #ffb74d; /* 左ボーダーをグラデーション開始色に合わせる */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-bottom: none; /* 下の横棒を削除 */
-}
-
-.shopping-section.seasoning-section .section-header:hover {
-  background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-}
-
-.shopping-section.seasoning-section .section-header h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  color: white;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-
-.shopping-section.seasoning-section .toggle-icon {
-  margin-left: 8px;
-  font-size: 0.9em;
-  transition: transform 0.2s ease;
-  color: white;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));
-}
-
-.shopping-section.seasoning-section.collapsed .toggle-icon {
-  transform: rotate(-90deg);
-}
-
-.shopping-section.seasoning-section .section-content {
-  padding: 0;
-}
-
-/* 調味料セクションヘッダーのリセットを削除し、必要なスタイルのみを適用 */
-#shopping-container .shopping-section.seasoning-section .section-header {
-  border-bottom: none !important;
-  min-height: auto !important;
-  padding: 8px 15px !important;
-  background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%) !important;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border-left: 4px solid #ffb74d !important;
-  border-radius: 4px 4px 0 0;
-  margin-bottom: 0 !important;
-  display: flex;
-  align-items: center;
-}
-
-#shopping-container .shopping-section.seasoning-section .section-header h3 {
-  margin: 0 !important;
-  font-size: 1.1rem !important;
-  color: white !important;
-  font-weight: 600 !important;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
-  display: flex;
-  align-items: center;
-}
-
-/* トグルアイコンのスタイルを復元 */
-#shopping-container .shopping-section.seasoning-section .toggle-icon {
-  margin-left: 8px !important;
-  font-size: 0.9em !important;
-  transition: transform 0.3s ease !important;
-  color: white !important;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2)) !important;
-  display: inline-block !important;
-}
-
-#shopping-container .shopping-section.seasoning-section.collapsed .toggle-icon {
-  transform: rotate(-90deg) !important;
+  border-left: 4px solid #e0e0e0;
+  box-shadow: none !important;
+  border-bottom: none;
+  color: #222 !important;
 }
 
 #shopping-container .shopping-section.seasoning-section .section-header:hover {
-  background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  background: #fff;
+  box-shadow: none;
+  color: #222;
 }
 
 /* 調味料セクションヘッダーにのみ適用される基本スタイル */
@@ -2873,78 +2979,34 @@ input[type="text"]:focus {
 }
 
 .btn-history:active {
-  transform: translateY(0) !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* 調味料セクションヘッダーのスタイル - より詳細なセレクタで上書き */
-#shopping-container .shopping-section.seasoning-section > .section-header,
-#shopping-container .shopping-section.seasoning-section > .section-header *,
-#shopping-container .shopping-section.seasoning-section > .section-header::before,
-#shopping-container .shopping-section.seasoning-section > .section-header::after {
-  border-bottom: none !important;
-  background-image: none !important;
-  box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-}
-
-#shopping-container .shopping-section.seasoning-section .section-header {
-  cursor: pointer !important;
-  padding: 8px 15px !important;
-  display: flex !important;
-  align-items: center !important;
-  background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%) !important;
-  border-radius: 4px !important; /* 上下左右すべての角を丸くする */
-  margin: 0 !important;
-  transition: all 0.3s ease !important;
-  border-left: 4px solid #ffb74d !important;
-  box-shadow: none !important;
-  min-height: auto !important;
-  height: auto !important;
-  line-height: 1.2 !important;
-  border-bottom: none !important;
-  position: relative;
-  z-index: 1;
-}
-
-/* ホバー時のスタイル */
 #shopping-container .shopping-section.seasoning-section .section-header:hover {
-  background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%) !important;
-  transform: translateY(0) !important;
-  box-shadow: none !important;
-  -webkit-transform: translateY(0) !important;
-  -moz-transform: translateY(-1px) !important;
+  background: #fff;
+  box-shadow: none;
+  color: #222;
 }
-
-/* タイトルテキストのスタイル */
-#shopping-container .shopping-section.seasoning-section .section-header h3 {
-  color: white !important;
-  font-size: 1.1rem !important;
-  font-weight: 600 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1.2 !important;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+  background: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
 
 /* 調味料セクションのトグルアイコン */
 #shopping-container .shopping-section.seasoning-section .section-header .toggle-icon,
 #shopping-container .shopping-section.seasoning-section .section-header .toggle-icon::before,
 #shopping-container .shopping-section.seasoning-section .section-header .toggle-icon i {
-  color: white !important;
-  fill: white !important;
-  stroke: white !important;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  color: #222 !important;
+  fill: #222 !important;
+  stroke: #222 !important;
+  text-shadow: none;
+  font-size: 1.1em;
 }
 
 #shopping-container .shopping-section.seasoning-section .section-header .toggle-icon {
   margin-left: 8px;
   transition: transform 0.3s ease;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+  filter: none !important;
   background: none !important;
   border: none !important;
-  -webkit-text-fill-color: white !important;
+  color: #222 !important;
 }
 
 .shopping-section.seasoning-section.collapsed .toggle-icon {
@@ -3117,9 +3179,35 @@ input[type="text"]:focus {
 /* 材料・調味料入力行のスタイル */
 .ingredient-row {
   display: flex;
+  align-items: center;
   gap: 8px;
   margin-bottom: 8px;
-  align-items: center;
+  min-height: 0;
+  padding: 2px 0;
+}
+
+.ingredient-name, .seasoning-name {
+  flex: 3;
+  min-width: 0;
+}
+
+.ingredient-quantity, .seasoning-quantity {
+  flex: 2;
+  min-width: 0;
+}
+
+.btn-remove-ingredient, .btn-remove-seasoning, .btn-icon {
+  flex: none;
+  margin-left: 0;
+}
+
+@media (max-width: 480px) {
+  .ingredient-row {
+    flex-wrap: wrap;
+  }
+  .ingredient-name, .ingredient-quantity {
+    min-width: 120px;
+  }
 }
 
 .ingredient-name,
@@ -3293,4 +3381,81 @@ input[type="text"]:focus {
 
 .btn-remove:hover {
   color: #ff5252;
+}
+.recipes-header .section-title {
+  color: #222 !important;
+}
+/* --- 調味料セクションのヘッダーとアイコンを完全リセット --- */
+.shopping-section.seasoning-section .section-header,
+.shopping-section.seasoning-section .section-header::before,
+.shopping-section.seasoning-section .section-header::after {
+  border: none !important;
+  border-left: none !important;
+  box-shadow: none !important;
+  background: none !important;
+  content: none !important;
+  padding: 8px 8px 8px 4px !important;
+  margin: 0 0 8px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+}
+.shopping-section.seasoning-section .toggle-icon {
+  margin-right: 6px !important;
+}
+
+/* アイコンは左、テキストは右・色や大きさも強制 */
+.shopping-section.seasoning-section .toggle-icon {
+  order: 0 !important;
+  margin-right: 8px !important;
+  margin-left: 0 !important;
+  color: #888 !important;
+  font-size: 1.3em !important;
+  display: flex !important;
+  align-items: center !important;
+  filter: none !important;
+  box-shadow: none !important;
+  background: none !important;
+  text-shadow: none !important;
+  float: none !important;
+  position: static !important;
+  min-width: 1.2em !important;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform: rotate(-180deg) !important;
+}
+.shopping-section.seasoning-section.collapsed .toggle-icon {
+  transform: rotate(0deg) !important;
+}
+
+/* 右寄せやspace-betweenを防ぐ */
+.shopping-section.seasoning-section .section-header {
+  justify-content: flex-start !important;
+}
+
+/* 旧スタイルのアイコン指定を打ち消す */
+#shopping-container .shopping-section.seasoning-section .section-header .toggle-icon,
+#shopping-container .shopping-section.seasoning-section .section-header .toggle-icon::before,
+#shopping-container .shopping-section.seasoning-section .section-header .toggle-icon i {
+  color: #888 !important;
+  fill: #888 !important;
+  stroke: #888 !important;
+  font-size: 1.3em !important;
+  margin: 0 !important;
+  filter: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* 旧 .toggle-icon の margin-left を打ち消す */
+.shopping-section.seasoning-section .toggle-icon {
+  margin-left: 0 !important;
+}
+
+/* border-leftやbox-shadowのリセット（アイテム行も） */
+.shopping-section.seasoning-section .shopping-item,
+.shopping-section.seasoning-section .shopping-item::before,
+.shopping-section.seasoning-section .shopping-item::after {
+  border-left: none !important;
+  box-shadow: none !important;
 }

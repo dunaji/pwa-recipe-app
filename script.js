@@ -357,6 +357,37 @@ class RecipeApp {
     await window.recipeDB.delete('recipes', recipeId);
   }
 
+  // すべてのレシピを削除
+  async deleteAllRecipes() {
+    if (!confirm('すべてのレシピを削除してもよろしいですか？\nこの操作は元に戻せません。')) {
+      return;
+    }
+
+    try {
+      // データベースからすべてのレシピを削除
+      const transaction = window.recipeDB.db.transaction(['recipes'], 'readwrite');
+      const store = transaction.objectStore('recipes');
+      const clearRequest = store.clear();
+
+      await new Promise((resolve, reject) => {
+        clearRequest.onsuccess = () => resolve();
+        clearRequest.onerror = (event) => reject(event.target.error);
+      });
+
+      // メモリ上のレシピをクリア
+      this.recipes = [];
+      this.selectedRecipes.clear();
+      
+      // UIを更新
+      this.renderRecipes();
+      this.updateShoppingButton();
+      this.showMessage('すべてのレシピを削除しました');
+    } catch (error) {
+      console.error('レシピの一括削除中にエラーが発生しました:', error);
+      this.showMessage('レシピの削除中にエラーが発生しました', 'error');
+    }
+  }
+
   // 買い物リストを保存
   async saveShoppingList() {
 
@@ -702,19 +733,19 @@ class RecipeApp {
     }
   }
 
-  // その他の買い物をすべて削除
+  // その他をすべて削除
   clearAllCustomItems() {
     if (this.customItems.length === 0) {
       this.showMessage('削除するアイテムがありません', 'info');
       return;
     }
 
-    if (confirm('登録されているすべてのその他の買い物を削除しますか？買い物リスト内のその他の買い物も削除されます。この操作は元に戻せません。')) {
-      // その他の買い物をすべて削除
+    if (confirm('登録されているすべてのその他を削除しますか？買い物リスト内のその他も削除されます。この操作は元に戻せません。')) {
+      // その他をすべて削除
       this.customItems = [];
       this.saveCustomItems();
       
-      // 買い物リストからもその他の買い物を削除
+      // 買い物リストからもその他を削除
       if (this.shoppingList) {
         this.shoppingList = this.shoppingList.filter(item => !item.isCustom);
         this.saveShoppingList();
@@ -724,7 +755,7 @@ class RecipeApp {
       this.renderCustomItems();
       this.renderShoppingList();
       
-      this.showMessage('すべてのその他の買い物を削除しました', 'success');
+      this.showMessage('すべてのその他を削除しました', 'success');
     }
   }
 
@@ -2160,7 +2191,11 @@ class RecipeApp {
         <div class="shopping-section seasoning-section collapsed">
           <div class="section-header">
             <h3>調味料</h3>
-            <span class="toggle-icon">▼</span>
+<span class="toggle-icon">
+  <svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+</span>
           </div>
           <div class="section-content">
             <div class="ingredients-list">
@@ -2181,11 +2216,11 @@ class RecipeApp {
       `;
     }
 
-    // 3. その他の買い物セクション
+    // 3. その他セクション
     if (customItems.length > 0) {
       html += `
         <div class="shopping-section custom-items">
-          <h3 class="section-title">その他の買い物</h3>
+          <h3 class="section-title">その他</h3>
           <div class="ingredients-list">
             ${customItems.map(item => `
               <div class="shopping-item ${item.completed ? 'completed' : ''}" data-id="${item.id}" data-custom="true">
@@ -2202,11 +2237,11 @@ class RecipeApp {
         </div>
       `;
     } else {
-      // その他の買い物が空の場合
+      // その他が空の場合
       html += `
         <div class="shopping-section custom-items">
-          <h3 class="section-title">その他の買い物</h3>
-          <p class="empty-section">その他の買い物が追加されていません</p>
+          <h3 class="section-title">その他</h3>
+          <p class="empty-section">その他が追加されていません</p>
         </div>`;
     }
 
@@ -2276,19 +2311,19 @@ class RecipeApp {
       // 買い物完了ボタンのイベントリスナーはsetupEventListenersで登録済みのため削除
   }
 
-  // その他の買い物をすべて削除
+  // その他をすべて削除
   clearAllCustomItems() {
     if (this.customItems.length === 0) {
       this.showMessage('削除するアイテムがありません', 'info');
       return;
     }
 
-    if (confirm('登録されているすべてのその他の買い物を削除しますか？買い物リスト内のその他の買い物も削除されます。この操作は元に戻せません。')) {
-      // その他の買い物をすべて削除
+    if (confirm('登録されているすべてのその他を削除しますか？買い物リスト内のその他も削除されます。この操作は元に戻せません。')) {
+      // その他をすべて削除
       this.customItems = [];
       this.saveCustomItems();
       
-      // 買い物リストからもその他の買い物を削除
+      // 買い物リストからもその他を削除
       if (this.shoppingList) {
         this.shoppingList.customItems = [];
         this.saveShoppingList();
@@ -2298,7 +2333,7 @@ class RecipeApp {
       setTimeout(() => {
         this.renderCustomItems();
         this.renderShoppingList();
-        this.showMessage('すべてのその他の買い物を削除しました', 'success');
+        this.showMessage('すべてのその他を削除しました', 'success');
         
         // 現在のタブを再描画
         const activeTab = document.querySelector('.tab-content.active');
@@ -4014,6 +4049,15 @@ async function initializeApp() {
     // ゴミ箱ボタンのイベントリスナーを設定
     app.setupClearButton();
     
+    // すべてのレシピを削除ボタンのイベントリスナーを設定
+    const deleteAllRecipesBtn = document.getElementById('delete-all-recipes');
+    if (deleteAllRecipesBtn) {
+      deleteAllRecipesBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        app.deleteAllRecipes();
+      });
+    }
+    
     // キャンセルボタンのイベントリスナーを設定
     const cancelButton = document.getElementById('cancel-edit');
     if (cancelButton) {
@@ -4046,7 +4090,7 @@ async function initializeApp() {
       });
     }
     
-    // その他の買い物フォームのサブミットを防止し、カスタムハンドラを設定
+    // その他フォームのサブミットを防止し、カスタムハンドラを設定
     const customItemForm = document.getElementById('custom-item-form');
     if (customItemForm) {
       customItemForm.addEventListener('submit', (e) => {

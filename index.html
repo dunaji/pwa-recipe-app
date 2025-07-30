@@ -36,12 +36,12 @@
         <div class="tab-navigation">
             <!-- レシピ登録タブを開くボタン -->
             <button class="tab-btn active" data-tab="register">
-                <i class="fas fa-plus"></i>
+                <i class="fas fa-pen-to-square"></i>
                 <span>登録</span>
             </button>
             <!-- レシピ一覧タブを開くボタン -->
             <button class="tab-btn" data-tab="recipes">
-                <i class="fas fa-book"></i>
+                <i class="fas fa-utensils"></i>
                 <span>レシピ</span>
             </button>
             <!-- 買い物リストタブを開くボタン -->
@@ -51,7 +51,7 @@
             </button>
             <button class="tab-btn" data-tab="custom-items">
                 <i class="fas fa-list"></i>
-                <span>その他買い物</span>
+                <span>その他</span>
             </button>
         </div>
 
@@ -59,7 +59,7 @@
         <div class="tab-content active" id="register">
             <div class="card app-card">
                 <div class="card-header">
-                    <h2 class="section-title" id="register-title">レシピ登録</h2> <!-- ここでレシピの新規登録を行う -->
+                    <h2 class="section-title" id="register-title"><i class="fa-solid fa-pen-to-square" style="margin-right:0.38em;"></i>レシピ登録</h2> <!-- ここでレシピの新規登録を行う -->
                 </div>
                 <div class="card-content">
                     <!-- レシピ登録用フォーム -->
@@ -73,41 +73,33 @@
                         <!-- 材料の入力欄（複数行可） -->
                         <div class="form-group">
                             <div class="ingredients-header">
-                                <label>材料</label>
-                                <!-- 材料行を追加するボタン -->
-                                <button type="button" id="add-ingredient" class="btn-icon">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                            <div id="ingredients-container">
-                                <div class="ingredient-row">
-                                    <input type="text" placeholder="材料名" class="ingredient-name" required>
-                                    <input type="text" placeholder="数量" class="ingredient-quantity">
-                                    <!-- 材料行を削除するボタン（1行目は非表示） -->
-                                    <button type="button" class="btn-remove-ingredient" style="display: none;">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                </div>
-                            </div>
+    <label>材料</label>
+</div>
+<div id="ingredients-container">
+    <div class="ingredient-row">
+        <input type="text" placeholder="材料名" class="ingredient-name" required>
+        <input type="text" placeholder="数量" class="ingredient-quantity">
+        <button type="button" id="add-ingredient" class="btn-icon">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+</div>
                         </div>
 
                         <!-- 調味料の入力欄（複数行可） -->
                         <div class="form-group">
                             <div class="ingredients-header">
-                                <label>調味料</label>
-                                <button type="button" id="add-seasoning" class="btn-icon">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                            <div id="seasonings-container">
-                                <div class="ingredient-row">
-                                    <input type="text" placeholder="調味料名" class="ingredient-name">
-                                    <input type="text" placeholder="数量" class="ingredient-quantity">
-                                    <button type="button" class="btn-remove-ingredient" style="display: none;">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                </div>
-                            </div>
+    <label>調味料</label>
+</div>
+<div id="seasonings-container">
+    <div class="ingredient-row">
+        <input type="text" placeholder="調味料名" class="ingredient-name">
+        <input type="text" placeholder="数量" class="ingredient-quantity">
+        <button type="button" id="add-seasoning" class="btn-icon">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+</div>
                         </div>
 
                       <!-- 写真アップロード欄 -->
@@ -167,10 +159,13 @@
         <div class="tab-content" id="recipes">
             <div class="app-card">
               <div class="recipes-header">
-                <h2 class="section-title">レシピ一覧</h2>
-                <button id="add-to-shopping" class="btn-secondary" style="display: none;">
-                    買い物リストの作成
-                </button>
+                <div class="header-title-container">
+                  <h2 class="section-title"><i class="fa-solid fa-utensils" style="margin-right:0.38em;"></i>レシピ一覧</h2>
+                  <button id="delete-all-recipes" class="btn-delete icon-trash" title="全レシピを削除" style="background:none;border:none;cursor:pointer;color:#e53935;font-size:1.3em;padding:0 4px;margin-left:8px;display:flex;align-items:center;">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+                <button id="add-to-shopping" class="btn-secondary" style="display: none;">買い物リストへ登録</button>
               </div>
               <!-- 並び替えUI -->
               <div class="sort-controls" style="margin-bottom: 0.7em;">
@@ -198,8 +193,8 @@
                 <div class="card-header">
                     <div class="shopping-header">
                         <div style="display:flex;align-items:center;gap:8px;">
-  <h2 class="section-title" style="margin:0;">食材一覧</h2>
-  <button id="clear-shopping" class="btn-secondary" title="リスト初期化" style="background:none;border:none;cursor:pointer;color:#e53935;font-size:1.3em;padding:0 4px;">
+  <h2 class="section-title" style="margin:0;"><i class="fa-solid fa-shopping-cart" style="margin-right:0.38em;"></i>食材一覧</h2>
+  <button id="clear-shopping" class="btn-secondary icon-trash" title="リスト初期化" style="background:none;border:none;cursor:pointer;color:#e53935;font-size:1.3em;padding:0 4px;">
     <i class="fas fa-trash"></i>
   </button>
 </div>
@@ -227,8 +222,8 @@
             <div class="card app-card">
                 <div class="card-header">
                     <div class="tab-header" style="display: flex; align-items: center;">
-                        <h2 class="section-title" style="margin: 0 10px 0 0;">その他の買い物</h2>
-                        <button id="clear-custom-items" class="btn-remove" title="すべてのその他の買い物リストを削除">
+                        <h2 class="section-title" style="margin: 0 10px 0 0;"><i class="fa-solid fa-list" style="margin-right:0.38em;"></i>その他</h2>
+                        <button id="clear-custom-items" class="btn-remove icon-trash" title="すべてのその他の買い物リストを削除">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
