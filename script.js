@@ -2087,7 +2087,7 @@ class RecipeApp {
 
     const totalItems = (this.shoppingList.ingredients?.length || 0) + (this.shoppingList.customItems?.length || 0);
     if (totalItems === 0) {
-      shoppingListEl.innerHTML = '<p class="empty-message">買い物リストにアイテムがありません</p>';
+      shoppingListEl.innerHTML = '<p class="empty-message">リストにアイテムがありません</p>';
       return;
     }
 
@@ -2408,7 +2408,7 @@ class RecipeApp {
     if (!container) return;
     
     if (this.customItems.length === 0) {
-      container.innerHTML = '<p class="empty-message">登録されているアイテムはありません</p>';
+      container.innerHTML = '<p class="empty-message">登録されたアイテムはありません</p>';
       return;
     }
     
@@ -3789,7 +3789,7 @@ if (historyItems.length > 0) {
     if (!container) return;
     
     if (this.customItems.length === 0) {
-      container.innerHTML = '<p class="empty-message">登録されているアイテムがありません</p>';
+      container.innerHTML = '<p class="empty-message">登録されたアイテムがありません</p>';
       return;
     }
     
