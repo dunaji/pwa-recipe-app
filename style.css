@@ -1443,13 +1443,13 @@ input[type="text"]:focus {
 }
 
 .card {
-  background: rgba(255,253,231,0.95);
+  background: linear-gradient(135deg, rgba(255,251,233,0.95) 80%, rgba(255,224,178,0.95) 100%);
   border-radius: 15px;
   box-shadow: 0 2px 8px #ffd54f55;
   padding: 1em 1em 0.8em 1em;
   margin-bottom: 1em;
   border: 1.5px solid #ffe0b2;
-  transition: box-shadow 0.2s, border-color 0.2s;
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
   position: relative;
 }
 .card:hover {
@@ -1458,7 +1458,7 @@ input[type="text"]:focus {
 }
 
 .recipe-item {
-  background: rgba(255,251,233,0.95);
+  background: linear-gradient(135deg, rgba(255,251,233,0.95) 80%, rgba(255,224,178,0.95) 100%);
   border-radius: 14px;
   box-shadow: 0 2px 8px #ffd54f44;
   margin-bottom: 1.1em;
