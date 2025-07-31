@@ -3809,7 +3809,7 @@ if (historyItems.length > 0) {
         `).join('')}
         <div class="custom-items-actions">
           <button id="add-selected-items" class="btn-primary" style="margin-top: 1em; width: 100%;">
-            選択した物を'買い物メモ'に追加
+            選択した物を'リスト'に追加
           </button>
         </div>
       </div>`;
