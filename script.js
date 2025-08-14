@@ -842,13 +842,28 @@ class RecipeApp {
     });
 
     // メモ用写真アップロードのイベントリスナー
-    this.addEventIfExists('add-note-photo', 'click', () => {
-      const notePhotoInput = document.getElementById('note-photo-input');
-      if (notePhotoInput) notePhotoInput.click();
-    });
+    const notePhotoUpload = document.getElementById('note-photo-upload');
+    const notePhotoInput = document.getElementById('note-photo-input');
+    const removeNotePhotoBtn = document.getElementById('remove-note-photo');
+    
+    // 既存のイベントリスナーを削除してから追加
+    if (notePhotoUpload) {
+      notePhotoUpload.removeEventListener('click', this.handleNotePhotoUploadClick);
+      this.handleNotePhotoUploadClick = () => {
+        if (notePhotoInput) notePhotoInput.click();
+      };
+      notePhotoUpload.addEventListener('click', this.handleNotePhotoUploadClick);
+    }
 
-    this.addEventIfExists('note-photo-input', 'change', this.handleNotePhotoUpload);
-    this.addEventIfExists('remove-note-photo', 'click', this.removeNotePhoto);
+    if (notePhotoInput) {
+      notePhotoInput.removeEventListener('change', this.handleNotePhotoUpload);
+      notePhotoInput.addEventListener('change', (e) => this.handleNotePhotoUpload(e));
+    }
+
+    if (removeNotePhotoBtn) {
+      removeNotePhotoBtn.removeEventListener('click', this.removeNotePhoto);
+      removeNotePhotoBtn.addEventListener('click', () => this.removeNotePhoto());
+    }
 
     // 並び替えセレクトボックス
     this.addEventIfExists('recipe-sort-select', 'change', (e) => {
@@ -879,13 +894,28 @@ class RecipeApp {
     this.addEventIfExists('add-seasoning', 'click', (e) => this.addSeasoningRow(e));
 
     // 写真アップロード
-    this.addEventIfExists('photo-upload', 'click', () => {
-      const photoInput = document.getElementById('photo-input');
-      if (photoInput) photoInput.click();
-    });
+    const photoUpload = document.getElementById('photo-upload');
+    const photoInput = document.getElementById('photo-input');
+    const removePhotoBtn = document.getElementById('remove-photo');
+    
+    // 既存のイベントリスナーを削除してから追加
+    if (photoUpload) {
+      photoUpload.removeEventListener('click', this.handlePhotoUploadClick);
+      this.handlePhotoUploadClick = () => {
+        if (photoInput) photoInput.click();
+      };
+      photoUpload.addEventListener('click', this.handlePhotoUploadClick);
+    }
 
-    this.addEventIfExists('photo-input', 'change', (e) => this.handlePhotoUpload(e));
-    this.addEventIfExists('remove-photo', 'click', () => this.removePhoto());
+    if (photoInput) {
+      photoInput.removeEventListener('change', this.handlePhotoUpload);
+      photoInput.addEventListener('change', (e) => this.handlePhotoUpload(e));
+    }
+
+    if (removePhotoBtn) {
+      removePhotoBtn.removeEventListener('click', this.removePhoto);
+      removePhotoBtn.addEventListener('click', () => this.removePhoto());
+    }
 
     // 買い物リストに追加
     this.addEventIfExists('add-to-shopping', 'click', () => this.addSelectedToShopping());
@@ -1033,7 +1063,11 @@ class RecipeApp {
   // 写真ファイルが選択されたときの処理（リサイズや圧縮もここで実施）
   async handlePhotoUpload(e) {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file) {
+      // ファイルが選択されなかった場合は何もしない
+      e.target.value = '';  // 入力をリセット
+      return;
+    }
 
     const TARGET_SIZE = 100 * 1024; // 100KB
     const MAX_WIDTH = 600; // 幅を小さくしてファイルサイズ削減
@@ -1097,9 +1131,26 @@ class RecipeApp {
       } while (compressedSize > TARGET_SIZE && width > 200); // 最小幅200pxまで
 
       // 結果を表示
-      document.getElementById("preview-image").src = result;
-      document.getElementById("photo-upload").style.display = "none";
-      document.getElementById("photo-preview").style.display = "block";
+      const previewImage = document.getElementById("preview-image");
+      const photoUpload = document.getElementById("photo-upload");
+      const photoPreview = document.getElementById("photo-preview");
+      
+      // 画像が読み込まれるのを待ってから表示を切り替える
+      const newImg = new Image();
+      newImg.onload = () => {
+        previewImage.src = result;
+        photoUpload.style.display = "none";
+        photoPreview.style.display = "block";
+        previewImage.style.display = "block";
+      };
+      newImg.onerror = () => {
+        console.error("画像の読み込みに失敗しました");
+        // エラー時はアップロードエリアを表示したままにする
+        photoUpload.style.display = "flex";
+        photoPreview.style.display = "none";
+        this.showMessage("画像の読み込みに失敗しました", "error");
+      };
+      newImg.src = result;
     };
     reader.readAsDataURL(file);
   }
@@ -1107,11 +1158,16 @@ class RecipeApp {
   // メモ用写真のアップロード処理
   async handleNotePhotoUpload(e) {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file) {
+      // ファイルが選択されなかった場合は何もしない
+      e.target.value = '';  // 入力をリセット
+      return;
+    }
 
     // 画像ファイルかどうかチェック
     if (!file.type.match('image.*')) {
       this.showMessage('画像ファイルを選択してください', 'error');
+      e.target.value = '';  // 入力をリセット
       return;
     }
 
@@ -1146,8 +1202,27 @@ class RecipeApp {
 
         // 画像を表示
         const preview = document.getElementById('note-preview-image');
-        preview.src = canvas.toDataURL('image/jpeg', 0.8);
-        document.getElementById('note-photo-preview').style.display = 'block';
+        const notePhotoPreview = document.getElementById('note-photo-preview');
+        const notePhotoUpload = document.getElementById('note-photo-upload');
+        
+        if (preview && notePhotoPreview && notePhotoUpload) {
+          // 画像が読み込まれるのを待ってから表示を切り替える
+          const noteImg = new Image();
+          noteImg.onload = () => {
+            preview.src = canvas.toDataURL('image/jpeg', 0.8);
+            notePhotoPreview.style.display = 'block';
+            notePhotoUpload.style.display = 'none';
+            preview.style.display = 'block';
+          };
+          noteImg.onerror = () => {
+            console.error("メモ用画像の読み込みに失敗しました");
+            // エラー時はアップロードエリアを表示したままにする
+            notePhotoUpload.style.display = 'flex';
+            notePhotoPreview.style.display = 'none';
+            this.showMessage("メモ用画像の読み込みに失敗しました", "error");
+          };
+          noteImg.src = canvas.toDataURL('image/jpeg', 0.8);
+        }
       };
       img.src = e.target.result;
     };
@@ -1156,20 +1231,52 @@ class RecipeApp {
 
   // 写真プレビューとファイル選択をリセットする処理
   removePhoto() {
-    document.getElementById("photo-input").value = ""
-    document.getElementById("photo-upload").style.display = "block"
-    document.getElementById("photo-preview").style.display = "none"
+    const photoInput = document.getElementById("photo-input");
+    if (photoInput) {
+      // 既存のイベントリスナーを削除
+      const newInput = photoInput.cloneNode(true);
+      photoInput.parentNode.replaceChild(newInput, photoInput);
+      // 新しいイベントリスナーを追加
+      newInput.addEventListener('change', (e) => this.handlePhotoUpload(e));
+      
+      // 入力をリセット
+      newInput.value = "";
+      
+      // プレビューをリセット
+      const previewImage = document.getElementById("preview-image");
+      if (previewImage) {
+        previewImage.src = "";
+      }
+    }
+    
+    // UIの表示を更新
+    const photoUpload = document.getElementById("photo-upload");
+    const photoPreview = document.getElementById("photo-preview");
+    
+    if (photoUpload) photoUpload.style.display = "flex";
+    if (photoPreview) photoPreview.style.display = "none";
   }
 
   // メモ用写真を削除
   removeNotePhoto() {
     const notePhotoInput = document.getElementById('note-photo-input');
-    const notePhotoPreview = document.getElementById('note-photo-preview');
-    const notePreviewImage = document.getElementById('note-preview-image');
+    if (notePhotoInput) {
+      // 入力をリセット
+      notePhotoInput.value = '';
+      
+      // プレビューをリセット
+      const notePreviewImage = document.getElementById('note-preview-image');
+      if (notePreviewImage) {
+        notePreviewImage.src = '';
+      }
+    }
     
-    if (notePhotoInput) notePhotoInput.value = '';
+    // UIの表示を更新
+    const notePhotoPreview = document.getElementById('note-photo-preview');
+    const notePhotoUpload = document.getElementById('note-photo-upload');
+    
+    if (notePhotoUpload) notePhotoUpload.style.display = 'flex';
     if (notePhotoPreview) notePhotoPreview.style.display = 'none';
-    if (notePreviewImage) notePreviewImage.src = '';
   }
 
   // レシピを新規登録する処理
@@ -1282,13 +1389,19 @@ class RecipeApp {
         <div class="ingredient-row">
           <input type="text" placeholder="材料名" class="ingredient-name" required>
           <input type="text" placeholder="数量" class="ingredient-quantity">
-          <button type="button" class="btn-remove-ingredient" style="display: none;">
-            <i class="fas fa-times"></i>
+          <button type="button" class="add-ingredient btn-icon">
+            <i class="fas fa-plus"></i>
           </button>
         </div>
       `;
+      
+      // 材料追加ボタンにイベントリスナーを設定
+      const addIngredientBtn = ingredientsContainer.querySelector('.add-ingredient');
+      if (addIngredientBtn) {
+        addIngredientBtn.addEventListener('click', () => this.addIngredientRow());
+      }
     }
-    
+
     // 調味料入力欄をリセット（1行だけ残す）
     const seasoningsContainer = document.getElementById("seasonings-container");
     if (seasoningsContainer) {
@@ -1296,22 +1409,80 @@ class RecipeApp {
         <div class="ingredient-row">
           <input type="text" placeholder="調味料名" class="ingredient-name">
           <input type="text" placeholder="数量" class="ingredient-quantity">
-          <button type="button" class="btn-remove-ingredient" style="display: none;">
-            <i class="fas fa-times"></i>
+          <button type="button" class="add-seasoning btn-icon">
+            <i class="fas fa-plus"></i>
           </button>
         </div>
       `;
+      
+      // 調味料追加ボタンにイベントリスナーを設定
+      const addSeasoningBtn = seasoningsContainer.querySelector('.add-seasoning');
+      if (addSeasoningBtn) {
+        addSeasoningBtn.addEventListener('click', () => this.addSeasoningRow());
+      }
     }
     
-    // 写真プレビューをリセット
-    this.removePhoto();
-    this.removeNotePhoto();
+    // メイン画像のリセット
+    const photoInput = document.getElementById("photo-input");
+    const photoUpload = document.getElementById("photo-upload");
+    const photoPreview = document.getElementById("photo-preview");
+    const previewImage = document.getElementById("preview-image");
     
-    // ボタンのテキストを元に戻す
+    // 画像プレビューを完全にリセット
+    if (previewImage) {
+      previewImage.src = "";
+      previewImage.style.display = "none";
+    }
+    
+    // ファイル入力をリセット（クローンを作成して置き換え）
+    if (photoInput) {
+      const newInput = photoInput.cloneNode(true);
+      photoInput.parentNode.replaceChild(newInput, photoInput);
+      newInput.value = "";
+      newInput.addEventListener('change', (e) => this.handlePhotoUpload(e));
+    }
+    
+    // アップロードエリアとプレビューエリアの表示をリセット
+    if (photoUpload) {
+      photoUpload.style.display = "flex";
+    }
+    if (photoPreview) {
+      photoPreview.style.display = "none";
+    }
+  
+    // メモ用画像を完全にリセット
+    const notePhotoInput = document.getElementById('note-photo-input');
+    const notePhotoUpload = document.getElementById('note-photo-upload');
+    const notePhotoPreview = document.getElementById('note-photo-preview');
+    const notePreviewImage = document.getElementById('note-preview-image');
+    
+    // 画像プレビューをリセット
+    if (notePreviewImage) {
+      notePreviewImage.src = '';
+      notePreviewImage.style.display = 'none';
+    }
+    
+    // ファイル入力をリセット
+    if (notePhotoInput) {
+      const newInput = notePhotoInput.cloneNode(true);
+      notePhotoInput.parentNode.replaceChild(newInput, notePhotoInput);
+      newInput.value = '';
+      newInput.addEventListener('change', (e) => this.handleNotePhotoUpload(e));
+    }
+    
+    // アップロードエリアとプレビューエリアの表示をリセット
+    if (notePhotoUpload) {
+      notePhotoUpload.style.display = 'flex';
+    }
+    if (notePhotoPreview) {
+      notePhotoPreview.style.display = 'none';
+    }
+    
+    // 送信ボタンのリセット
     const submitButton = document.querySelector(".btn-primary");
     if (submitButton) {
       submitButton.textContent = "レシピを登録";
-      // イベントリスナーを再設定
+      // 既存のイベントリスナーを削除して新しいものを追加
       const newButton = submitButton.cloneNode(true);
       submitButton.parentNode.replaceChild(newButton, submitButton);
       newButton.addEventListener("click", (e) => {
@@ -1320,7 +1491,7 @@ class RecipeApp {
       });
     }
     
-    // キャンセルボタンを非表示にする
+    // キャンセルボタンを非表示
     const cancelButton = document.getElementById("cancel-edit");
     if (cancelButton) {
       cancelButton.style.display = "none";
@@ -1329,17 +1500,22 @@ class RecipeApp {
     // フォームタイトルをリセット
     const formTitle = document.getElementById("register-title");
     if (formTitle) {
-      formTitle.textContent = "レシピ登録";
+      formTitle.innerHTML = '<i class="fas fa-pen-to-square"></i> レシピ登録';
     }
     
-    // フォーカスを料理名に移動
-    const recipeNameInput = document.getElementById("recipe-name");
-    if (recipeNameInput) {
-      recipeNameInput.focus();
-    }
+    // 削除ボタンの表示/非表示を更新
+    this.updateRemoveButtons();
+    
+    // イベントリスナーを再設定
+    this.setupEventListeners();
     
     // スクロールをトップに移動
     window.scrollTo(0, 0);
+    
+    // グローバル変数をリセット（もしあれば）
+    if (window.noteImgSrc) {
+      window.noteImgSrc = null;
+    }
   }
 
   // 編集をキャンセルする処理
@@ -1620,6 +1796,12 @@ class RecipeApp {
     document.getElementById("recipe-name").value = recipe.name || "";
     document.getElementById("recipe-notes").value = recipe.notes || "";
     
+    // 見出しを「レシピ編集」に変更し、編集アイコンを追加（紫に設定）
+    const formTitle = document.getElementById("register-title");
+    if (formTitle) {
+      formTitle.innerHTML = '<i class="fas fa-edit" style="color: #9c27b0;"></i> レシピ編集';
+    }
+    
     // 材料をセット
     const ingredientsContainer = document.getElementById("ingredients-container");
     ingredientsContainer.innerHTML = ""; // 既存の行をクリア
@@ -1645,12 +1827,21 @@ class RecipeApp {
         const row = document.createElement("div");
         row.className = "ingredient-row";
         
+        // 1行目はプラスボタン、2行目以降は削除ボタンを表示
+        const isFirstRow = index === 0;
+        
         row.innerHTML = `
           <input type="text" placeholder="材料名" class="ingredient-name" value="${this.escapeHtml(ing.name)}" required>
           <input type="text" placeholder="数量" class="ingredient-quantity" value="${this.escapeHtml(ing.quantity || '')}">
-          <button type="button" class="btn-remove-ingredient" style="display: ${ingredients.length > 1 ? 'flex' : 'none'};">
-            <i class="fas fa-times"></i>
-          </button>
+          ${isFirstRow ? `
+            <button type="button" class="btn-icon add-ingredient">
+              <i class="fas fa-plus"></i>
+            </button>
+          ` : `
+            <button type="button" class="btn-remove-ingredient">
+              <i class="fas fa-times"></i>
+            </button>
+          `}
         `;
         
         // 削除ボタンのイベントリスナー
@@ -1661,6 +1852,16 @@ class RecipeApp {
             row.remove();
             this.updateRemoveButtons();
           });
+        }
+        
+        // 追加ボタンのイベントリスナー（1行目のみ）
+        if (isFirstRow) {
+          const addBtn = row.querySelector(".add-ingredient");
+          if (addBtn) {
+            addBtn.addEventListener("click", () => {
+              this.addIngredientRow();
+            });
+          }
         }
         
         ingredientsContainer.appendChild(row);
@@ -1670,18 +1871,30 @@ class RecipeApp {
       this.addIngredientRow();
     }
     
+    // 削除ボタンの表示/非表示を更新
+    this.updateRemoveButtons();
+    
     // 調味料を追加
     if (seasonings.length > 0) {
       seasonings.forEach((seasoning, index) => {
         const row = document.createElement("div");
         row.className = "ingredient-row";
         
+        // 1行目はプラスボタン、2行目以降は削除ボタンを表示
+        const isFirstRow = index === 0;
+        
         row.innerHTML = `
           <input type="text" placeholder="調味料名" class="ingredient-name" value="${this.escapeHtml(seasoning.name || '')}">
           <input type="text" placeholder="数量" class="ingredient-quantity" value="${this.escapeHtml(seasoning.quantity || '')}">
-          <button type="button" class="btn-remove-ingredient" style="display: ${seasonings.length > 1 ? 'flex' : 'none'};">
-            <i class="fas fa-times"></i>
-          </button>
+          ${isFirstRow ? `
+            <button type="button" class="btn-icon add-seasoning">
+              <i class="fas fa-plus"></i>
+            </button>
+          ` : `
+            <button type="button" class="btn-remove-ingredient">
+              <i class="fas fa-times"></i>
+            </button>
+          `}
         `;
         
         // 削除ボタンのイベントリスナー
@@ -1694,35 +1907,90 @@ class RecipeApp {
           });
         }
         
+        // 追加ボタンのイベントリスナー（1行目のみ）
+        if (isFirstRow) {
+          const addBtn = row.querySelector(".add-seasoning");
+          if (addBtn) {
+            addBtn.addEventListener("click", () => {
+              this.addSeasoningRow();
+            });
+          }
+        }
+        
         seasoningsContainer.appendChild(row);
       });
     } else if (ingredients.length === 0) {
       // 材料も調味料もない場合のみ調味料の行を追加
       this.addSeasoningRow();
     }
+    
+    // 削除ボタンの表示/非表示を更新
+    this.updateRemoveButtons();
 
-    // メイン写真
+    // メイン写真の要素を取得
     const previewImage = document.getElementById("preview-image");
     const photoUpload = document.getElementById("photo-upload");
     const photoPreview = document.getElementById("photo-preview");
+    const photoInput = document.getElementById("photo-input");
     
-    if (recipe.image && recipe.image !== '') {
+    // 画像入力フィールドをリセット（前回の選択をクリア）
+    if (photoInput) {
+      photoInput.value = "";
+    }
+    
+    // レシピに画像がある場合、プレビューを表示
+    if (recipe && recipe.image && recipe.image.trim() !== '') {
       previewImage.src = recipe.image;
       photoUpload.style.display = "none";
       photoPreview.style.display = "block";
+      
+      // プレビュー画像の表示を確実にする
+      previewImage.style.display = "block";
     } else {
-      // 画像が空の場合はデフォルトのアイコンを表示
+      // 画像がない場合はアップロードエリアを表示
       previewImage.src = "";
       photoUpload.style.display = "flex";
       photoPreview.style.display = "none";
+      
+      // 画像入力フィールドのイベントリスナーを再設定
+      if (photoInput) {
+        const newInput = photoInput.cloneNode(true);
+        photoInput.parentNode.replaceChild(newInput, photoInput);
+        newInput.addEventListener('change', (e) => this.handlePhotoUpload(e));
+      }
     }
 
-    // メモ用写真
-    if (recipe.noteImage) {
-      document.getElementById("note-preview-image").src = recipe.noteImage;
-      document.getElementById("note-photo-preview").style.display = "block";
+    // メモ用写真の要素を取得
+    const notePreviewImage = document.getElementById("note-preview-image");
+    const notePhotoUpload = document.getElementById("note-photo-upload");
+    const notePhotoPreview = document.getElementById("note-photo-preview");
+    const notePhotoInput = document.getElementById("note-photo-input");
+    
+    // メモ用画像入力をリセット
+    if (notePhotoInput) {
+      notePhotoInput.value = "";
+    }
+    
+    // メモ用画像がある場合、プレビューを表示
+    if (recipe && recipe.noteImage && recipe.noteImage.trim() !== '') {
+      notePreviewImage.src = recipe.noteImage;
+      notePhotoUpload.style.display = "none";
+      notePhotoPreview.style.display = "block";
+      
+      // プレビュー画像の表示を確実にする
+      notePreviewImage.style.display = "block";
     } else {
-      this.removeNotePhoto();
+      // 画像がない場合はアップロードエリアを表示
+      notePreviewImage.src = "";
+      notePhotoUpload.style.display = "flex";
+      notePhotoPreview.style.display = "none";
+      
+      // 画像入力フィールドのイベントリスナーを再設定
+      if (notePhotoInput) {
+        const newInput = notePhotoInput.cloneNode(true);
+        notePhotoInput.parentNode.replaceChild(newInput, notePhotoInput);
+        newInput.addEventListener('change', (e) => this.handleNotePhotoUpload(e));
+      }
     }
 
     // ボタン文言変更
@@ -1745,6 +2013,45 @@ class RecipeApp {
 
     // 登録タブに切り替え
     this.switchTab("register");
+  }
+
+  // 画像付きでレシピを保存する共通メソッド
+  saveRecipeWithImage(imgSrc, noteImgSrc, recipeIndex, name, ingredients, seasonings) {
+    // 既存のレシピデータを取得
+    const existingRecipe = this.recipes[recipeIndex];
+    
+    this.recipes[recipeIndex] = {
+      ...existingRecipe,
+      name,
+      ingredients: [...ingredients, ...seasonings],
+      notes: document.getElementById("recipe-notes").value.trim(),
+      image: imgSrc,
+      noteImage: noteImgSrc,
+      updatedAt: new Date().toISOString()
+    };
+
+    // データベースに保存してから再描画
+    this.saveRecipes()
+      .then(() => {
+        this.renderRecipes();
+        this.resetForm();
+        this.showMessage("レシピを更新しました！", "success");
+        
+        // 編集モードを解除
+        this.editingRecipeId = null;
+        
+        // 一覧タブに切り替え
+        this.switchTab("list");
+        
+        // ページをリロードして最新の状態を表示
+        setTimeout(() => {
+          window.location.reload();
+        }, 500); // メッセージ表示後にリロード
+      })
+      .catch(error => {
+        console.error('レシピの保存中にエラーが発生しました:', error);
+        this.showMessage("レシピの保存中にエラーが発生しました。", "error");
+      });
   }
 
   // 編集保存処理
@@ -1804,79 +2111,104 @@ class RecipeApp {
       return;
     }
 
-    // レシピを取得してインデックスを確認
-    const recipeIndex = this.recipes.findIndex(r => r.id === this.editingRecipeId);
-    if (recipeIndex === -1) {
-      this.showMessage("編集するレシピが見つかりませんでした。", "error");
-      return;
+    // レシピを取得してインデックスを確認（新規登録の場合は-1のまま進む）
+    let recipeIndex = -1;
+    if (this.editingRecipeId) {
+      recipeIndex = this.recipes.findIndex(r => r.id === this.editingRecipeId);
+      if (recipeIndex === -1) {
+        this.showMessage("編集するレシピが見つかりませんでした。", "error");
+        return;
+      }
     }
-
-    // メイン画像の処理
-    let imgSrc = "";
+    
+    // 画像の処理
+    const photoInput = document.getElementById("photo-input");
     const previewImage = document.getElementById("preview-image");
-    const photoPreview = document.getElementById("photo-preview");
     const photoUpload = document.getElementById("photo-upload");
     
-    // アップロードエリアが表示されているか、プレビューが非表示の場合は画像を削除
-    if ((photoUpload && photoUpload.style.display === "flex") || 
-        (photoPreview && photoPreview.style.display === "none") ||
-        !previewImage.src || previewImage.src.endsWith('image-placeholder.png')) {
-      imgSrc = "";
-    } 
-    // プレビューが表示されている場合はその画像を保存
-    else if (previewImage && previewImage.src) {
-      imgSrc = previewImage.src;
+    // メイン画像が削除された場合
+    if (photoUpload.style.display === "flex" && !photoInput.files[0]) {
+      // 画像が削除された場合、空文字を設定
+      this.processNoteImageAndSave(recipeIndex, name, ingredients, seasonings, "");
+      return;
+    }
+    
+    // 新しい画像がアップロードされた場合の処理は、後続の処理に任せる
+    if (photoInput.files[0]) {
+      // 処理を続行
     }
 
-    // メモ用画像の処理
-    let noteImgSrc = "";
+    // DOM要素の取得（既に宣言済みの変数を除く）
+    const photoPreview = document.getElementById("photo-preview");
     const notePreviewImage = document.getElementById("note-preview-image");
     const notePhotoPreview = document.getElementById("note-photo-preview");
     const notePhotoUpload = document.getElementById("note-photo-upload");
+    const notePhotoInput = document.getElementById("note-photo-input");
     
-    // アップロードエリアが表示されているか、プレビューが非表示の場合は画像を削除
-    if ((notePhotoUpload && notePhotoUpload.style.display === "flex") || 
-        (notePhotoPreview && notePhotoPreview.style.display === "none") ||
-        !notePreviewImage.src || notePreviewImage.src.endsWith('image-placeholder.png')) {
-      noteImgSrc = "";
-    } 
-    // プレビューが表示されている場合はその画像を保存
-    else if (notePreviewImage && notePreviewImage.src) {
-      noteImgSrc = notePreviewImage.src;
-    }
-    if (recipeIndex !== -1) {
-      this.recipes[recipeIndex] = {
-        ...this.recipes[recipeIndex],
-        name,
-        ingredients: [...ingredients, ...seasonings],
-        notes: document.getElementById("recipe-notes").value.trim(),
-        image: imgSrc,
-        noteImage: noteImgSrc,
-        updatedAt: new Date().toISOString()
+    // 現在のレシピを取得
+    const currentRecipe = this.recipes[recipeIndex];
+    
+    // 画像の状態を初期化
+    let imgSrc = currentRecipe.image || "";
+    let noteImgSrc = currentRecipe.noteImage || "";
+    
+    // 新しいメイン画像がアップロードされた場合
+    if (photoInput?.files?.[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        imgSrc = e.target.result;
+        // メイン画像の処理が完了したら、メモ用画像の処理に進む
+        this.processNoteImageAndSave(recipeIndex, name, ingredients, seasonings, imgSrc);
       };
+      reader.readAsDataURL(photoInput.files[0]);
+      return;
+    } 
+    // 既存のメイン画像をそのまま使用する場合
+    else if (previewImage?.src && !previewImage.src.endsWith('image-placeholder.png')) {
+      imgSrc = previewImage.src;
+    }
+    // メイン画像が削除された場合
+    else if (photoUpload?.style.display === "flex") {
+      imgSrc = "";
+    }
+    
+    // メモ用画像の処理に進む
+    this.processNoteImageAndSave(recipeIndex, name, ingredients, seasonings, imgSrc);
+  }
 
-      // データベースに保存してから再描画
-      this.saveRecipes()
-        .then(() => {
-          this.renderRecipes();
-          this.resetForm();
-          this.showMessage("レシピを更新しました！", "success");
-          
-          // 編集モードを解除
-          this.editingRecipeId = null;
-          
-          // 一覧タブに切り替え
-          this.switchTab("list");
-          
-          // ページをリロードして最新の状態を表示
-          setTimeout(() => {
-            window.location.reload();
-          }, 500); // メッセージ表示後にリロード
-        })
-        .catch(error => {
-
-          this.showMessage("レシピの保存中にエラーが発生しました。", "error");
-        });
+  // メモ用画像の処理用のヘルパーメソッド
+  processNoteImageAndSave(recipeIndex, name, ingredients, seasonings, imgSrc) {
+    const notePreviewImage = document.getElementById("note-preview-image");
+    const notePhotoInput = document.getElementById("note-photo-input");
+    const notePhotoUpload = document.getElementById("note-photo-upload");
+    const notePhotoPreview = document.getElementById("note-photo-preview");
+    
+    // メモ用画像が削除された場合
+    if (notePhotoUpload?.style.display === "flex" && (!notePhotoInput?.files?.[0] || notePhotoInput.files.length === 0)) {
+      // プレビューを非表示にしてから保存
+      if (notePhotoPreview) notePhotoPreview.style.display = "none";
+      if (notePhotoUpload) notePhotoUpload.style.display = "flex";
+      this.saveRecipeWithImage(imgSrc, "", recipeIndex, name, ingredients, seasonings);
+      return;
+    }
+    
+    // 新しいメモ用画像がアップロードされた場合
+    if (notePhotoInput?.files?.[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const noteImgSrc = e.target.result;
+        this.saveRecipeWithImage(imgSrc, noteImgSrc, recipeIndex, name, ingredients, seasonings);
+      };
+      reader.readAsDataURL(notePhotoInput.files[0]);
+      return;
+    } 
+    // 既存のメモ用画像をそのまま使用する場合
+    else if (notePreviewImage?.src && !notePhotoInput?.files?.[0]) {
+      const noteImgSrc = notePreviewImage.src;
+      this.saveRecipeWithImage(imgSrc, noteImgSrc, recipeIndex, name, ingredients, seasonings);
+    } else {
+      // メモ用画像に変更がない場合
+      this.saveRecipeWithImage(imgSrc, this.recipes[recipeIndex]?.noteImage || "", recipeIndex, name, ingredients, seasonings);
     }
   }
 
@@ -2079,6 +2411,7 @@ class RecipeApp {
 
   // 買い物リストを画面に表示する処理
   renderShoppingList() {
+    
     const shoppingListEl = document.getElementById('shopping-container'); 
     if (!shoppingListEl) {
 
@@ -2217,32 +2550,33 @@ class RecipeApp {
     }
 
     // 3. その他セクション
-    if (customItems.length > 0) {
+    if (this.shoppingList.customItems && this.shoppingList.customItems.length > 0) {
+      // タイムスタンプでソート（新しいものから表示）
+      const sortedCustomItems = [...this.shoppingList.customItems].sort((a, b) => 
+        (b.timestamp || 0) - (a.timestamp || 0)
+      );
+
       html += `
-        <div class="shopping-section custom-items">
+        <div class="shopping-section custom-items" id="custom-items-section">
           <h3 class="section-title">その他</h3>
-          <div class="ingredients-list">
-            ${customItems.map(item => `
-              <div class="shopping-item ${item.completed ? 'completed' : ''}" data-id="${item.id}" data-custom="true">
-                <div class="item-checkbox-container">
-                  <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
-                  <span class="checkmark"></span>
+          <div class="ingredients-list" id="custom-items-list">
+            ${sortedCustomItems.map((item, index) => `
+                <div class="shopping-item ${item.completed ? 'completed' : ''}" 
+                     data-id="${item.id}" 
+                     data-custom="true"
+                     data-index="${index}">
+                  <div class="item-checkbox-container">
+                    <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
+                    <span class="checkmark"></span>
+                  </div>
+                  <span class="item-name">${this.escapeHtml(item.name)}</span>
+                  ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
+                  <button class="btn-remove" data-id="${item.id}" data-custom="true">×</button>
                 </div>
-                <span class="item-name">${this.escapeHtml(item.name)}</span>
-                ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
-                <button class="btn-remove" data-id="${item.id}" data-custom="true">×</button>
-              </div>
-            `).join('')}
+              `).join('')}
           </div>
         </div>
       `;
-    } else {
-      // その他が空の場合
-      html += `
-        <div class="shopping-section custom-items">
-          <h3 class="section-title">その他</h3>
-          <p class="empty-section">その他が追加されていません</p>
-        </div>`;
     }
 
     html += `</div>`; // .shopping-list-container の閉じタグ
@@ -2499,6 +2833,17 @@ class RecipeApp {
       return;
     }
 
+    // 重複チェック（大文字小文字を区別せず、前後の空白を無視）
+    const normalizedNewName = name.toLowerCase().trim();
+    const isDuplicate = this.customItems.some(item => 
+      item.name.toLowerCase().trim() === normalizedNewName
+    );
+
+    if (isDuplicate) {
+      this.showMessage(`「${name}」はすでに登録されています`, 'error');
+      return;
+    }
+
     // 新しいカスタムアイテムを作成
     const newItem = {
       id: 'item-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
@@ -2581,9 +2926,9 @@ class RecipeApp {
       
       // 選択されたアイテムを買い物リストに追加
       for (const item of selectedItems) {
-        // 既存のアイテムをチェック（IDと名前の両方で確認）
+        // 既存のアイテムをIDまたは名前でチェック（大文字小文字を区別しない）
         const existingItem = this.shoppingList.customItems.find(
-          i => i.id === item.id || i.name === item.name
+          i => i.id === item.id || i.name.toLowerCase() === item.name.toLowerCase()
         );
         
         if (!existingItem) {
@@ -2624,7 +2969,6 @@ class RecipeApp {
   async completeShopping() {
     // 既に処理中であれば何もしない
     if (this.isCompletingShopping) {
-      console.log('[DEBUG] completeShopping: 既に処理中のためスキップします');
       return;
     }
     
@@ -2632,9 +2976,6 @@ class RecipeApp {
     this.isCompletingShopping = true;
     
     try {
-      // デバッグ用
-      console.log('[DEBUG] completeShopping メソッドが呼ばれました', new Date().toISOString());
-      
       // 1. チェックボックスから直接チェック状態を取得
       const checkedItems = [];
       const checkboxes = document.querySelectorAll('input[type="checkbox"].item-checkbox:checked');
@@ -2818,7 +3159,6 @@ class RecipeApp {
           }
           
           await this.saveShoppingHistory();
-          console.log('[DEBUG] 買い物履歴を保存しました:', historyEntry);
         } catch (error) {
           console.error('[ERROR] 買い物履歴の保存に失敗しました:', error);
           // エラーが発生したら履歴から削除
@@ -3139,22 +3479,8 @@ if (historyItems.length > 0) {
     return `${quantity1}+${quantity2}`;
   }
 
-  // 買い物を追加する関数（非同期化）
+// 買い物を追加する関数（非同期化）
   async addToShoppingList(ingredients, recipeName = null, recipeId = null, isSeasoning = false) {
-    console.log('[DEBUG] addToShoppingList メソッドが呼ばれました', new Date().toISOString());
-    console.log('[DEBUG] パラメータ:', { 
-      ingredients: ingredients.map(i => i.name),
-      recipeName,
-      recipeId,
-      isSeasoning 
-    });
-    console.log('[DEBUG] addToShoppingList called with:', { 
-      ingredients: JSON.parse(JSON.stringify(ingredients)), // デバッグ用にコピー
-      recipeName, 
-      recipeId, 
-      isSeasoning 
-    });
-    
     // 各材料にisSeasoningプロパティを設定
     ingredients = ingredients.map(ing => ({
       ...ing,
@@ -3162,13 +3488,12 @@ if (historyItems.length > 0) {
     }));
 
     if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
-      console.log('[DEBUG] 無効な材料データです');
       return false;
     }
 
     // 新しいshoppingList構造を初期化（存在しない場合）
-    if (!this.shoppingList.ingredients) this.shoppingList.ingredients = [];
-    if (!this.shoppingList.customItems) this.shoppingList.customItems = [];
+    this.shoppingList.ingredients = this.shoppingList.ingredients || [];
+    this.shoppingList.customItems = this.shoppingList.customItems || [];
 
     let added = false;
     const timestamp = Date.now();
@@ -3177,218 +3502,74 @@ if (historyItems.length > 0) {
     const normalizeString = (str) => str ? str.toString().trim().toLowerCase() : '';
 
     for (const ingredient of ingredients) {
-      const isItemCustom = ingredient.isCustom || false;
-      // カスタムアイテムの場合は必ずcustomItemsに追加
+      const isItemCustom = Boolean(ingredient.isCustom);
       const targetArray = isItemCustom ? this.shoppingList.customItems : this.shoppingList.ingredients;
-      
-      // 正規化した名前で比較
       const normalizedIngredientName = normalizeString(ingredient.name);
-      
-      // 既存のアイテムを検索
       let existingItemIndex = -1;
       const itemSeasoning = ingredient.isSeasoning !== undefined ? ingredient.isSeasoning : isSeasoning;
-      
-      console.log('[DEBUG] アイテム検索開始:', {
-        name: ingredient.name,
-        normalizedName: normalizedIngredientName,
-        isItemCustom,
-        isSeasoning: itemSeasoning,
-        targetArrayLength: targetArray.length,
-        targetArray: JSON.parse(JSON.stringify(targetArray)) // デバッグ用に配列をコピー
-      });
 
       if (isItemCustom) {
-        // カスタムアイテムの場合は名前だけで比較
         existingItemIndex = targetArray.findIndex(item => 
           normalizeString(item.name) === normalizedIngredientName && item.isCustom === true
         );
       } else {
-        // 通常のアイテムと調味料は名前とisSeasoningフラグで比較
-        // 調味料の場合はrecipeIdを無視して、同じ名前のものは1つにまとめる
         existingItemIndex = targetArray.findIndex(item => {
           if (item.isCustom) return false;
-          
           const nameMatch = normalizeString(item.name) === normalizedIngredientName;
           const seasoningMatch = Boolean(item.isSeasoning) === Boolean(itemSeasoning);
-          
-          // 調味料の場合は名前だけで比較
-          if (itemSeasoning && item.isSeasoning) {
-            console.log('[DEBUG] 調味料比較:', {
-              itemName: item.name,
-              itemIsSeasoning: item.isSeasoning,
-              targetName: ingredient.name,
-              targetIsSeasoning: itemSeasoning,
-              normalizedItemName: normalizeString(item.name),
-              normalizedTargetName: normalizedIngredientName,
-              nameMatch,
-              match: nameMatch
-            });
-            return nameMatch;
-          }
-          
-          // 通常の材料の場合は名前とisSeasoningフラグで比較
-          const match = nameMatch && seasoningMatch;
-          
-          console.log('[DEBUG] 材料比較:', {
-            itemName: item.name,
-            itemSeasoning: item.isSeasoning,
-            targetSeasoning: itemSeasoning,
-            nameMatch,
-            seasoningMatch,
-            isCustom: item.isCustom,
-            match
-          });
-          
-          return match;
+          return (itemSeasoning && item.isSeasoning) ? nameMatch : (nameMatch && seasoningMatch);
         });
       }
 
-      console.log('[DEBUG] アイテム検索結果:', {
-        name: ingredient.name,
-        isItemCustom,
-        isSeasoning: isSeasoning || ingredient.isSeasoning,
-        existingItemIndex,
-        targetArrayLength: targetArray.length
-      });
-
-      const newItem = {
-        ...ingredient, // 既存のプロパティをコピー
-        id: ingredient.id || `item-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-        name: ingredient.name,
-        quantity: ingredient.quantity || '',
-        isCustom: isItemCustom,
-        recipeId: ingredient.recipeId || recipeId,
-        recipeName: ingredient.recipeName || recipeName,
-        isSeasoning: ingredient.isSeasoning || isSeasoning || false,
-        completed: ingredient.completed || false,
-        timestamp: ingredient.timestamp || timestamp
-      };
-
       if (existingItemIndex !== -1) {
-        // 既存のアイテムがある場合は数量を更新
         const existingItem = targetArray[existingItemIndex];
         
-        // デバッグログを追加
-        console.log('[DEBUG] 既存アイテムを更新:', {
-          name: existingItem.name,
-          existingRecipeId: existingItem.recipeId,
-          existingRecipeName: existingItem.recipeName,
-          existingRecipeIds: existingItem.recipeIds,
-          existingRecipeNames: existingItem.recipeNames,
-          newRecipeId: recipeId,
-          newRecipeName: recipeName
-        });
-        
-        // レシピ情報を配列で保持（既存のアイテムに配列がなければ初期化）
         if (!existingItem.recipeIds) {
           existingItem.recipeIds = [];
           existingItem.recipeNames = [];
           
-          // 既存の単一のrecipeId/recipeNameがあれば配列に追加
           if (existingItem.recipeId) {
             existingItem.recipeIds.push(existingItem.recipeId);
             existingItem.recipeNames.push(existingItem.recipeName || '未分類');
-            console.log('[DEBUG] 既存の単一レシピ情報を配列に追加:', {
-              name: existingItem.name,
-              recipeId: existingItem.recipeId,
-              recipeName: existingItem.recipeName
-            });
-          }
-          
-          // 既存のrecipeIds/recipeNamesがあればコピー（念のため）
-          if (existingItem.recipeIds && existingItem.recipeNames) {
-            console.log('[DEBUG] 既存のレシピ情報をコピー:', {
-              name: existingItem.name,
-              recipeIds: [...existingItem.recipeIds],
-              recipeNames: [...existingItem.recipeNames]
-            });
           }
         }
-        
-        // 新しいレシピ情報があれば追加（重複を避ける）
+
         if (recipeId) {
-          // recipeIds/recipeNamesが配列でない場合は初期化
-          if (!Array.isArray(existingItem.recipeIds)) {
-            existingItem.recipeIds = [];
-          }
-          if (!Array.isArray(existingItem.recipeNames)) {
-            existingItem.recipeNames = [];
-          }
+          if (!Array.isArray(existingItem.recipeIds)) existingItem.recipeIds = [];
+          if (!Array.isArray(existingItem.recipeNames)) existingItem.recipeNames = [];
           
-          // すでに同じレシピIDが含まれているかチェック
           const recipeIndex = existingItem.recipeIds.indexOf(recipeId);
-          
           if (recipeIndex === -1) {
-            // 新しいレシピ情報を追加
             existingItem.recipeIds.push(recipeId);
             existingItem.recipeNames.push(recipeName || '未分類');
-            
-            console.log('[DEBUG] 新しいレシピ情報を追加:', {
-              name: existingItem.name,
-              recipeId: recipeId,
-              recipeName: recipeName || '未分類',
-              currentRecipeIds: [...existingItem.recipeIds],
-              currentRecipeNames: [...existingItem.recipeNames]
-            });
-          } else {
-            // 既存のレシピ情報を更新（名前が変更されている可能性があるため）
-            if (recipeName && existingItem.recipeNames[recipeIndex] !== recipeName) {
-              existingItem.recipeNames[recipeIndex] = recipeName;
-              console.log('[DEBUG] 既存のレシピ名を更新:', {
-                name: existingItem.name,
-                recipeId: recipeId,
-                oldRecipeName: existingItem.recipeNames[recipeIndex],
-                newRecipeName: recipeName
-              });
-            }
-            
-            console.log('[DEBUG] 既存のレシピ情報を確認:', {
-              name: existingItem.name,
-              recipeId: recipeId,
-              recipeName: recipeName || '未分類',
-              currentRecipeIds: [...existingItem.recipeIds],
-              currentRecipeNames: [...existingItem.recipeNames]
-            });
+          } else if (recipeName && existingItem.recipeNames[recipeIndex] !== recipeName) {
+            existingItem.recipeNames[recipeIndex] = recipeName;
           }
         }
-        
-        // 数量を更新
+
         if (ingredient.quantity !== undefined && ingredient.quantity !== '') {
-          const oldQuantity = existingItem.quantity || '';
-          console.log('[DEBUG] sumQuantities 呼び出し前:', {
-            oldQuantity,
-            newQuantity: ingredient.quantity,
-            isNumberOld: !isNaN(parseInt(oldQuantity, 10)),
-            isNumberNew: !isNaN(parseInt(ingredient.quantity, 10))
-          });
-          const newQuantity = this.sumQuantities(oldQuantity, ingredient.quantity);
-          console.log('[DEBUG] sumQuantities 呼び出し後:', { newQuantity });
-          
-          console.log('[DEBUG] 数量を更新:', {
-            name: ingredient.name,
-            oldQuantity,
-            newQuantity,
-            ingredientQuantity: ingredient.quantity
-          });
-          
-          existingItem.quantity = newQuantity;
+          existingItem.quantity = this.sumQuantities(
+            existingItem.quantity || '',
+            ingredient.quantity
+          );
         }
-        
-        // 更新したアイテムを保存
+
         targetArray[existingItemIndex] = existingItem;
         added = true;
       } else {
-        // 新しいアイテムを追加
-        console.log('[DEBUG] 新しいアイテムを追加:', {
+        const newItem = {
+          ...ingredient,
+          id: ingredient.id || `item-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           name: ingredient.name,
-          quantity: ingredient.quantity,
+          quantity: ingredient.quantity || '',
           isCustom: isItemCustom,
-          isSeasoning: newItem.isSeasoning,
-          recipeId: newItem.recipeId,
-          recipeName: newItem.recipeName
-        });
-        
-        // レシピ情報を配列で保持
+          recipeId: ingredient.recipeId || recipeId,
+          recipeName: ingredient.recipeName || recipeName,
+          isSeasoning: ingredient.isSeasoning || isSeasoning || false,
+          completed: Boolean(ingredient.completed),
+          timestamp: ingredient.timestamp || timestamp
+        };
+
         if (newItem.recipeId) {
           newItem.recipeIds = [newItem.recipeId];
           newItem.recipeNames = [newItem.recipeName || '未分類'];
@@ -3396,29 +3577,22 @@ if (historyItems.length > 0) {
           newItem.recipeIds = [];
           newItem.recipeNames = [];
         }
-        
+
         targetArray.push(newItem);
         added = true;
       }
-    } // for ループの終了
-
-    if (added) {
-      console.log('[DEBUG] 買い物リストを保存して再描画します');
-      try {
-        await this.saveShoppingList();
-        console.log('[DEBUG] 買い物リストの保存が完了しました');
-        
-        await this.renderShoppingList();
-        console.log('[DEBUG] 買い物リストの再描画が完了しました');
-      } catch (error) {
-        console.error('[ERROR] 買い物リストの更新中にエラーが発生しました:', error);
-        throw error;
-      }
-    } else {
-      console.log('[DEBUG] 買い物リストに変更はありませんでした');
     }
 
-    console.log('[DEBUG] addToShoppingList 終了');
+    if (added) {
+      try {
+        await this.saveShoppingList();
+        await this.renderShoppingList();
+      } catch (error) {
+        console.error('買い物リストの更新中にエラーが発生しました:', error);
+        throw error;
+      }
+    }
+
     return added;
   }
 
@@ -4064,29 +4238,6 @@ async function initializeApp() {
       cancelButton.addEventListener('click', (e) => {
         e.preventDefault();
         app.cancelEdit();
-      });
-    }
-
-    // メモ用写真アップロードのイベントリスナーを設定
-    const notePhotoUpload = document.getElementById('note-photo-upload');
-    const notePhotoInput = document.getElementById('note-photo-input');
-    const removeNotePhotoBtn = document.getElementById('remove-note-photo');
-    
-    if (notePhotoUpload && notePhotoInput) {
-      notePhotoUpload.addEventListener('click', () => {
-        notePhotoInput.click();
-      });
-      
-      notePhotoInput.addEventListener('change', (e) => {
-        app.handleNotePhotoUpload(e);
-      });
-    }
-    
-    // メモ用写真削除ボタンのイベントリスナーを設定
-    if (removeNotePhotoBtn) {
-      removeNotePhotoBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        app.removeNotePhoto();
       });
     }
     
