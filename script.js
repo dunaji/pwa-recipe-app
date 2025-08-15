@@ -206,6 +206,10 @@ class RecipeApp {
       const shoppingListData = shoppingLists.find(item => item && item.type === 'shoppingList');
       const historyData = shoppingLists.find(item => item && item.type === 'history');
       const customItemsData = shoppingLists.find(item => item && item.type === 'customItems');
+      
+      // デバッグ用ログ
+      console.log('[DEBUG] Loaded shopping list data:', shoppingListData);
+      console.log('[DEBUG] Loaded custom items data:', customItemsData);
 
       // 買い物リストの初期化
       this.shoppingList = { ingredients: [], customItems: [] };
@@ -275,14 +279,16 @@ class RecipeApp {
           
           // カスタムアイテムを設定
           this.customItems = allItems;
+          console.log('[DEBUG] Loaded custom items:', this.customItems);
           
-
+          // カスタムアイテムをレンダリング
+          this.renderCustomItems();
           
           // 買い物リスト内のカスタムアイテムは別々に管理するため、ここでは更新しない
           // 買い物リストに追加するには明示的な操作が必要
           
         } catch (error) {
-
+          console.error('カスタムアイテムの読み込み中にエラーが発生しました:', error);
           this.customItems = [];
           this.shoppingList.customItems = [];
         }
@@ -2320,6 +2326,9 @@ class RecipeApp {
       customItems: customItems
     };
     
+    // 選択されたレシピ情報をクリア
+    this.selectedRecipesInfo = [];
+
     let added = false;
     
     // 各レシピの材料と調味料を買い物リストに追加
@@ -2855,10 +2864,10 @@ class RecipeApp {
     };
 
     try {
-      // カスタムアイテムリストに追加
+      // カスタムアイテムを追加
       this.customItems.push(newItem);
       
-      // IndexedDBに保存
+      // データベースに保存
       if (window.recipeDB && window.recipeDB.db) {
         await this.saveCustomItems();
       }
@@ -2867,17 +2876,19 @@ class RecipeApp {
       nameInput.value = '';
       quantityInput.value = '';
       
-      // 再描画
-      this.renderCustomItems();
-      
-      // メッセージを表示
+      // 成功メッセージを表示
       this.showMessage('カスタムアイテムを追加しました', 'success');
       
-    } catch (error) {
-
-      this.showMessage('カスタムアイテムの追加中にエラーが発生しました', 'error');
+      // 少し待ってからページをリロード
+      setTimeout(() => {
+        // リロード前にタブの状態をlocalStorageに保存
+        localStorage.setItem('activeTab', 'custom-items');
+        location.reload();
+      }, 500);
       
-      // エラーが発生した場合は追加したアイテムを元に戻す
+    } catch (error) {
+      console.error('カスタムアイテムの追加中にエラーが発生しました:', error);
+      this.showMessage('カスタムアイテムの追加中にエラーが発生しました', 'error');
       this.customItems = this.customItems.filter(item => item.id !== newItem.id);
     }
   }
@@ -2916,38 +2927,20 @@ class RecipeApp {
     }
 
     try {
-      // 買い物リストのcustomItemsが未初期化の場合は初期化
-      if (!this.shoppingList.customItems) {
-        this.shoppingList.customItems = [];
-      }
-      
-      // 追加されたかどうかのフラグ
-      let added = false;
+      // 買い物リストのcustomItemsをリセット
+      this.shoppingList.customItems = [];
       
       // 選択されたアイテムを買い物リストに追加
       for (const item of selectedItems) {
-        // 既存のアイテムをIDまたは名前でチェック（大文字小文字を区別しない）
-        const existingItem = this.shoppingList.customItems.find(
-          i => i.id === item.id || i.name.toLowerCase() === item.name.toLowerCase()
-        );
-        
-        if (!existingItem) {
-          // 新しいアイテムを追加
-          this.shoppingList.customItems.push(item);
-          added = true;
-        }
+        // 新しいアイテムを追加（重複チェックは不要）
+        this.shoppingList.customItems.push(item);
       }
       
-      if (added) {
-        // IndexedDBに保存
-        if (window.recipeDB && window.recipeDB.db) {
-          await this.saveShoppingList();
-        }
-        this.renderShoppingList();
-        this.showMessage('選択したアイテムを買い物リストに追加しました', 'success');
-      } else {
-        this.showMessage('選択したアイテムは既に買い物リストに追加されています', 'info');
+      // IndexedDBに保存
+      if (window.recipeDB && window.recipeDB.db) {
+        await this.saveShoppingList();
       }
+      this.showMessage('買い物リストを更新しました', 'success');
       
       // チェックを外す
       checkboxes.forEach((checkbox) => {
@@ -2957,8 +2950,11 @@ class RecipeApp {
       // カスタムアイテム一覧を再描画（チェックボックスを更新）
       this.renderCustomItems();
       
+      // 買い物リストを再描画
+      this.renderShoppingList();
+      
     } catch (error) {
-
+      console.error('買い物リストへの追加中にエラーが発生しました:', error);
       this.showMessage('買い物リストへの追加中にエラーが発生しました', 'error');
     }
   }
@@ -3954,13 +3950,13 @@ if (historyItems.length > 0) {
       this.renderRecipes();
     }
   }
-  
-  // カスタムアイテムを削除するメソッド（重複のため削除）
-  
   // カスタムアイテムをレンダリングするメソッド
   renderCustomItems() {
     const container = document.getElementById('custom-items-list');
     if (!container) return;
+    
+    // デバッグ用ログ
+    console.log('[DEBUG] Rendering custom items:', this.customItems);
     
     if (this.customItems.length === 0) {
       container.innerHTML = '<p class="empty-message">登録されたアイテムがありません</p>';
@@ -3972,10 +3968,8 @@ if (historyItems.length > 0) {
         ${this.customItems.map(item => `
           <div class="custom-item" data-id="${item.id}">
             <input type="checkbox" class="recipe-checkbox" value="${item.id}" ${item.completed ? 'checked' : ''}>
-            <div class="item-details">
-              <div class="item-name">${this.escapeHtml(item.name)}</div>
-              ${item.quantity ? `<div class="item-quantity">${this.escapeHtml(item.quantity)}</div>` : ''}
-            </div>
+            <span class="item-name">${this.escapeHtml(item.name)}</span>
+            ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
             <button class="btn-remove" onclick="app.removeCustomItem('${item.id}')">
               <i class="fas fa-times"></i>
             </button>
@@ -3994,7 +3988,7 @@ if (historyItems.length > 0) {
       addButton.addEventListener('click', () => this.addSelectedCustomItemsToShoppingList());
     }
   }
-  
+
   // HTMLエスケープ用ヘルパー関数
   escapeHtml(unsafe) {
     if (!unsafe) return '';
@@ -4267,6 +4261,17 @@ async function initializeApp() {
         // フォームをリセット
         customItemForm.reset();
       });
+    }
+    
+    // 保存されたタブを復元
+    const savedTab = localStorage.getItem('activeTab');
+    if (savedTab) {
+      const tabButton = document.querySelector(`[data-tab="${savedTab}"]`);
+      if (tabButton) {
+        tabButton.click();
+      }
+      // 一度だけ実行するので削除
+      localStorage.removeItem('activeTab');
     }
     
     console.log('[DEBUG] アプリケーションの初期化が完了しました');
