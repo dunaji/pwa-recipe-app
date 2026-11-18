@@ -4066,8 +4066,23 @@ input[type="text"]:focus {
   margin-bottom: 0.4em;
   font-size: 0.9em;
 }
+/* リストを段組みにして縦の長さを圧縮（狭い画面は1列） */
 #shopping-container .ingredients-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  display: block; /* 既存のdisplay:flexを上書き（multicolにはblockが必要） */
+  column-gap: 14px;
+}
+#shopping-container .shopping-item {
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+}
+@media (min-width: 620px) {
+  #shopping-container .ingredients-list {
+    column-count: 2;
+  }
+}
+@media (min-width: 1000px) {
+  #shopping-container .ingredients-list {
+    column-count: 3;
+  }
 }
