@@ -2350,7 +2350,7 @@ class RecipeApp {
       html += `
         <div class="shopping-section custom-items" id="custom-items-section">
           <h3 class="section-title">その他</h3>
-          <div class="ingredients-list" id="custom-items-list">
+          <div class="ingredients-list" id="shopping-custom-items-list">
             ${sortedCustomItems.map((item, index) => `
                 <div class="shopping-item ${item.completed ? 'completed' : ''}" 
                      data-id="${item.id}" 
@@ -2646,13 +2646,17 @@ class RecipeApp {
     }
 
     try {
-      // 買い物リストのcustomItemsをリセット
-      this.shoppingList.customItems = [];
-      
-      // 選択されたアイテムを買い物リストに追加
+      // 既存の買い物リストcustomItemsを保持しつつ、未登録のものだけ追加
+      if (!Array.isArray(this.shoppingList.customItems)) {
+        this.shoppingList.customItems = [];
+      }
       for (const item of selectedItems) {
-        // 新しいアイテムを追加（重複チェックは不要）
-        this.shoppingList.customItems.push(item);
+        const exists = this.shoppingList.customItems.some(
+          existing => existing.id === item.id || existing.name.toLowerCase() === item.name.toLowerCase()
+        );
+        if (!exists) {
+          this.shoppingList.customItems.push(item);
+        }
       }
       
       // IndexedDBに保存
