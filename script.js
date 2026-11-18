@@ -616,6 +616,10 @@ class RecipeApp {
       });
     }
 
+    // 買い物リストの全チェック/全解除
+    this.addEventIfExists('check-all-items', 'click', () => this.setAllShoppingItems(true));
+    this.addEventIfExists('uncheck-all-items', 'click', () => this.setAllShoppingItems(false));
+
     // 買い物履歴ボタン
     this.addEventIfExists('show-all-history', 'click', () => this.showHistoryModal());
 

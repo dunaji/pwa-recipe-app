@@ -3988,3 +3988,28 @@ input[type="text"]:focus {
   color: #a1887f;
   margin-top: 0.1em;
 }
+
+/* ===== 買い物リスト進捗・一括チェック ===== */
+.shopping-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+  margin-bottom: 0.6em;
+}
+.shopping-progress {
+  font-size: 0.85em;
+  color: #8d6e63;
+}
+.btn-text-small {
+  background: none;
+  border: none;
+  color: #ff9800;
+  font-size: 0.85em;
+  cursor: pointer;
+  padding: 0.3em 0.5em;
+  text-decoration: underline;
+}
+.btn-text-small:active {
+  color: #e65100;
+}

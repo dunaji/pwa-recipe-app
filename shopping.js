@@ -306,11 +306,16 @@ export const shoppingMethods = {
       return isRegular;
     });
     
+    // 完了済みは各セクション内で下に表示するためのソート
+    const byCompletion = (a, b) => (a.completed ? 1 : 0) - (b.completed ? 1 : 0);
+    regularItems.sort(byCompletion);
+
     const seasoningItems = (this.shoppingList.ingredients || []).filter(item => {
       const isSeasoning = item.isSeasoning;
 
       return isSeasoning;
     });
+    seasoningItems.sort(byCompletion);
     
     const customItems = this.shoppingList.customItems || [];
     
@@ -390,7 +395,7 @@ export const shoppingMethods = {
     if (this.shoppingList.customItems && this.shoppingList.customItems.length > 0) {
       // タイムスタンプでソート（新しいものから表示）
       const sortedCustomItems = [...this.shoppingList.customItems].sort((a, b) => 
-        (b.timestamp || 0) - (a.timestamp || 0)
+        (a.completed ? 1 : 0) - (b.completed ? 1 : 0) || (b.timestamp || 0) - (a.timestamp || 0)
       );
 
       html += `
@@ -468,6 +473,26 @@ export const shoppingMethods = {
     }
 
       // 買い物完了ボタンのイベントリスナーはsetupEventListenersで登録済みのため削除
+  },
+
+  // すべてのアイテムのチェック状態を一括変更
+  async setAllShoppingItems(checked) {
+    const allItems = [...(this.shoppingList.ingredients || []), ...(this.shoppingList.customItems || [])];
+    if (allItems.length === 0) return;
+
+    allItems.forEach(item => { item.completed = checked; });
+    // その他タブ側のマスターデータも同期
+    (this.customItems || []).forEach(ci => { ci.completed = checked; });
+
+    try {
+      await this.saveShoppingList();
+      await this.saveCustomItems();
+      this.renderShoppingList();
+      this.updateCompleteShoppingButton();
+    } catch (error) {
+      console.error('[ERROR] チェック状態の一括更新に失敗しました:', error);
+      this.showMessage('更新に失敗しました', 'error');
+    }
   },
 
   // 買い物リストのチェックボックスON/OFFで完了状態を切り替える
@@ -899,6 +924,12 @@ export const shoppingMethods = {
     const completedCount = allItems.filter(item => item && item.completed).length;
     const totalCount = allItems.length;
     
+    // 進捗表示を更新
+    const progressEl = document.getElementById('shopping-progress');
+    if (progressEl) {
+      progressEl.textContent = totalCount > 0 ? `${completedCount}/${totalCount} チェック済み` : '';
+    }
+
     // ボタンの状態を更新（すべてチェックされている場合のみ有効）
     completeButton.disabled = completedCount !== totalCount;
     completeButton.textContent = '買い物完了';
