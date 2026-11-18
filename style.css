@@ -3837,3 +3837,56 @@ input[type="text"]:focus {
 [data-theme="dark"] .theme-btn.active {
   color: #221c18;
 }
+
+/* ===== 使い方モーダル ===== */
+#help-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(62, 39, 35, 0.38);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+.help-card {
+  max-height: 85vh;
+}
+.help-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9em;
+  margin-top: 0.5em;
+}
+.help-step {
+  display: flex;
+  gap: 0.7em;
+  align-items: flex-start;
+}
+.help-step-num {
+  flex-shrink: 0;
+  width: 1.7em;
+  height: 1.7em;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.15em;
+}
+.help-step-body strong {
+  color: var(--color-primary-dark);
+  font-size: 0.95em;
+}
+.help-step-body p {
+  color: var(--color-text-sub);
+  font-size: 0.85em;
+  line-height: 1.55;
+  margin-top: 0.15em;
+}

@@ -14,7 +14,26 @@ export const settingsMethods = {
     });
     this.addEventIfExists('import-data-file', 'change', (e) => this.importData(e));
     this.addEventIfExists('donation-link', 'click', () => this.openDonationPage());
+    this.addEventIfExists('show-help', 'click', () => this.showHelp());
+    this.addEventIfExists('close-help-modal', 'click', () => this.hideHelp());
+    const helpModal = document.getElementById('help-modal');
+    if (helpModal) {
+      helpModal.addEventListener('click', (e) => {
+        if (e.target === helpModal) this.hideHelp();
+      });
+    }
     this.setupThemeSettings();
+  },
+
+  // ===== 使い方モーダル =====
+  showHelp() {
+    const modal = document.getElementById('help-modal');
+    if (modal) modal.style.display = 'flex';
+  },
+
+  hideHelp() {
+    const modal = document.getElementById('help-modal');
+    if (modal) modal.style.display = 'none';
   },
 
   // ===== テーマ切替 =====

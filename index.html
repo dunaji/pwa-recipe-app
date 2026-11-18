@@ -340,6 +340,13 @@
                 </div>
                 <div class="card-content">
                     <div class="form-group">
+                        <label>使い方</label>
+                        <p class="custom-items-note">このアプリの基本的な流れを説明します。</p>
+                        <button type="button" id="show-help" class="btn-secondary settings-action-btn">
+                            <i class="fas fa-circle-question"></i> 使い方を見る
+                        </button>
+                    </div>
+                    <div class="form-group">
                         <label>テーマ</label>
                         <p class="custom-items-note">画面の色合いを変更します。</p>
                         <div class="theme-select-row" id="theme-select-row">
@@ -383,6 +390,58 @@
     <div id="meal-picker-subtitle" class="meal-picker-subtitle"></div>
     <div id="meal-picker-list" class="meal-picker-list">
       <!-- レシピ一覧がここに表示されます -->
+    </div>
+  </div>
+</div>
+
+    <!-- 使い方モーダル -->
+    <div id="help-modal" class="modal">
+  <div class="modal-content pop-modal modal-card help-card">
+    <button id="close-help-modal" class="modal-close-btn">×</button>
+    <h2 class="modal-title"><span class="modal-title-icon">📖</span><span>使い方</span></h2>
+    <div class="help-steps">
+      <div class="help-step">
+        <div class="help-step-num">1</div>
+        <div class="help-step-body">
+          <strong>レシピを登録する</strong>
+          <p>「登録」タブで料理名・材料・調味料・手順を入力します。写真も追加できます。ネットのレシピを参考に、自分好みにアレンジして登録するのがコツです。</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <div class="help-step-num">2</div>
+        <div class="help-step-body">
+          <strong>献立を立てる</strong>
+          <p>「献立」タブで今日から1週間分にレシピを割り当てます。同じレシピを複数日に入れると材料も日数分カウントされます。</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <div class="help-step-num">3</div>
+        <div class="help-step-body">
+          <strong>買い物リストに追加</strong>
+          <p>献立の「買い物リストに追加」またはレシピ詳細の「リストに追加」で材料が自動で合算されます。同じ材料（例：たまごと卵）は1つにまとまり、売り場別カテゴリに並びます。</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <div class="help-step-num">4</div>
+        <div class="help-step-body">
+          <strong>お店でチェックする</strong>
+          <p>材料はカテゴリ別、調味料は折りたたみ表示です。名前の横の「▸」で使うレシピを確認できます。「すべてチェック」でまとめて済みにできます。</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <div class="help-step-num">5</div>
+        <div class="help-step-body">
+          <strong>買い物完了 → 作った！</strong>
+          <p>買い物が済んだら「買い物完了」を押します。料理を実際に作ったら、レシピ詳細の「作った！」で記録すると調理回数が増え、おすすめ表示に反映されます。</p>
+        </div>
+      </div>
+      <div class="help-step">
+        <div class="help-step-num">6</div>
+        <div class="help-step-body">
+          <strong>バックアップとテーマ</strong>
+          <p>設定タブの「データをエクスポート」で定期的にバックアップできます。テーマ（オレンジ/水色/ダーク）もここで変更できます。</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
