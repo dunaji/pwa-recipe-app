@@ -3837,3 +3837,13 @@ input[type="text"]:focus {
   border-color: #ff9800;
   box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.15);
 }
+
+/* ===== 買い物リストカテゴリ ===== */
+.shopping-category-title {
+  font-size: 0.95em;
+  color: #6d4c41;
+}
+.shopping-category-title::before {
+  content: '・';
+  color: #ff9800;
+}

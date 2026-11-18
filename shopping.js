@@ -1,4 +1,5 @@
 // shopping.js - script.js から分割された機能モジュール
+import { getShoppingCategory } from './utils.js';
 
 // RecipeApp.prototype に Object.assign で合成される
 
@@ -310,26 +311,37 @@ export const shoppingMethods = {
         <div class="shopping-list-content">
     `;
 
-    // 1. 材料セクション
+    // 1. 材料セクション（カテゴリ別にグループ化）
     if (regularItems.length > 0) {
-      html += `
-        <div class="shopping-section">
-          <h3 class="section-title">材料</h3>
-          <div class="ingredients-list">
-            ${regularItems.map(item => `
-              <div class="shopping-item ${item.completed ? 'completed' : ''}" data-id="${item.id}" data-custom="false">
-                <div class="item-checkbox-container">
-                  <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
-                  <span class="checkmark"></span>
+      const CATEGORY_ORDER = ['野菜', '肉・魚・卵・大豆', 'きのこ・果物', 'その他'];
+      const grouped = {};
+      regularItems.forEach(item => {
+        const cat = getShoppingCategory(item.name);
+        (grouped[cat] = grouped[cat] || []).push(item);
+      });
+
+      CATEGORY_ORDER.forEach(cat => {
+        const items = grouped[cat];
+        if (!items || items.length === 0) return;
+        html += `
+          <div class="shopping-section">
+            <h3 class="section-title shopping-category-title">${cat}</h3>
+            <div class="ingredients-list">
+              ${items.map(item => `
+                <div class="shopping-item ${item.completed ? 'completed' : ''}" data-id="${item.id}" data-custom="false">
+                  <div class="item-checkbox-container">
+                    <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
+                    <span class="checkmark"></span>
+                  </div>
+                  <span class="item-name">${this.escapeHtml(item.name)}</span>
+                  ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
+                  <button class="btn-remove" data-id="${item.id}" data-custom="false">×</button>
                 </div>
-                <span class="item-name">${this.escapeHtml(item.name)}</span>
-                ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
-                <button class="btn-remove" data-id="${item.id}" data-custom="false">×</button>
-              </div>
-            `).join('')}
+              `).join('')}
+            </div>
           </div>
-        </div>
-      `;
+        `;
+      });
     }
 
     // 2. 調味料セクション
