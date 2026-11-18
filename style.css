@@ -34,6 +34,7 @@
   --color-primary-deep: #f57c00;
   --color-highlight: #ffd54f;
   --header-gradient: linear-gradient(135deg, #ffb300 0%, #ff9800 55%, #f57c00 100%);
+  --surface-glass: rgba(255, 255, 255, 0.92);
 }
 
 /* ===== 水色テーマ ===== */
@@ -89,6 +90,7 @@
   --color-card-bg: linear-gradient(135deg, rgba(46,40,35,0.95) 80%, rgba(58,51,44,0.95) 100%);
   --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.35), 0 1px 4px rgba(0, 0, 0, 0.30);
   --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 10px rgba(0, 0, 0, 0.35);
+  --surface-glass: rgba(46, 40, 35, 0.92);
   color-scheme: dark;
 }
 
@@ -105,7 +107,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--surface-glass);
   padding: 6px 10px;
   border-radius: 12px;
   font-size: 0.8em;
@@ -329,7 +331,7 @@ body {
 /* 上部のタブ切り替えボタン（登録・レシピ・買い物） */
 .tab-navigation {
   display: flex;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--surface-glass);
   backdrop-filter: blur(6px);
   border-radius: 14px;
   padding: 5px;
@@ -1364,7 +1366,7 @@ input[type="text"]:focus {
 
 /* アプリ全体で使える濃い目のカード */
 .app-card {
-  background: linear-gradient(135deg, rgba(255,251,233,0.95) 80%, rgba(255,224,178,0.95) 100%);
+  background: var(--color-card-bg);
   border-radius: 18px;
   box-shadow: 0 4px 16px rgba(255,152,0,0.13), 0 1.5px 8px rgba(0,0,0,0.09);
   padding: 1.3em 1.2em 1.2em 1.2em;
@@ -3361,7 +3363,7 @@ input[type="text"]:focus {
   width: 30px;
   height: 30px;
   font-size: 1em;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--surface-glass);
   border: 1px solid var(--color-highlight);
   border-radius: 50%;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
