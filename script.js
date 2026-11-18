@@ -12,6 +12,7 @@ class RecipeApp {
   recipeSortOrder = "desc"; // デフォルトは降順
   recipeViewMode = localStorage.getItem('recipeViewMode') || 'list'; // list / tile / compact
   recipeCategoryFilter = localStorage.getItem('recipeCategoryFilter') || ''; // カテゴリ絞り込み
+  recipeSearchQuery = '';
   db = null;
   isInitialized = false;
   editingRecipeId = null; // 編集モード用のID
@@ -516,6 +517,12 @@ class RecipeApp {
     // 昇順降順セレクトボックス
     this.addEventIfExists('recipe-sort-order', 'change', (e) => {
       this.recipeSortOrder = e.target.value;
+      this.renderRecipes();
+    });
+
+    // レシピ検索ボックス
+    this.addEventIfExists('recipe-search', 'input', (e) => {
+      this.recipeSearchQuery = e.target.value;
       this.renderRecipes();
     });
 

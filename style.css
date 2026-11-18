@@ -3808,3 +3808,32 @@ input[type="text"]:focus {
   border-radius: 12px;
   margin: -0.6em 0 0.8em;
 }
+
+/* ===== レシピ検索 ===== */
+.recipe-search {
+  position: relative;
+  margin-bottom: 0.6em;
+}
+.recipe-search i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #b07a3f;
+  font-size: 0.9em;
+}
+.recipe-search input {
+  width: 100%;
+  padding: 10px 12px 10px 34px;
+  border: 1.5px solid #ffe0b2;
+  border-radius: 10px;
+  font-size: 0.95em;
+  background: #fffdf8;
+  font-family: var(--font-main);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.recipe-search input:focus {
+  outline: none;
+  border-color: #ff9800;
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.15);
+}

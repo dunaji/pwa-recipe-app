@@ -747,14 +747,31 @@ export const recipesMethods = {
     this.renderCategoryChips(categories);
 
     // カテゴリでフィルタ
-    const displayRecipes = this.recipeCategoryFilter
+    let displayRecipes = this.recipeCategoryFilter
       ? sortedRecipes.filter(r => (r.category || '').trim() === this.recipeCategoryFilter)
       : sortedRecipes;
+
+    // 検索キーワードでフィルタ（料理名・カテゴリ・材料名が対象）
+    const query = (this.recipeSearchQuery || '').trim().toLowerCase();
+    if (query) {
+      displayRecipes = displayRecipes.filter(r => {
+        if ((r.name || '').toLowerCase().includes(query)) return true;
+        if ((r.category || '').toLowerCase().includes(query)) return true;
+        return (r.ingredients || []).some(i => (i.name || '').toLowerCase().includes(query));
+      });
+    }
 
     // 表示モードに応じたコンテナクラス
     container.className = `recipes-container view-${this.recipeViewMode || 'list'}`;
 
-    if (this.recipeViewMode === 'tile') {
+    if (displayRecipes.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-search"></i>
+          <p>該当するレシピがありません</p>
+        </div>
+      `;
+    } else if (this.recipeViewMode === 'tile') {
       container.innerHTML = displayRecipes.map((recipe) => this.renderRecipeTile(recipe)).join("");
     } else if (this.recipeViewMode === 'compact') {
       container.innerHTML = displayRecipes.map((recipe) => this.renderRecipeCompact(recipe)).join("");
