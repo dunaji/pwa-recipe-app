@@ -34,7 +34,7 @@ export const historyMethods = {
 
       throw error;
     }
-  }
+  },
 
   renderHistoryItem(item) {
     const name = item.name || '名称不明';
@@ -45,7 +45,7 @@ export const historyMethods = {
         <span class="item-name">${this.escapeHtml(name)}</span>
         <span class="item-quantity">${quantity}${unit}</span>
       </li>`;
-  }
+  },
 
   renderShoppingHistory() {
     
@@ -252,7 +252,7 @@ export const historyMethods = {
       console.error('[ERROR] Error rendering shopping history:', error);
       historyList.innerHTML = '<p class="error-message">履歴の表示中にエラーが発生しました</p>';
     }
-  }
+  },
 
   removeHistoryEntry(historyId) {
     // 型を統一して比較（数値と文字列の両方に対応）
@@ -266,7 +266,7 @@ export const historyMethods = {
     this.saveShoppingHistory();
     this.renderShoppingHistory();
     this.showMessage('履歴を削除しました', 'success');
-  }
+  },
 
   clearAllHistory() {
     if (confirm('すべての買い物履歴を削除しますか？この操作は元に戻せません。')) {
@@ -275,7 +275,7 @@ export const historyMethods = {
       this.renderShoppingHistory();
       this.showMessage('すべての履歴を削除しました', 'success');
     }
-  }
+  },
 
   showHistoryModal() {
     const modal = document.getElementById('history-modal');
@@ -284,7 +284,7 @@ export const historyMethods = {
     this.renderShoppingHistory();
     modal.style.display = 'flex';
     modal.dispatchEvent(new Event('show'));
-  }
+  },
 
   hideHistoryModal() {
     const modal = document.getElementById('history-modal');
@@ -292,6 +292,6 @@ export const historyMethods = {
     
     modal.style.display = 'none';
     modal.dispatchEvent(new Event('hide'));
-  }
+  },
 
 };
