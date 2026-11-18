@@ -347,8 +347,10 @@ export const shoppingMethods = {
                     <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
                     <span class="checkmark"></span>
                   </div>
-                  <span class="item-name">${this.escapeHtml(item.name)}</span>
-                  ${this._shoppingItemRecipeLabel(item) ? `<span class="item-recipes">${this.escapeHtml(this._shoppingItemRecipeLabel(item))}</span>` : ''}
+                  <div class="item-main">
+                    <span class="item-name">${this.escapeHtml(item.name)}</span>
+                    ${this._shoppingItemRecipeLabel(item) ? `<span class="item-recipes">${this.escapeHtml(this._shoppingItemRecipeLabel(item))}</span>` : ''}
+                  </div>
                   ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
                   <button class="btn-remove" data-id="${item.id}" data-custom="false">×</button>
                 </div>
@@ -379,8 +381,10 @@ export const shoppingMethods = {
                     <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
                     <span class="checkmark"></span>
                   </label>
-                  <span class="item-name">${this.escapeHtml(item.name)}</span>
-                  ${this._shoppingItemRecipeLabel(item) ? `<span class="item-recipes">${this.escapeHtml(this._shoppingItemRecipeLabel(item))}</span>` : ''}
+                  <div class="item-main">
+                    <span class="item-name">${this.escapeHtml(item.name)}</span>
+                    ${this._shoppingItemRecipeLabel(item) ? `<span class="item-recipes">${this.escapeHtml(this._shoppingItemRecipeLabel(item))}</span>` : ''}
+                  </div>
                   ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
                   <button class="btn-remove" data-id="${item.id}" data-custom="false">×</button>
                 </div>
@@ -411,7 +415,9 @@ export const shoppingMethods = {
                     <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
                     <span class="checkmark"></span>
                   </div>
-                  <span class="item-name">${this.escapeHtml(item.name)}</span>
+                  <div class="item-main">
+                    <span class="item-name">${this.escapeHtml(item.name)}</span>
+                  </div>
                   ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
                   <button class="btn-remove" data-id="${item.id}" data-custom="true">×</button>
                 </div>

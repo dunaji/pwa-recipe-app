@@ -4013,3 +4013,61 @@ input[type="text"]:focus {
 .btn-text-small:active {
   color: #e65100;
 }
+
+/* ===== 買い物アイテムのコンパクトレイアウト ===== */
+/* 名前+レシピ名を縦積みにし、数量・削除ボタンを右に固定 */
+#shopping-container .shopping-item {
+  padding: 7px 12px;
+  margin-bottom: 5px;
+  gap: 8px;
+  align-items: center;
+}
+#shopping-container .shopping-item .item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+#shopping-container .shopping-item .item-name {
+  font-size: 0.95em;
+  line-height: 1.3;
+  word-break: break-word;
+}
+#shopping-container .shopping-item .item-recipes {
+  font-size: 0.72em;
+  color: #a1887f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#shopping-container .shopping-item .item-quantity {
+  flex-shrink: 0;
+  font-size: 0.82em;
+  color: #6d4c41;
+  background: #f5e6d3;
+  border-radius: 8px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+#shopping-container .shopping-item .btn-remove {
+  flex-shrink: 0;
+  margin-left: 0;
+  font-size: 0.9em;
+  opacity: 0.6;
+}
+
+/* セクションの間隔を詰める */
+#shopping-container .shopping-section {
+  margin-bottom: 0.8em;
+}
+#shopping-container .shopping-section .section-title,
+#shopping-container .shopping-category-title {
+  margin-bottom: 0.4em;
+  font-size: 0.9em;
+}
+#shopping-container .ingredients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
