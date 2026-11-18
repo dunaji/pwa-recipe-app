@@ -4030,7 +4030,7 @@ input[type="text"]:focus {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 3px;
+  margin-top: 2px;
   padding-left: 24px; /* チェックボックス分だけ下げて名前の下に揃える */
 }
 #shopping-container .shopping-item .item-checkbox-container {
@@ -4078,6 +4078,9 @@ input[type="text"]:focus {
   font-size: 0.95em;
   opacity: 0.55;
   line-height: 1;
+}
+#shopping-container .shopping-item .item-recipes[hidden] {
+  display: none; /* 既存のdisplay:blockルールを上書きしてデフォルト非表示に */
 }
 #shopping-container .shopping-item .item-recipes {
   font-size: 0.68em;
