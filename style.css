@@ -4029,8 +4029,9 @@ input[type="text"]:focus {
 #shopping-container .shopping-item .item-line2 {
   display: flex;
   align-items: center;
-  gap: 5px;
-  margin-top: 1px;
+  justify-content: flex-end; /* 量と×を右にまとめる */
+  gap: 6px;
+  margin-top: 0;
   padding-left: 23px; /* チェックボックス分だけ下げて名前の下に揃える */
 }
 #shopping-container .shopping-item .item-checkbox-container {
@@ -4073,7 +4074,7 @@ input[type="text"]:focus {
 }
 #shopping-container .shopping-item .item-line2 .btn-remove {
   flex-shrink: 0;
-  margin-left: auto; /* 右端に配置 */
+  margin-left: 0;
   padding: 0 2px;
   font-size: 0.95em;
   opacity: 0.55;

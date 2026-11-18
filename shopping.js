@@ -327,7 +327,7 @@ export const shoppingMethods = {
 
     // 1. 材料セクション（カテゴリ別にグループ化）
     if (regularItems.length > 0) {
-      const CATEGORY_ORDER = ['野菜', '肉・魚・卵・大豆', 'きのこ・果物', 'その他'];
+      const CATEGORY_ORDER = ['🥬 野菜・果物', '🐟 魚介類', '🥩 肉類', '🥚 卵・乳製品・大豆製品', '🍞 主食・粉類', '🥫 乾物・加工食品', 'その他'];
       const grouped = {};
       regularItems.forEach(item => {
         const cat = getShoppingCategory(item.name);
