@@ -343,16 +343,19 @@ export const shoppingMethods = {
             <div class="ingredients-list">
               ${items.map(item => `
                 <div class="shopping-item ${item.completed ? 'completed' : ''}" data-id="${item.id}" data-custom="false">
-                  <div class="item-checkbox-container">
-                    <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
-                    <span class="checkmark"></span>
-                  </div>
-                  <div class="item-main">
+                  <div class="item-line1">
+                    <div class="item-checkbox-container">
+                      <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
+                      <span class="checkmark"></span>
+                    </div>
                     <span class="item-name">${this.escapeHtml(item.name)}</span>
-                    ${this._shoppingItemRecipeLabel(item) ? `<span class="item-recipes">${this.escapeHtml(this._shoppingItemRecipeLabel(item))}</span>` : ''}
+                    ${this._shoppingItemRecipeLabel(item) ? `<button type="button" class="btn-recipes-toggle" title="使うレシピ">▸</button>` : ''}
                   </div>
-                  ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
-                  <button class="btn-remove" data-id="${item.id}" data-custom="false">×</button>
+                  <div class="item-line2">
+                    ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
+                    <button class="btn-remove" data-id="${item.id}" data-custom="false">×</button>
+                  </div>
+                  ${this._shoppingItemRecipeLabel(item) ? `<div class="item-recipes" hidden>${this.escapeHtml(this._shoppingItemRecipeLabel(item))}</div>` : ''}
                 </div>
               `).join('')}
             </div>
@@ -377,16 +380,19 @@ export const shoppingMethods = {
             <div class="ingredients-list">
               ${seasoningItems.map(item => `
                 <div class="shopping-item ${item.completed ? 'completed' : ''}" data-id="${item.id}" data-custom="false" data-seasoning="true">
-                  <label class="item-checkbox-container">
-                    <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
-                    <span class="checkmark"></span>
-                  </label>
-                  <div class="item-main">
+                  <div class="item-line1">
+                    <label class="item-checkbox-container">
+                      <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
+                      <span class="checkmark"></span>
+                    </label>
                     <span class="item-name">${this.escapeHtml(item.name)}</span>
-                    ${this._shoppingItemRecipeLabel(item) ? `<span class="item-recipes">${this.escapeHtml(this._shoppingItemRecipeLabel(item))}</span>` : ''}
+                    ${this._shoppingItemRecipeLabel(item) ? `<button type="button" class="btn-recipes-toggle" title="使うレシピ">▸</button>` : ''}
                   </div>
-                  ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
-                  <button class="btn-remove" data-id="${item.id}" data-custom="false">×</button>
+                  <div class="item-line2">
+                    ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
+                    <button class="btn-remove" data-id="${item.id}" data-custom="false">×</button>
+                  </div>
+                  ${this._shoppingItemRecipeLabel(item) ? `<div class="item-recipes" hidden>${this.escapeHtml(this._shoppingItemRecipeLabel(item))}</div>` : ''}
                 </div>
               `).join('')}
             </div>
@@ -411,15 +417,17 @@ export const shoppingMethods = {
                      data-id="${item.id}" 
                      data-custom="true"
                      data-index="${index}">
-                  <div class="item-checkbox-container">
-                    <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
-                    <span class="checkmark"></span>
-                  </div>
-                  <div class="item-main">
+                  <div class="item-line1">
+                    <div class="item-checkbox-container">
+                      <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
+                      <span class="checkmark"></span>
+                    </div>
                     <span class="item-name">${this.escapeHtml(item.name)}</span>
                   </div>
-                  ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
-                  <button class="btn-remove" data-id="${item.id}" data-custom="true">×</button>
+                  <div class="item-line2">
+                    ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
+                    <button class="btn-remove" data-id="${item.id}" data-custom="true">×</button>
+                  </div>
                 </div>
               `).join('')}
           </div>
@@ -443,6 +451,20 @@ export const shoppingMethods = {
 
     // 調味料セクションの表示切り替えイベントを設定
     this.setupSeasoningSectionToggles();
+
+    // レシピ名の表示/非表示トグル
+    document.querySelectorAll('.btn-recipes-toggle').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const item = e.currentTarget.closest('.shopping-item');
+        const recipes = item.querySelector('.item-recipes');
+        if (!recipes) return;
+        const open = recipes.hidden;
+        recipes.hidden = !open;
+        e.currentTarget.textContent = open ? '▾' : '▸';
+        e.currentTarget.classList.toggle('open', open);
+      });
+    });
 
     // チェックボックスのイベントリスナーを設定
     document.querySelectorAll('.item-checkbox').forEach((checkbox) => {
