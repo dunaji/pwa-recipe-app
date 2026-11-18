@@ -642,6 +642,10 @@ class RecipeApp {
     const section = header.closest('.shopping-section');
     if (section) {
       section.classList.toggle('collapsed');
+      // 再描画時に開閉状態を維持するためJS側にも記録
+      if (section.classList.contains('seasoning-section')) {
+        this._seasoningSectionOpen = !section.classList.contains('collapsed');
+      }
     }
   }
 
