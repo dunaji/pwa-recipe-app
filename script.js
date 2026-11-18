@@ -52,7 +52,6 @@ class RecipeApp {
       // データベースからデータを読み込む
       await this.loadAllData();
       
-      console.log('[DEBUG] データベースの初期化が完了しました');
     } catch (error) {
 
       throw error;
@@ -208,8 +207,6 @@ class RecipeApp {
       const customItemsData = shoppingLists.find(item => item && item.type === 'customItems');
       
       // デバッグ用ログ
-      console.log('[DEBUG] Loaded shopping list data:', shoppingListData);
-      console.log('[DEBUG] Loaded custom items data:', customItemsData);
 
       // 買い物リストの初期化
       this.shoppingList = { ingredients: [], customItems: [] };
@@ -279,7 +276,6 @@ class RecipeApp {
           
           // カスタムアイテムを設定
           this.customItems = allItems;
-          console.log('[DEBUG] Loaded custom items:', this.customItems);
           
           // カスタムアイテムをレンダリング
           this.renderCustomItems();
@@ -314,49 +310,7 @@ class RecipeApp {
     }
   }
 
-  // レシピを保存
-  async saveRecipe(recipe) {
-    try {
-      if (recipe.id) {
-        // 既存のレシピを更新
-        await window.recipeDB.update('recipes', recipe);
-        const index = this.recipes.findIndex(r => r.id === recipe.id);
-        if (index !== -1) {
-          this.recipes[index] = recipe;
-        } else {
-          this.recipes.push(recipe);
-        }
-      } else {
-        // 新しいレシピを追加
-        const newId = await window.recipeDB.add('recipes', recipe);
-        recipe.id = newId;
-        this.recipes.push(recipe);
-      }
-      this.renderRecipes();
-      return recipe;
-    } catch (error) {
-      console.error('レシピの保存中にエラーが発生しました:', error);
-      throw error;
-    }
-  }
 
-  // レシピを削除（同期版）
-  deleteRecipe(id) {
-    if (confirm("このレシピを削除しますか？")) {
-      // 非同期で削除を実行
-      this._deleteRecipeAsync(id).then(() => {
-        this.recipes = this.recipes.filter((recipe) => recipe.id !== id);
-        this.selectedRecipes.delete(id);
-        this.saveRecipes();
-        this.renderRecipes();
-        this.updateShoppingButton();
-        this.showMessage("レシピを削除しました");
-      }).catch(error => {
-        console.error('レシピの削除中にエラーが発生しました:', error);
-        this.showMessage("レシピの削除中にエラーが発生しました", "error");
-      });
-    }
-  }
 
   // レシピを削除（非同期処理のみを行うプライベートメソッド）
   async _deleteRecipeAsync(recipeId) {
@@ -496,33 +450,6 @@ class RecipeApp {
     }
   }
 
-  // カスタムアイテムを保存
-  async saveCustomItems() {
-    try {
-      // 既存のカスタムアイテムを取得
-      const shoppingLists = await window.recipeDB.getAll('shoppingList');
-      const existingCustomItems = shoppingLists.find(item => item.type === 'customItems');
-      
-      // 保存するデータ
-      const itemsToSave = {
-        type: 'customItems',
-        data: this.customItems,
-        timestamp: new Date().getTime()
-      };
-
-      if (existingCustomItems) {
-        // 既存のカスタムアイテムを更新
-        itemsToSave.id = existingCustomItems.id;
-        await window.recipeDB.update('shoppingList', itemsToSave);
-      } else {
-        // 新しいカスタムアイテムを追加
-        await window.recipeDB.add('shoppingList', itemsToSave);
-      }
-    } catch (error) {
-      console.error('カスタムアイテムの保存中にエラーが発生しました:', error);
-      throw error;
-    }
-  }
 
   // ストレージ使用量を計算して表示する関数
   async updateStorageUsage() {
@@ -612,26 +539,6 @@ class RecipeApp {
 
 
 
-  // アプリの初期表示やイベント登録などをまとめて実行
-  init() {
-    this.setupEventListeners();
-    
-    // カスタムアイテムをcustomItemsに追加（初期化時のみ）
-    // 買い物リストへの追加は行わない（明示的な操作が必要）
-    this.saveCustomItems();
-    
-    this.renderRecipes();
-    this.renderShoppingList();
-    this.renderShoppingHistory();
-    this.setupCustomItems();
-    this.setupClearButton(); 
-    this.updateShoppingButton();
-    this.updateCompleteShoppingButton();
-    this.renderCustomItems();
-    
-    // 初期タブをアクティブに
-    this.switchTab('register');
-  }
 
   // 一括削除ボタンのセットアップ
   setupClearButton() {
@@ -649,54 +556,6 @@ class RecipeApp {
     }
   }
 
-  // すべてのカスタムアイテムを削除
-  async clearAllCustomItems() {
-    if (this.customItems.length === 0) {
-      this.showMessage('削除するアイテムがありません', 'info');
-      return;
-    }
-
-    if (!confirm('登録されているすべてのカスタムアイテムを削除しますか？この操作は元に戻せません。')) {
-      return;
-    }
-
-    try {
-      // IndexedDBからカスタムアイテムを削除
-      if (window.recipeDB && window.recipeDB.db) {
-        const transaction = window.recipeDB.db.transaction(['shoppingList'], 'readwrite');
-        const store = transaction.objectStore('shoppingList');
-        
-        // カスタムアイテムの削除
-        const deleteRequest = store.delete('customItems');
-        
-        await new Promise((resolve, reject) => {
-          deleteRequest.onsuccess = resolve;
-          deleteRequest.onerror = () => reject(new Error('カスタムアイテムの削除に失敗しました'));
-        });
-      }
-      
-      // メモリ上のカスタムアイテムをすべて削除
-      this.customItems = [];
-      
-      // 買い物リストからもカスタムアイテムを削除
-      if (this.shoppingList && this.shoppingList.customItems) {
-        this.shoppingList.customItems = [];
-        await this.saveShoppingList();
-      }
-      
-      // 表示を更新
-      this.renderCustomItems();
-      if (this.renderShoppingList) {
-        this.renderShoppingList();
-      }
-      
-      this.showMessage('すべてのカスタムアイテムを削除しました', 'success');
-      
-    } catch (error) {
-      console.error('カスタムアイテムの削除中にエラーが発生しました:', error);
-      this.showMessage('カスタムアイテムの削除中にエラーが発生しました', 'error');
-    }
-  }
 
   // カスタムアイテムを保存
   async saveCustomItems() {
@@ -739,31 +598,6 @@ class RecipeApp {
     }
   }
 
-  // その他をすべて削除
-  clearAllCustomItems() {
-    if (this.customItems.length === 0) {
-      this.showMessage('削除するアイテムがありません', 'info');
-      return;
-    }
-
-    if (confirm('登録されているすべてのその他を削除しますか？買い物リスト内のその他も削除されます。この操作は元に戻せません。')) {
-      // その他をすべて削除
-      this.customItems = [];
-      this.saveCustomItems();
-      
-      // 買い物リストからもその他を削除
-      if (this.shoppingList) {
-        this.shoppingList = this.shoppingList.filter(item => !item.isCustom);
-        this.saveShoppingList();
-      }
-      
-      // 表示を更新
-      this.renderCustomItems();
-      this.renderShoppingList();
-      
-      this.showMessage('すべてのその他を削除しました', 'success');
-    }
-  }
 
   // タブ切り替え処理
   switchTab(tabName) {
@@ -951,26 +785,6 @@ class RecipeApp {
     // ストレージ使用量表示のトグルはinitializeAppで設定済み
   }
 
-  // 材料と調味料の削除ボタンの表示/非表示を更新する関数
-  updateRemoveButtons() {
-    // 材料の削除ボタンを更新
-    const ingredientRows = document.querySelectorAll('#ingredients-container .ingredient-row');
-    ingredientRows.forEach((row, index) => {
-      const removeBtn = row.querySelector('.btn-remove-ingredient');
-      if (removeBtn) {
-        removeBtn.style.display = ingredientRows.length > 1 ? 'flex' : 'none';
-      }
-    });
-
-    // 調味料の削除ボタンを更新
-    const seasoningRows = document.querySelectorAll('#seasonings-container .ingredient-row');
-    seasoningRows.forEach((row, index) => {
-      const removeBtn = row.querySelector('.btn-remove-ingredient');
-      if (removeBtn) {
-        removeBtn.style.display = seasoningRows.length > 1 ? 'flex' : 'none';
-      }
-    });
-  }
 
   // 材料の入力行を新しく追加する関数
   addIngredientRow() {
@@ -2267,38 +2081,6 @@ class RecipeApp {
     }
   }
 
-  // 詳細モーダルのイベントリスナーを設定
-  setupDetailModal() {
-    const modal = document.getElementById('recipe-detail-modal');
-    if (!modal) return;
-
-    // モーダルを閉じるボタン
-    const closeBtn = modal.querySelector('.close');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
-    }
-
-    // モーダルの外側をクリックして閉じる
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-  }
-
-  // レシピを削除する処理
-  deleteRecipe(id) {
-    if (confirm("このレシピを削除しますか？")) {
-      this.recipes = this.recipes.filter((recipe) => recipe.id !== id)
-      this.selectedRecipes.delete(id)
-      this.saveRecipes()
-      this.renderRecipes()
-      this.updateShoppingButton()
-    }
-  }
-
   // 選択中のレシピの材料を買い物リストに追加する処理
   addSelectedToShopping() {
 
@@ -2730,71 +2512,8 @@ class RecipeApp {
     this.renderShoppingList();
   }
 
-  // カスタムアイテムの初期設定
-  setupCustomItems() {
-    // カスタムアイテムフォームの送信イベント
-    const form = document.getElementById('custom-item-form');
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        this.addCustomItem();
-      });
-    }
 
-    // 初期表示
-    this.renderCustomItems();
-  }
 
-  // カスタムアイテム一覧を表示
-  renderCustomItems() {
-    const container = document.getElementById('custom-items-list');
-    if (!container) return;
-    
-    if (this.customItems.length === 0) {
-      container.innerHTML = '<p class="empty-message">登録されたアイテムはありません</p>';
-      return;
-    }
-    
-    container.innerHTML = `
-      <div class="custom-items-header">
-        <h3>登録済みのカスタムアイテム</h3>
-        <button id="clear-all-custom-items" class="btn-clear-all" title="すべてのカスタムアイテムを削除">
-          <i class="fas fa-trash-alt"></i> すべて削除
-        </button>
-      </div>
-      <div class="custom-items-container">
-        ${this.customItems.map(item => `
-          <div class="custom-item" data-id="${item.id}">
-            <input type="checkbox" class="recipe-checkbox" value="${item.id}" ${item.completed ? 'checked' : ''}>
-            <div class="item-details">
-              <span class="item-name">${this.escapeHtml(item.name)}</span>
-              ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
-            </div>
-            <button class="btn-remove" onclick="app.removeCustomItem('${item.id}')">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        `).join('')}
-      </div>`;
-      
-    // 一括削除ボタンのイベントリスナーを設定
-    const clearAllButton = document.getElementById('clear-all-custom-items');
-    if (clearAllButton) {
-      clearAllButton.addEventListener('click', () => this.clearAllCustomItems());
-    }
-  }
-
-  // HTMLエスケープ用ヘルパー関数
-  escapeHtml(unsafe) {
-    if (!unsafe) return '';
-    return unsafe
-      .toString()
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
 
   // カスタムアイテムを削除
   async removeCustomItem(id) {
@@ -3104,7 +2823,6 @@ class RecipeApp {
         recipe.cookCount += 1;
         updatedRecipes.add(recipeId);
         
-        console.log(`[DEBUG] レシピID ${recipeId} (${recipe.name || '不明'}) の調理回数を更新: ${recipe.cookCount}`);
       }
       
       // 5. 履歴エントリを作成
@@ -3127,9 +2845,7 @@ class RecipeApp {
       // 6. レシピの保存（変更がある場合のみ）
       if (updatedRecipes.size > 0) {
         try {
-          console.log('[DEBUG] レシピの調理回数を保存します');
           await this.saveRecipes();
-          console.log('[DEBUG] レシピの保存が完了しました');
         } catch (error) {
           console.error('[ERROR] レシピの保存中にエラーが発生しました:', error);
           // エラーをスローせずに処理を続行
@@ -3180,200 +2896,16 @@ class RecipeApp {
       
       // 13. 完了メッセージを表示
       this.showMessage('買い物お疲れさまでした！', 'success');
-      console.log('[DEBUG] completeShopping メソッドが正常に完了しました');
     } catch (error) {
       console.error('[ERROR] 買い物完了処理中にエラーが発生しました:', error);
       this.showMessage('処理中にエラーが発生しました: ' + error.message, 'error');
     } finally {
       // 処理中フラグをリセット
       this.isCompletingShopping = false;
-      console.log('[DEBUG] 処理中フラグをリセットしました');
     }
   }
 
   
-  // 買い物リストを初期化する関数
-  clearShoppingList() {
-    if (confirm("買い物リストをクリアしますか？レシピから追加したアイテムのみ削除されます。")) {
-      // カスタムアイテムを除くアイテムのみをクリア
-      this.shoppingList.ingredients = [];
-      this.saveShoppingList();
-      this.renderShoppingList();
-      this.showMessage('買い物リストをクリアしました', 'success');
-    }
-  }
-
-  // レシピデータをIndexedDBに保存
-  saveRecipeToDB() {
-    // 実装は後で追加
-  }
-  
-  // shoppingList.customItemsからも削除
-  removeFromShoppingListCustomItems(item) {
-    if (!this.shoppingList.customItems) return;
-    const shoppingListIndex = this.shoppingList.customItems.findIndex(ci => ci.id === item.id);
-    if (shoppingListIndex !== -1) {
-      this.shoppingList.customItems.splice(shoppingListIndex, 1);
-    }
-  }
-  
-  // 買い物リストからアイテムを削除するメソッド
-  async removeFromShoppingList(item) {
-    const itemIndex = this.shoppingList.ingredients.findIndex(i => i.id === item.id);
-    if (itemIndex === -1) return;
-
-    const removedItem = this.shoppingList.ingredients[itemIndex];
-    const removedItems = [removedItem];
-    const recipeIds = new Map();
-    
-    // レシピIDを記録（あれば）
-    if (removedItem.recipeId) {
-      // 既に同じレシピIDが記録されている場合はカウントを増やす
-      const currentCount = recipeIds.get(removedItem.recipeId) || 0;
-      recipeIds.set(removedItem.recipeId, currentCount + 1);
-    }
-    
-    // 履歴用のアイテムを追加
-    const historyItems = [];
-    historyItems.push({
-      id: removedItem.id,
-      name: removedItem.name,
-      quantity: removedItem.quantity || '',
-      unit: removedItem.unit || '',
-      recipeName: removedItem.recipeName || '',
-      isCustom: false
-    });
-    
-    // アイテムを削除
-    this.shoppingList.ingredients.splice(itemIndex, 1);
-    
-    // レシピの調理回数を更新（削除されたアイテムからレシピIDを収集）
-    const updatedRecipes = new Set();
-    const recipeIdsFromItems = new Set();
-    
-    // 削除されたアイテムからレシピIDを収集
-    removedItems.forEach(item => {
-      if (item.recipeId) {
-        recipeIdsFromItems.add(item.recipeId);
-      }
-    });
-    
-    // 選択されたレシピからもレシピIDを収集
-    const recipeIdsFromSelection = new Set(
-      this.selectedRecipesInfo.map(info => info.id).filter(Boolean)
-    );
-    
-    // 両方のソースからユニークなレシピIDを取得
-    const allRecipeIds = new Set([...recipeIdsFromItems, ...recipeIdsFromSelection]);
-    
-    // ユニークなレシピIDごとに1回だけカウントを更新
-    for (const recipeId of allRecipeIds) {
-      if (updatedRecipes.has(recipeId)) continue; // 既に更新済みの場合はスキップ
-      
-      const recipe = this.recipes.find(r => r.id === recipeId);
-      if (!recipe) {
-        console.warn(`[WARNING] レシピID ${recipeId} が見つかりませんでした`);
-        continue;
-      }
-  
-  // レシピのcookCountが未定義の場合は0で初期化
-  if (typeof recipe.cookCount !== 'number') {
-    recipe.cookCount = 0;
-  }
-  
-  // 調理回数を1増やす（1回の買い物で1回とカウント）
-  recipe.cookCount += 1;
-  updatedRecipes.add(recipeId);
-  
-  console.log(`[DEBUG] レシピID ${recipeId} (${recipe.name || '不明'}) の調理回数を更新: ${recipe.cookCount}`);
-}
-
-// 5. 履歴エントリを作成
-const historyEntry = {
-  id: Date.now().toString(),
-  date: new Date().toISOString(),
-  items: historyItems,
-  totalItems: historyItems.length,
-  // 選択されたレシピの情報を追加（重複を除く）
-  selectedRecipes: Array.from(updatedRecipes).map(recipeId => {
-    const recipe = this.recipes.find(r => r.id === recipeId) || 
-                  this.selectedRecipesInfo.find(r => r.id === recipeId);
-    return {
-      id: recipeId,
-      name: recipe ? recipe.name : '不明なレシピ'
-    };
-  })
-};
-
-// 6. レシピの保存（変更がある場合のみ）
-if (updatedRecipes.size > 0) {
-  try {
-    console.log('[DEBUG] レシピの調理回数を保存します');
-    await this.saveRecipes();
-    console.log('[DEBUG] レシピの保存が完了しました');
-  } catch (error) {
-    console.error('[ERROR] レシピの保存中にエラーが発生しました:', error);
-    // エラーをスローせずに処理を続行
-  }
-}
-
-// 7. カスタムアイテムを保存（変更がある場合のみ）
-if (removedCustomItems.length > 0) {
-  await this.saveCustomItems();
-}
-
-// 8. 買い物リストを保存
-await this.saveShoppingList();
-
-// 9. 履歴に追加（アイテムがある場合のみ）
-if (historyItems.length > 0) {
-  try {
-    this.shoppingHistory.unshift(historyEntry);
-    
-    // 履歴を保存（最大100件まで保持）
-    if (this.shoppingHistory.length > 100) {
-      this.shoppingHistory = this.shoppingHistory.slice(0, 100);
-    }
-    
-    await this.saveShoppingHistory();
-    console.log('[DEBUG] 買い物履歴を保存しました:', historyEntry);
-  } catch (error) {
-    console.error('[ERROR] 買い物履歴の保存に失敗しました:', error);
-    // エラーが発生したら履歴から削除
-    this.shoppingHistory = this.shoppingHistory.filter(h => h.id !== historyEntry.id);
-    // エラーをスローせずに処理を続行
-  }
-  
-  // 10. チェックボックスのチェックをクリア
-  const checkboxes = document.querySelectorAll('.shopping-item-checkbox');
-  checkboxes.forEach((checkbox) => {
-    checkbox.checked = false;
-  });
-
-  // 11. 選択レシピ情報をクリア
-  this.selectedRecipesInfo = [];
-  this.selectedRecipes.clear();
-    
-  // 12. UIを一度だけ更新
-  this.renderRecipes();
-  this.renderShoppingList();
-  this.renderCustomItems();
-  }
-}
-
-  updateCompleteShoppingButton() {
-    // ボタンの状態を更新する処理を実装
-  }
-
-  // 完了メッセージを表示
-  showCompleteMessage() {
-    this.showMessage('買い物お疲れさまでした！', 'success');
-  }
-
-  // エラーメッセージを表示
-  showErrorMessage(error) {
-    this.showMessage('処理中にエラーが発生しました: ' + error.message, 'error');
-  }
 
   // 買い物リストを初期化する関数
   clearShoppingList() {
@@ -3448,7 +2980,6 @@ if (historyItems.length > 0) {
         };
       });
       
-      console.log('[DEBUG] レシピの保存が完了しました');
       return true;
     } catch (error) {
       console.error('[ERROR] レシピの保存中にエラーが発生しました:', error);
@@ -3463,17 +2994,6 @@ if (historyItems.length > 0) {
 
 
 
-  // 数量を合算する関数
-  sumQuantities(quantity1, quantity2) {
-    // 両方空の場合は空文字を返す
-    if (!quantity1 && !quantity2) return '';
-    // 片方だけ値がある場合はその値を返す
-    if (!quantity1) return quantity2;
-    if (!quantity2) return quantity1;
-    
-    // 両方の数量を文字列に変換して「+」でつなぐ
-    return `${quantity1}+${quantity2}`;
-  }
 
 // 買い物を追加する関数（非同期化）
   async addToShoppingList(ingredients, recipeName = null, recipeId = null, isSeasoning = false) {
@@ -3637,7 +3157,6 @@ if (historyItems.length > 0) {
 
   // 履歴を表示
   renderShoppingHistory() {
-    console.log('[DEBUG] Rendering shopping history. Current history:', this.shoppingHistory);
     
     const historyList = document.getElementById('history-modal-list');
     if (!historyList) {
@@ -3646,7 +3165,6 @@ if (historyItems.length > 0) {
     }
 
     if (!Array.isArray(this.shoppingHistory) || this.shoppingHistory.length === 0) {
-      console.log('[DEBUG] No history to display');
       historyList.innerHTML = '<p class="empty-message">履歴がありません</p>';
       return;
     }
@@ -3654,7 +3172,6 @@ if (historyItems.length > 0) {
     try {
       historyList.innerHTML = this.shoppingHistory.map(history => {
         try {
-          console.log('[DEBUG] Processing history entry:', history);
           
           // 日付の処理
           const date = history.date ? new Date(history.date) : new Date();
@@ -3664,7 +3181,6 @@ if (historyItems.length > 0) {
           
           // アイテムの処理
           const items = Array.isArray(history.items) ? history.items : [];
-          console.log('[DEBUG] History items:', items);
           
           // 選択されたレシピを表示するセクション
           let recipeNamesHTML = '';
@@ -3907,7 +3423,6 @@ if (historyItems.length > 0) {
     
     // デバッグ用ログ
     if (isSeasoning) {
-      console.log(`[DEBUG] 調味料と判定: ${name} (${item.name})`);
     }
     
     return isSeasoning;
@@ -3917,15 +3432,12 @@ if (historyItems.length > 0) {
   removeHistoryEntry(historyId) {
     // 型を統一して比較（数値と文字列の両方に対応）
     const idToRemove = typeof historyId === 'string' ? parseInt(historyId, 10) : historyId;
-    console.log('[DEBUG] Removing history entry. ID:', idToRemove, 'Type:', typeof idToRemove);
-    console.log('[DEBUG] Current history before removal:', this.shoppingHistory);
     
     this.shoppingHistory = this.shoppingHistory.filter(entry => {
       const entryId = typeof entry.id === 'string' ? parseInt(entry.id, 10) : entry.id;
       return entryId !== idToRemove;
     });
     
-    console.log('[DEBUG] History after removal:', this.shoppingHistory);
     this.saveShoppingHistory();
     this.renderShoppingHistory();
     this.showMessage('履歴を削除しました', 'success');
@@ -3956,7 +3468,6 @@ if (historyItems.length > 0) {
     if (!container) return;
     
     // デバッグ用ログ
-    console.log('[DEBUG] Rendering custom items:', this.customItems);
     
     if (this.customItems.length === 0) {
       container.innerHTML = '<p class="empty-message">登録されたアイテムがありません</p>';
@@ -4002,7 +3513,6 @@ if (historyItems.length > 0) {
 
   // 数量を合計するメソッド
   sumQuantities(qty1, qty2) {
-    console.log('[DEBUG] sumQuantities called with:', { qty1, qty2 });
     
     // どちらかが空の場合は、空でない方の数量を返す
     if (!qty1 || qty1.trim() === '') return qty2;
@@ -4016,7 +3526,6 @@ if (historyItems.length > 0) {
       // 元の文字列が数値として完全に一致する場合のみ数値として処理
       if (num1.toString() === qty1.trim() && num2.toString() === qty2.trim()) {
         const result = (num1 + num2).toString();
-        console.log('[DEBUG] 数値として加算:', { qty1, qty2, result });
         return result;
       }
     }
@@ -4026,18 +3535,15 @@ if (historyItems.length > 0) {
       // 既に「+」が含まれている場合は、そのまま連結
       if (qty1.includes('+')) {
         const result = `${qty1}+${qty2}`;
-        console.log('[DEBUG] 同じ文字列（+付き）を連結:', { qty1, qty2, result });
         return result;
       }
       // 同じ文字列の場合は「+」で連結
       const result = `${qty1}+${qty2}`;
-      console.log('[DEBUG] 同じ文字列を「+」で連結:', { qty1, qty2, result });
       return result;
     }
     
     // 異なる文字列の場合は「+」で連結
     const result = `${qty1}+${qty2}`;
-    console.log('[DEBUG] 文字列として連結:', { qty1, qty2, result });
     return result;
   }
 
@@ -4102,46 +3608,35 @@ if (historyItems.length > 0) {
 
   // アプリケーションの初期化
   async init() {
-    console.log('[DEBUG] init() 開始');
     try {
       // データベースの初期化が完了するまで待機
       while (!this.isInitialized) {
-        console.log('[DEBUG] データベースの初期化を待機中...');
         await new Promise(resolve => setTimeout(resolve, 100));
       }
       
-      console.log('[DEBUG] データベースの初期化が完了しました');
       
       // ストレージ使用量の表示を初期化
-      console.log('[DEBUG] ストレージ使用量の初期化を開始');
       await this.updateStorageUsage();
       
       // ストレージが変更されたときに使用量を更新
       window.addEventListener('storage', () => {
-        console.log('[DEBUG] ストレージ変更を検知、使用量を更新します');
         this.updateStorageUsage();
       });
       
       // ストレージ使用量を定期的に更新（5分ごと）
       setInterval(() => {
-        console.log('[DEBUG] 定期ストレージ使用量更新を実行');
         this.updateStorageUsage();
       }, 5 * 60 * 1000);
       
       // その他の初期化処理
-      console.log('[DEBUG] イベントリスナーを設定します');
       this.setupEventListeners();
       
-      console.log('[DEBUG] レシピ一覧をレンダリングします');
       this.renderRecipes();
       
-      console.log('[DEBUG] 買い物リストをレンダリングします');
       this.renderShoppingList();
       
-      console.log('[DEBUG] カスタムアイテムをレンダリングします');
       this.renderCustomItems();
       
-      console.log('[DEBUG] 初期化処理が完了しました');
     } catch (error) {
       console.error('[ERROR] 初期化中にエラーが発生しました:', error);
       throw error;
@@ -4166,20 +3661,17 @@ function toggleStorageUsage() {
 // アプリケーションの初期化後にイベントリスナーを設定
 async function initializeApp() {
   try {
-    console.log('[DEBUG] アプリケーションの初期化を開始します');
     
     // アプリケーションのインスタンスを作成
     const app = new RecipeApp();
     window.app = app;
     
     // データベースの初期化が完了するまで待機
-    console.log('[DEBUG] データベースの初期化を待機中...');
     
     // データベースの初期化が完了するのを待つ
     await new Promise((resolve, reject) => {
       const checkInitialization = () => {
         if (app.isInitialized) {
-          console.log('[DEBUG] データベースの初期化が完了しました');
           resolve();
         } else {
           // 初期化が完了していない場合は少し待って再試行
@@ -4196,7 +3688,6 @@ async function initializeApp() {
     });
     
     // アプリケーションの初期化を実行
-    console.log('[DEBUG] アプリケーションの初期化を開始します');
     await app.init();
     
     // 買い物リストを表示
@@ -4274,7 +3765,6 @@ async function initializeApp() {
       localStorage.removeItem('activeTab');
     }
     
-    console.log('[DEBUG] アプリケーションの初期化が完了しました');
   } catch (error) {
     console.error('[ERROR] アプリケーションの初期化に失敗しました:', error);
     
