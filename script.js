@@ -878,3 +878,13 @@ async function initializeApp() {
 window.addEventListener('DOMContentLoaded', () => {
   initializeApp();
 });
+
+// Service Workerの登録（PWA/オフライン対応）
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .catch((error) => {
+        console.warn('[WARN] Service Workerの登録に失敗しました:', error);
+      });
+  });
+}
