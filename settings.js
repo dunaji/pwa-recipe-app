@@ -81,7 +81,7 @@ export const settingsMethods = {
       `買い物リスト: ${ingredients.length + slCustom.length}件`,
       `買い物履歴: ${data.shoppingHistory.length}件`,
       `その他: ${data.customItems.length}件`,
-      `献立: ${Array.isArray(data.mealPlan) ? data.mealPlan.filter(id => id != null).length : 0}品`
+      `献立: ${Array.isArray(data.mealPlan) ? data.mealPlan.filter(e => (e && typeof e === 'object' ? e.recipeId : e) != null).length : 0}品`
     ].join('\n');
 
     if (!confirm(`現在のデータをすべて削除して、以下の内容に置き換えます。よろしいですか？\n\n${counts}`)) {

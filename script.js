@@ -299,7 +299,9 @@ class RecipeApp {
 
       // 献立データの読み込み（type='mealPlan' のレコード）
       this.mealPlan = this.normalizeMealPlan(
-        mealPlanData && mealPlanData.data ? mealPlanData.data.recipes : null
+        mealPlanData && mealPlanData.data
+          ? (mealPlanData.data.entries || mealPlanData.data.recipes || null)
+          : null
       );
 
 
