@@ -3649,8 +3649,8 @@ input[type="text"]:focus {
 /* タイル表示 */
 .recipes-container.view-tile {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
 }
 .recipe-tile {
   flex-direction: column;
@@ -3699,7 +3699,7 @@ input[type="text"]:focus {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 .recipe-tile-name {
-  font-size: 0.88em;
+  font-size: 0.72em;
   font-weight: 600;
   color: #4e342e;
   line-height: 1.3;
@@ -3717,7 +3717,7 @@ input[type="text"]:focus {
   gap: 4px;
 }
 .recipe-tile-count {
-  font-size: 0.72em;
+  font-size: 0.62em;
   color: #a1887f;
 }
 
