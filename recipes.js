@@ -1051,19 +1051,12 @@ export const recipesMethods = {
   },
 
   // 「作った！」記録: 調理回数と最終調理日を更新して保存
-  // 同日に既に記録済み（買い物完了等）の場合は回数を増やさず日時のみ更新
   async markRecipeCooked(recipeId) {
     const recipe = this.recipes.find(r => String(r.id) === String(recipeId));
     if (!recipe) return;
 
-    const now = new Date();
-    const last = recipe.lastCookedAt ? new Date(recipe.lastCookedAt) : null;
-    const sameDay = last && last.toDateString() === now.toDateString();
-
-    recipe.lastCookedAt = now.toISOString();
-    if (!sameDay) {
-      recipe.cookCount = (typeof recipe.cookCount === 'number' ? recipe.cookCount : 0) + 1;
-    }
+    recipe.lastCookedAt = new Date().toISOString();
+    recipe.cookCount = (typeof recipe.cookCount === 'number' ? recipe.cookCount : 0) + 1;
 
     try {
       await this.saveRecipes();
