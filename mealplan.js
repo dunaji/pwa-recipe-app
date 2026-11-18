@@ -212,6 +212,11 @@ export const mealPlanMethods = {
       return;
     }
 
+    // 既存の材料リストを献立の内容で置き換える（その他・カスタム項目は保持）
+    // ※「追加」方式だと同じ献立で再実行した際に数量が二重加算されるため
+    const customItems = [...(this.shoppingList.customItems || [])];
+    this.shoppingList = { ingredients: [], customItems };
+
     // 数量倍率セレクトを一時的に×1にして追加（献立はまとめ買い前提のため）
     const multSelect = document.getElementById('shopping-multiplier');
     const prevValue = multSelect ? multSelect.value : null;
@@ -250,7 +255,7 @@ export const mealPlanMethods = {
       if (multSelect && prevValue !== null) multSelect.value = prevValue;
     }
 
-    this.showMessage(`${plannedRecipes.length}品の材料を買い物リストに追加しました`);
+    this.showMessage(`${plannedRecipes.length}品の材料で買い物リストを更新しました`);
     this.switchTab('shopping');
   }
 
