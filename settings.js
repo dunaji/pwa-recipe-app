@@ -14,6 +14,38 @@ export const settingsMethods = {
     });
     this.addEventIfExists('import-data-file', 'change', (e) => this.importData(e));
     this.addEventIfExists('donation-link', 'click', () => this.openDonationPage());
+    this.setupThemeSettings();
+  },
+
+  // ===== テーマ切替 =====
+  THEMES: ['light', 'blue', 'dark'],
+  THEME_META_COLORS: { light: '#ff9800', blue: '#1976d2', dark: '#221c18' },
+
+  getCurrentTheme() {
+    return localStorage.getItem('appTheme') || 'light';
+  },
+
+  applyTheme(theme) {
+    if (!this.THEMES.includes(theme)) theme = 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('appTheme', theme);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', this.THEME_META_COLORS[theme]);
+    this.updateThemeButtons();
+  },
+
+  updateThemeButtons() {
+    const current = this.getCurrentTheme();
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.theme === current);
+    });
+  },
+
+  setupThemeSettings() {
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.addEventListener('click', () => this.applyTheme(btn.dataset.theme));
+    });
+    this.updateThemeButtons();
   },
 
   // 投げ銭ページを開く（URL未設定の場合は案内のみ）

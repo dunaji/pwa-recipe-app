@@ -16,6 +16,80 @@
   --shadow-card: 0 2px 10px rgba(255, 152, 0, 0.10), 0 1px 4px rgba(0, 0, 0, 0.06);
   --shadow-card-hover: 0 8px 24px rgba(255, 152, 0, 0.18), 0 2px 10px rgba(0, 0, 0, 0.10);
   --font-main: 'Kiwi Maru', 'Hiragino Maru Gothic ProN', 'Yuji Mai', 'Yuji Syuku', 'Meiryo', cursive, sans-serif;
+
+  /* ===== テーマ用セマンティックトークン ===== */
+  --app-bg: #fff8e1;
+  --app-bg-overlay: rgba(255, 248, 225, 0.82);
+  --surface: #ffffff;
+  --surface-warm: #fffdf8;
+  --surface-2: #f5f5f5;
+  --color-text-muted: #999;
+  --ui-border: #e0e0e0;
+  --tint-warm: #fff3e0;
+  --tint-green: #e8f5e9;
+  --tint-red: #ffebee;
+  --tint-blue: #f0f7ff;
+  --tint-pink: #fce4ec;
+  --color-primary-amber: #ffb300;
+  --color-primary-deep: #f57c00;
+  --color-highlight: #ffd54f;
+  --header-gradient: linear-gradient(135deg, #ffb300 0%, #ff9800 55%, #f57c00 100%);
+}
+
+/* ===== 水色テーマ ===== */
+[data-theme="blue"] {
+  --app-bg: #e3f2fd;
+  --app-bg-overlay: rgba(227, 242, 253, 0.82);
+  --surface: #ffffff;
+  --surface-warm: #f4f9ff;
+  --surface-2: #eef5fc;
+  --color-text: #1a2b3c;
+  --color-text-sub: #4a6577;
+  --color-text-muted: #8aa0b0;
+  --color-border: #bbdefb;
+  --ui-border: #c5ddf2;
+  --tint-warm: #e3f2fd;
+  --tint-green: #e8f5e9;
+  --tint-red: #ffebee;
+  --tint-blue: #e1f5fe;
+  --tint-pink: #fce4ec;
+  --color-primary: #1976d2;
+  --color-primary-dark: #0d47a1;
+  --color-primary-light: #e3f2fd;
+  --color-primary-pale: #bbdefb;
+  --color-primary-amber: #64b5f6;
+  --color-primary-deep: #1565c0;
+  --color-highlight: #90caf9;
+  --color-card-bg: linear-gradient(135deg, rgba(255,255,255,0.95) 80%, rgba(227,242,253,0.95) 100%);
+  --header-gradient: linear-gradient(135deg, #64b5f6 0%, #1976d2 55%, #0d47a1 100%);
+  --shadow-card: 0 2px 10px rgba(25, 118, 210, 0.10), 0 1px 4px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 8px 24px rgba(25, 118, 210, 0.18), 0 2px 10px rgba(0, 0, 0, 0.10);
+  color-scheme: light;
+}
+
+/* ===== ダークテーマ ===== */
+[data-theme="dark"] {
+  --app-bg: #221c18;
+  --app-bg-overlay: rgba(34, 28, 24, 0.88);
+  --surface: #2e2823;
+  --surface-warm: #332c26;
+  --surface-2: #3a332c;
+  --color-text: #f0e8e0;
+  --color-text-sub: #c4b6a8;
+  --color-text-muted: #8f8172;
+  --color-border: #5d4a35;
+  --ui-border: #4d443b;
+  --tint-warm: #3d342a;
+  --tint-green: #2e3b2c;
+  --tint-red: #3d2b2b;
+  --tint-blue: #2b3a45;
+  --tint-pink: #3d2f38;
+  --color-primary-light: #3a2f22;
+  --color-primary-pale: #4d3f2c;
+  --color-card-bg: linear-gradient(135deg, rgba(46,40,35,0.95) 80%, rgba(58,51,44,0.95) 100%);
+  --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.35), 0 1px 4px rgba(0, 0, 0, 0.30);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 10px rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
 }
 
 /* すべての要素の余白・パディングをリセットし、ボックスサイズをborder-boxに統一 */
@@ -40,14 +114,14 @@
   gap: 6px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  color: #555;
-  border: 1px solid #e0e0e0;
+  color: var(--color-text-sub);
+  border: 1px solid var(--ui-border);
   transition: all 0.2s ease;
   user-select: none;
 }
 
 .storage-status:hover {
-  background: #f5f5f5;
+  background: var(--surface-2);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
@@ -85,7 +159,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #555;
+  color: var(--color-text-sub);
   font-size: 0.95em;
 }
 
@@ -95,8 +169,8 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: #f5f5f5;
-  border: 2px dashed #ccc;
+  background: var(--surface-2);
+  border: 2px dashed var(--ui-border);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -104,13 +178,13 @@
 }
 
 .photo-upload-inner:hover {
-  background: #e8f5e9;
+  background: var(--tint-green);
   border-color: #81c784;
 }
 
 .photo-upload-inner i {
   font-size: 1.2em;
-  color: #666;
+  color: var(--color-text-sub);
 }
 
 .photo-upload {
@@ -118,13 +192,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #f9f9f9;
+  background: var(--surface-2);
   min-height: 120px;
   color: transparent; /* テキストを非表示に */
 }
 
 .photo-upload:hover {
-  background: #f0f7ff;
+  background: var(--tint-blue);
 }
 
 .photo-preview img {
@@ -175,7 +249,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #555;
+  color: var(--color-text-sub);
 }
 
 /* サブボタン・小ボタン等 */
@@ -187,23 +261,23 @@
   height: 2em;
   line-height: 1.3;
   margin: 0;
-  background: #f7f7fa;
-  color: #666;
-  border: 1px solid #ddd;
+  background: var(--surface-2);
+  color: var(--color-text-sub);
+  border: 1px solid var(--ui-border);
   box-shadow: none;
 }
 .btn-small:hover {
-  background: #ececf3;
-  color: #333;
-  border-color: #bbb;
+  background: var(--surface-2);
+  color: var(--color-text);
+  border-color: var(--ui-border);
 }
 
 /* 画面全体の基本スタイル */
 body {
   font-family: var(--font-main);
-  background-color: #fff8e1;
+  background-color: var(--app-bg);
   background-image:
-    linear-gradient(rgba(255, 248, 225, 0.82), rgba(255, 248, 225, 0.82)),
+    linear-gradient(var(--app-bg-overlay), var(--app-bg-overlay)),
     url("cafe_drink.png");
   background-repeat: repeat;
   background-position: center center;
@@ -220,7 +294,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 1.1rem 1rem 1rem;
-  background: linear-gradient(135deg, #ffb300 0%, #ff9800 55%, #f57c00 100%);
+  background: var(--header-gradient);
   color: white;
   box-shadow: 0 3px 14px rgba(245, 124, 0, 0.28);
   position: relative;
@@ -279,7 +353,7 @@ body {
 .tab-header h2 {
   margin: 0;
   font-size: 1.3em;
-  color: #333;
+  color: var(--color-text);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -322,7 +396,7 @@ body {
 .card-header h2 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
   font-family: 'Kiwi Maru', 'Hiragino Maru Gothic ProN', 'Yuji Mai', 'Yuji Syuku', 'Meiryo', cursive, sans-serif;
 }
 
@@ -339,13 +413,13 @@ body {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #555;
+  color: var(--color-text-sub);
 }
 
 input[type="text"] {
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--ui-border);
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.2s ease;
@@ -353,7 +427,7 @@ input[type="text"] {
 
 input[type="text"]:focus {
   outline: none;
-  border-color: #ff9800;
+  border-color: var(--color-primary);
 }
 
 /* 材料入力欄・追加削除ボタンのスタイル */
@@ -375,7 +449,7 @@ input[type="text"]:focus {
 }
 
 .btn-icon:hover {
-  background: #ff9800;
+  background: var(--color-primary);
   color: white;
 }
 
@@ -400,31 +474,31 @@ input[type="text"]:focus {
 
 /* 写真アップロード・プレビュー表示のスタイル */
 .photo-upload {
-  border: 2px dashed #ddd;
+  border: 2px dashed var(--ui-border);
   border-radius: 8px;
   padding: 1.5rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  background-color: #f9f9f9;
+  background-color: var(--surface-2);
   margin-bottom: 1rem;
 }
 
 .photo-upload:hover {
-  border-color: #ff9800;
-  background-color: #fff8e1;
+  border-color: var(--color-primary);
+  background-color: var(--app-bg);
 }
 
 .photo-upload i {
   font-size: 2rem;
-  color: #ff9800;
+  color: var(--color-primary);
   margin-bottom: 0.5rem;
   display: block;
 }
 
 .photo-upload p {
   margin: 0;
-  color: #666;
+  color: var(--color-text-sub);
   font-size: 0.9rem;
 }
 
@@ -472,7 +546,7 @@ input[type="text"]:focus {
   gap: 1rem;
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--ui-border);
 }
 
 .btn-secondary {
@@ -486,23 +560,23 @@ input[type="text"]:focus {
 }
 
 .btn-secondary:hover {
-  border-color: #bbb;
+  border-color: var(--ui-border);
 }
 
 /* メモ用写真セクション */
 #note-photo-upload {
   margin-top: 1.5rem;
-  background-color: #f0f7ff;
-  border-color: #bbdefb;
+  background-color: var(--tint-blue);
+  border-color: var(--tint-blue);
 }
 
 #note-photo-upload:hover {
-  background-color: #e3f2fd;
-  border-color: #90caf9;
+  background-color: var(--tint-blue);
+  border-color: var(--color-accent-blue);
 }
 
 #note-photo-upload i {
-  color: #2196f3;
+  color: var(--color-accent-blue);
 }
 
 /* レスポンシブ対応 */
@@ -550,7 +624,7 @@ input[type="text"]:focus {
 .btn-primary {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #ffb300 0%, #ff9800 60%, #f57c00 100%);
+  background: var(--header-gradient);
   color: white;
   border: none;
   border-radius: var(--radius-btn);
@@ -574,8 +648,8 @@ input[type="text"]:focus {
 }
 
 .btn-secondary {
-  background: #f0f0f0;
-  color: #4B4B4B;
+  background: var(--surface-2);
+  color: var(--color-text);
   border: none;
   border-radius: 8px;
   font-size: 1em;
@@ -586,8 +660,8 @@ input[type="text"]:focus {
 }
 
 .btn-secondary:hover {
-  background: #e5e5e5;
-  color: #ff9800;
+  background: var(--surface-2);
+  color: var(--color-primary);
 }
 
 #add-to-shopping {
@@ -677,37 +751,37 @@ input[type="text"]:focus {
 .section-title i {
   font-size: 1.22em;
   margin-right: 0.28em;
-  color: #ff9800;
+  color: var(--color-primary);
   vertical-align: middle;
   transition: color 0.18s, transform 0.18s;
 }
 .section-title:hover,
 .section-title:focus {
-  color: #111;
+  color: var(--color-text);
   text-shadow: 0 2px 8px #ffd54f33;
 }
 .section-title:hover i,
 .section-title:focus i {
-  color: #e65100;
+  color: var(--color-primary-dark);
   transform: scale(1.13);
 }
 /* セクションごとに色を変えたい場合は下記を追加 */
-#register-title i { color: #1976d2; }
-#register-title:hover i { color: #004ba0; }
+#register-title i { color: var(--color-accent-blue); }
+#register-title:hover i { color: var(--color-accent-blue); }
 
-/* .recipes-header .section-title { color: #ff9800; } 削除で黒指定が効く */
+/* .recipes-header .section-title { color: var(--color-primary); } 削除で黒指定が効く */
 /* .recipes-header .section-title:hover,
 .recipes-header .section-title:focus {
-  color: #e65100;
+  color: var(--color-primary-dark);
 } 削除で黒指定が効く */
-.recipes-header .section-title i { color: #ff9800; }
-.recipes-header .section-title:hover i { color: #e65100; }
+.recipes-header .section-title i { color: var(--color-primary); }
+.recipes-header .section-title:hover i { color: var(--color-primary-dark); }
 
 .shopping-header .section-title i { color: #43a047; }
 .shopping-header .section-title:hover i { color: #1b5e20; }
 
-.tab-header .section-title i { color: #6d4c41; }
-.tab-header .section-title:hover i { color: #3e2723; }
+.tab-header .section-title i { color: var(--color-text-sub); }
+.tab-header .section-title:hover i { color: var(--color-text); }
 
 /* タブボタンのアイコン・テキスト中央揃え */
 .tab-btn {
@@ -719,7 +793,7 @@ input[type="text"]:focus {
   font-family: inherit;
   background: transparent;
   border: none;
-  color: #666;
+  color: var(--color-text-sub);
   cursor: pointer;
   border-radius: 8px;
   transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.18s;
@@ -732,19 +806,19 @@ input[type="text"]:focus {
   transition: color 0.18s, transform 0.18s;
 }
 .tab-btn.active {
-  color: #e65100;
-  background: linear-gradient(135deg, #fff8e1 0%, #ffe0b2 100%);
+  color: var(--color-primary-dark);
+  background: linear-gradient(135deg, var(--app-bg) 0%, var(--tint-warm) 100%);
   box-shadow: 0 2px 8px rgba(255, 152, 0, 0.22);
 }
 .tab-btn:hover,
 .tab-btn:focus {
-  color: #e65100;
-  background: #fffde7;
+  color: var(--color-primary-dark);
+  background: var(--surface);
   box-shadow: 0 4px 14px rgba(255, 213, 79, 0.35);
 }
 .tab-btn:hover i,
 .tab-btn:focus i {
-  color: #e65100;
+  color: var(--color-primary-dark);
   transform: scale(1.13);
 }
 
@@ -758,8 +832,8 @@ input[type="text"]:focus {
   font-size: 1.22em;
   border-radius: 50%;
   border: none;
-  background: #fffde7;
-  color: #ff9800;
+  background: var(--surface);
+  color: var(--color-primary);
   box-shadow: 0 1px 3px #ffd54f22;
   margin: 0 2px;
   padding: 0;
@@ -767,8 +841,8 @@ input[type="text"]:focus {
   cursor: pointer;
 }
 .btn-delete:hover, .btn-remove:hover, .icon-trash:hover, .btn-secondary:hover {
-  background: #ffe0b2;
-  color: #e65100;
+  background: var(--tint-warm);
+  color: var(--color-primary-dark);
   transform: scale(1.11);
 }
 .btn-delete i, .btn-remove i, .icon-trash i, .btn-secondary i {
@@ -801,9 +875,9 @@ input[type="text"]:focus {
 .btn-edit {
   width: 36px;
   height: 36px;
-  background: #e3f2fd;
-  border: 1.5px solid #90caf9;
-  color: #1976d2;
+  background: var(--tint-blue);
+  border: 1.5px solid var(--color-accent-blue);
+  color: var(--color-accent-blue);
   border-radius: 8px;
   cursor: pointer;
   font-size: 1.2rem;
@@ -815,21 +889,21 @@ input[type="text"]:focus {
 }
 
 .btn-edit:hover {
-  background: #bbdefb;
-  color: #0d47a1;
-  border-color: #64b5f6;
+  background: var(--tint-blue);
+  color: var(--color-accent-blue);
+  border-color: var(--color-accent-blue);
   transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(25, 118, 210, 0.25);
 }
 .btn-edit i {
-  color: #1976d2;
+  color: var(--color-accent-blue);
 }
 .btn-edit i, .btn-delete i {
   font-size: 1.4rem;
 }
 
 .recipe-item.selected {
-  border: 2px solid #ff9800;
+  border: 2px solid var(--color-primary);
   box-shadow: 0 4px 20px rgba(255, 152, 0, 0.2);
 }
 
@@ -871,8 +945,8 @@ input[type="text"]:focus {
 }
 
 .ingredient-badge {
-  background: #f5f5f5;
-  color: #666;
+  background: var(--surface-2);
+  color: var(--color-text-sub);
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 0.75rem;
@@ -893,14 +967,14 @@ input[type="text"]:focus {
 }
 
 .btn-delete:hover {
-  background: #ffebee;
+  background: var(--tint-red);
 }
 
 .btn-favorite {
   width: 36px;
   height: 36px;
-  background: #fff8e1;
-  border: 1.5px solid #ffd54f;
+  background: var(--app-bg);
+  border: 1.5px solid var(--color-highlight);
   border-radius: 8px;
   cursor: pointer;
   font-size: 1.2rem;
@@ -916,12 +990,12 @@ input[type="text"]:focus {
 }
 
 .btn-favorite:hover {
-  background: #fff3e0;
-  border-color: #ffb300;
+  background: var(--tint-warm);
+  border-color: var(--color-primary-amber);
 }
 
 .btn-favorite:hover .fa-star {
-  color: #ffa000;
+  color: var(--color-primary-amber);
 }
 
 /* 買い物リスト表示・履歴・完了ボタンのスタイル */
@@ -956,7 +1030,7 @@ input[type="text"]:focus {
   min-width: 90px;
   text-align: right;
   font-size: 0.95rem;
-  color: #666;
+  color: var(--color-text-sub);
 }
 
 .shopping-complete-row {
@@ -966,7 +1040,7 @@ input[type="text"]:focus {
 }
 
 #complete-shopping {
-  background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-amber) 100%);
   color: #fff;
   font-size: 1.1rem;
   font-weight: bold;
@@ -977,8 +1051,8 @@ input[type="text"]:focus {
 #complete-shopping:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #f0f0f0;
-  color: #bbb;
+  background: var(--surface-2);
+  color: var(--color-text-muted);
 }
 
 .shopping-container h2 {
@@ -998,14 +1072,14 @@ input[type="text"]:focus {
   transition: all 0.2s ease;
   position: relative;
   border-left: 4px solid #ff4081; /* ピンク（材料用） */
-  background-color: #fff5f7; /* 薄いピンクの背景 */
+  background-color: var(--surface); /* 薄いピンクの背景 */
 }
 
 /* カスタムアイテム用のスタイル - より詳細なセレクタで上書き */
 #shopping-container .shopping-section.custom-items .shopping-item,
 #shopping-container .shopping-item[data-custom="true"] {
-  border-left-color: #2196f3 !important; /* 青（カスタムアイテム用） */
-  background-color: #f0f7ff !important; /* 薄い青の背景 */
+  border-left-color: var(--color-accent-blue) !important; /* 青（カスタムアイテム用） */
+  background-color: var(--tint-blue) !important; /* 薄い青の背景 */
 }
 
 /* チェックボックス関連 */
@@ -1016,7 +1090,7 @@ input[type="text"]:focus {
 
 #shopping-container .shopping-section.custom-items .checkmark,
 #shopping-container .shopping-item[data-custom="true"] .checkmark {
-  background-color: #e1f5fe !important;
+  background-color: var(--tint-blue) !important;
 }
 
 /* カスタムアイテム用チェックボックス */
@@ -1044,15 +1118,15 @@ input[type="text"]:focus {
   left: 0;
   height: 20px;
   width: 20px;
-  background-color: #f0f0f0;
-  border: 2px solid #ccc;
+  background-color: var(--surface-2);
+  border: 2px solid var(--ui-border);
   border-radius: 4px;
   transition: all 0.2s ease;
 }
 
 .custom-item .checkbox-container:hover input ~ .checkmark {
   background-color: #e0e0e0;
-  border-color: #999;
+  border-color: var(--ui-border);
 }
 
 .custom-item .checkbox-container input:checked ~ .checkmark {
@@ -1103,7 +1177,7 @@ input[type="text"]:focus {
 .custom-item .btn-remove {
   background: none;
   border: none;
-  color: #999;
+  color: var(--color-text-muted);
   width: 24px;
   height: 24px;
   display: flex;
@@ -1118,7 +1192,7 @@ input[type="text"]:focus {
 
 .custom-item .btn-remove:hover {
   color: #f44336;
-  background: #ffebee;
+  background: var(--tint-red);
 }
 
 .custom-items-actions {
@@ -1128,7 +1202,7 @@ input[type="text"]:focus {
 /* ホバー時のスタイル */
 #shopping-container .shopping-section.custom-items .shopping-item:hover,
 #shopping-container .shopping-item[data-custom="true"]:hover {
-  background-color: #e1f5fe !important;
+  background-color: var(--tint-blue) !important;
   border-left-color: #1e88e5 !important;
 }
 
@@ -1192,7 +1266,7 @@ input[type="text"]:focus {
 
 .empty-message {
   text-align: center;
-  color: #888;
+  color: var(--color-text-muted);
   padding: 20px;
   font-style: italic;
 }
@@ -1200,11 +1274,11 @@ input[type="text"]:focus {
 /* チェックがついたアイテムのスタイル */
 .shopping-item input[type="checkbox"]:checked + .item-name {
   text-decoration: line-through;
-  color: #888;
+  color: var(--color-text-muted);
 }
 
 .shopping-item.completed {
-  background: #e8f5e8;
+  background: var(--tint-green);
 }
 
 /* 履歴カードのスタイル */
@@ -1212,7 +1286,7 @@ input[type="text"]:focus {
 .history-date {
   margin-bottom: 10px;
   padding-bottom: 5px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--ui-border);
 }
 
 .history-category {
@@ -1221,7 +1295,7 @@ input[type="text"]:focus {
 
 .recipe-name {
   font-size: 12px;
-  color: #888;
+  color: var(--color-text-muted);
   margin-left: 5px;
 }
 
@@ -1295,14 +1369,14 @@ input[type="text"]:focus {
   box-shadow: 0 4px 16px rgba(255,152,0,0.13), 0 1.5px 8px rgba(0,0,0,0.09);
   padding: 1.3em 1.2em 1.2em 1.2em;
   margin-bottom: 1.5em;
-  border: 2px solid #ffe0b2;
+  border: 2px solid var(--color-border);
   transition: box-shadow 0.2s, transform 0.15s;
   position: relative;
 }
 .app-card:hover {
   box-shadow: 0 8px 32px rgba(255,152,0,0.22), 0 2px 12px rgba(0,0,0,0.12);
   transform: translateY(-2px) scale(1.018);
-  border-color: #ffd54f;
+  border-color: var(--color-highlight);
 }
 
 .card {
@@ -1317,7 +1391,7 @@ input[type="text"]:focus {
 }
 .card:hover {
   box-shadow: var(--shadow-card-hover);
-  border-color: #ffd54f;
+  border-color: var(--color-highlight);
   transform: translateY(-1px);
 }
 
@@ -1338,7 +1412,7 @@ input[type="text"]:focus {
 
 .recipe-item:hover {
   box-shadow: var(--shadow-card-hover);
-  border-color: #ffd54f;
+  border-color: var(--color-highlight);
   transform: translateY(-1px);
 }
 
@@ -1371,7 +1445,7 @@ input[type="text"]:focus {
 .recipe-item .recipe-title {
   font-family: 'Kiwi Maru', sans-serif;
   font-size: 1.19em;
-  color: #ff9800;
+  color: var(--color-primary);
   font-weight: bold;
   margin-bottom: 0.2em;
   display: flex;
@@ -1394,9 +1468,9 @@ input[type="text"]:focus {
 .recipe-item .btn-detail,
 .recipe-item .btn-edit,
 .recipe-item .btn-delete {
-  background: #fffde7;
-  border: 1.5px solid #ffd54f;
-  color: #ff9800;
+  background: var(--surface);
+  border: 1.5px solid var(--color-highlight);
+  color: var(--color-primary);
   border-radius: 8px;
   padding: 0;
   font-size: 1em;
@@ -1408,13 +1482,13 @@ input[type="text"]:focus {
 .recipe-item .btn-detail:hover,
 .recipe-item .btn-edit:hover,
 .recipe-item .btn-delete:hover {
-  background: #ffe0b2;
-  color: #e65100;
+  background: var(--tint-warm);
+  color: var(--color-primary-dark);
 }
 
 .recipes-header {
   background: none;
-  border-bottom: 2px solid #ffe0b2;
+  border-bottom: 2px solid var(--color-border);
   margin-bottom: 1em;
   padding-bottom: 0.4em;
   display: flex;
@@ -1463,7 +1537,7 @@ input[type="text"]:focus {
 
 .history-modal-header {
   padding: 16px 20px;
-  background: #ff9800;
+  background: var(--color-primary);
   color: white;
   display: flex;
   justify-content: space-between;
@@ -1497,9 +1571,9 @@ input[type="text"]:focus {
   display: flex;
   justify-content: space-between;
   margin: 0.5rem 0;
-  color: #3e2723;
+  color: var(--color-text);
   padding: 0.25rem 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--ui-border);
 }
 
 .history-item:last-child {
@@ -1512,7 +1586,7 @@ input[type="text"]:focus {
 
 .history-modal-actions {
   padding: 16px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--ui-border);
   text-align: right;
 }
 
@@ -1535,7 +1609,7 @@ input[type="text"]:focus {
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: #999;
+  color: var(--color-text-muted);
 }
 
 .empty-state i {
@@ -1550,7 +1624,7 @@ input[type="text"]:focus {
 
 /* カスタムアイテムスタイル */
 .custom-items-container {
-  background: #fff;
+  background: var(--surface);
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-bottom: 20px;
@@ -1566,7 +1640,7 @@ input[type="text"]:focus {
 
 .custom-item {
   padding: 12px 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--ui-border);
   display: flex;
   align-items: center;
 }
@@ -1588,8 +1662,8 @@ input[type="text"]:focus {
   padding: 12px 16px;
   margin: 6px 0;
   border-radius: 8px;
-  border: 1px solid #f0f0f0;
-  border-left: 4px solid #ff9800;
+  border: 1px solid var(--ui-border);
+  border-left: 4px solid var(--color-primary);
   background: white;
   transition: all 0.2s ease;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -1598,10 +1672,10 @@ input[type="text"]:focus {
 }
 
 #custom-items-list .custom-item:hover {
-  background-color: #fff8e1;
+  background-color: var(--app-bg);
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(255,152,0,0.1);
-  border-color: #ffe0b2;
+  border-color: var(--color-border);
 }
 
 /* カスタムアイテムリストのコンテナ */
@@ -1627,14 +1701,14 @@ input[type="text"]:focus {
 #custom-items-list .custom-item .item-name {
   flex: 1;
   font-size: 0.95rem;
-  color: #333;
+  color: var(--color-text);
 }
 
 #custom-items-list .custom-item .item-quantity {
   margin: 0 12px;
   font-size: 0.9rem;
-  color: #666;
-  background: #f5f5f5;
+  color: var(--color-text-sub);
+  background: var(--surface-2);
   padding: 2px 8px;
   border-radius: 10px;
 }
@@ -1657,7 +1731,7 @@ input[type="text"]:focus {
 
 #custom-items-list .custom-item .btn-remove:hover {
   opacity: 1;
-  background-color: #ffebee;
+  background-color: var(--tint-red);
 }
 
 /* 選択されたレシピヘッダーのスタイル */
@@ -1672,7 +1746,7 @@ input[type="text"]:focus {
 .checkmark {
   top: 0;
   left: 0;
-  background-color: #fff;
+  background-color: var(--surface);
   transition: all 0.2s;
 }
 
@@ -1718,12 +1792,12 @@ input[type="text"]:focus {
 .custom-items-actions {
   padding: 1rem 1rem 0.5rem;
   margin-top: 0.5rem;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--ui-border);
 }
 
 .custom-item .item-name {
   font-size: 1rem;
-  color: #333;
+  color: var(--color-text);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -1732,8 +1806,8 @@ input[type="text"]:focus {
 
 .custom-item .item-quantity {
   font-size: 0.9rem;
-  color: #666;
-  background: #f5f5f5;
+  color: var(--color-text-sub);
+  background: var(--surface-2);
   padding: 2px 8px;
   border-radius: 10px;
 }
@@ -1757,7 +1831,7 @@ input[type="text"]:focus {
 }
 
 #add-custom-items-btn:disabled {
-  background-color: #a5d6a7;
+  background-color: var(--tint-green);
   cursor: not-allowed;
 }
 
@@ -1777,7 +1851,7 @@ input[type="text"]:focus {
 .shopping-section h3.section-title,
 .shopping-section .section-header h3 {
   margin: 0 0 8px 0;
-  color: #333;
+  color: var(--color-text);
   font-size: 1.06rem;
   padding-bottom: 0;
   border-bottom: none;
@@ -1788,12 +1862,12 @@ input[type="text"]:focus {
 
 /* 調味料セクションのスタイル */
 .shopping-section.seasoning-section {
-  background: #fff;
+  background: var(--surface);
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   padding: 1rem 1.2rem;
   margin-bottom: 1.2rem;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--ui-border);
 }
 
 .shopping-section.seasoning-section .section-header {
@@ -1829,7 +1903,7 @@ input[type="text"]:focus {
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 2px solid #ddd;
+  border: 2px solid var(--ui-border);
   border-radius: 4px;
   position: relative;
   cursor: pointer;
@@ -1859,7 +1933,7 @@ input[type="text"]:focus {
 }
 
 .btn-remove:hover {
-  background-color: #ffebee;
+  background-color: var(--tint-red);
 }
 
 /* カスタムアイテムのスタイル */
@@ -1873,20 +1947,20 @@ input[type="text"]:focus {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #555;
+  color: var(--color-text-sub);
 }
 
 #custom-item-form input[type="text"] {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--ui-border);
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.2s;
 }
 
 #custom-item-form input[type="text"]:focus {
-  border-color: #ff9800;
+  border-color: var(--color-primary);
   outline: none;
   box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
 }
@@ -1898,7 +1972,7 @@ input[type="text"]:focus {
   appearance: none;
   width: 20px;
   height: 20px;
-  border: 2px solid #ff9800;
+  border: 2px solid var(--color-primary);
   border-radius: 4px;
   background-color: white;
   cursor: pointer;
@@ -1909,8 +1983,8 @@ input[type="text"]:focus {
 }
 
 .recipe-checkbox:checked {
-  background-color: #ff9800;
-  border-color: #ff9800;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .recipe-checkbox:checked::after {
@@ -1925,12 +1999,12 @@ input[type="text"]:focus {
 }
 
 .recipe-checkbox:hover {
-  border-color: #f57c00;
+  border-color: var(--color-primary-deep);
 }
 
 .recipe-checkbox:checked:hover {
-  background-color: #f57c00;
-  border-color: #f57c00;
+  background-color: var(--color-primary-deep);
+  border-color: var(--color-primary-deep);
 }
 
 /* セクションヘッダーのスタイル */
@@ -1954,7 +2028,7 @@ input[type="text"]:focus {
 }
 
 .btn-clear-custom:hover {
-  background-color: #ffebee;
+  background-color: var(--tint-red);
   transform: scale(1.05);
 }
 
@@ -1999,13 +2073,13 @@ input[type="text"]:focus {
   align-items: center;
   width: 100%;
   padding: 0.4rem 0.7rem;
-  background: #fff;
+  background: var(--surface);
   border: none;
   transition: background-color 0.2s ease;
 }
 
 .history-header:hover {
-  background-color: #f9f9f9;
+  background-color: var(--surface-2);
 }
 
 .history-header > button {
@@ -2029,7 +2103,7 @@ input[type="text"]:focus {
 }
 
 .btn-delete-history {
-  color: #757575;
+  color: var(--color-text-sub);
   padding: 0.5rem;
   border-radius: 4px;
   transition: all 0.2s ease;
@@ -2046,7 +2120,7 @@ input[type="text"]:focus {
   justify-content: center;
   width: 24px;
   height: 24px;
-  color: #888;
+  color: var(--color-text-muted);
   transition: transform 0.3s ease;
 }
 
@@ -2054,8 +2128,8 @@ input[type="text"]:focus {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-out;
-  background: #fff;
-  border-top: 1px solid #f5f5f5;
+  background: var(--surface);
+  border-top: 1px solid var(--ui-border);
 }
 
 .accordion-content.active {
@@ -2078,11 +2152,11 @@ input[type="text"]:focus {
 .history-category {
   flex: 1;
   min-width: 200px;
-  background: #fff;
+  background: var(--surface);
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--ui-border);
 }
 
 .history-category:hover {
@@ -2092,19 +2166,19 @@ input[type="text"]:focus {
 
 .history-category h4 {
   padding-bottom: 0.5rem;
-  border-bottom: 1px dashed #e0e0e0;
+  border-bottom: 1px dashed var(--ui-border);
   font-weight: 600;
 }
 
 .history-category h4::before {
   display: inline-block;
-  background: #ff9a9e;
+  background: var(--tint-pink);
   margin-right: 8px;
   border-radius: 3px;
 }
 
 .history-category.seasonings h4::before {
-  background: #a5d6a7;
+  background: var(--tint-green);
 }
 
 .history-items {
@@ -2116,25 +2190,25 @@ input[type="text"]:focus {
 .history-items li {
   padding: 0.5rem 0.75rem;
   margin: 0.25rem 0;
-  background: #f9f9f9;
+  background: var(--surface-2);
   border-radius: 6px;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--color-text-sub);
   transition: all 0.2s ease;
-  border-left: 3px solid #ffcdd2;
+  border-left: 3px solid var(--tint-pink);
 }
 
 .history-category.seasonings .history-items li {
-  border-left-color: #c8e6c9;
+  border-left-color: var(--tint-green);
 }
 
 .history-items li:hover {
-  background: #fff5f5;
+  background: var(--surface);
   transform: translateX(4px);
 }
 
 .history-category.seasonings .history-items li:hover {
-  background: #f5fff5;
+  background: var(--tint-green);
 }
 
 /* レスポンシブ対応 */
@@ -2156,7 +2230,7 @@ input[type="text"]:focus {
   margin-bottom: 1.5rem;
   overflow: hidden;
   transition: all 0.3s ease;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--ui-border);
   position: relative;
   transform: scale(0.98);
 }
@@ -2164,11 +2238,11 @@ input[type="text"]:focus {
 .history-card:hover {
   transform: scale(1);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  border-color: #e0e0e0;
+  border-color: var(--ui-border);
 }
 
 .history-date {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  background: linear-gradient(135deg, var(--tint-pink) 0%, #fad0c4 100%);
   color: white;
   padding: 0.8rem 1.2rem;
   font-size: 0.95rem;
@@ -2209,8 +2283,8 @@ input[type="text"]:focus {
 
 .selected-recipes {
   padding: 1.2rem 1.2rem 0.8rem;
-  background: #fff9f9;
-  border-bottom: 1px dashed #ffd6e0;
+  background: var(--surface);
+  border-bottom: 1px dashed var(--tint-pink);
 }
 
 .selected-recipes h4 {
@@ -2228,7 +2302,7 @@ input[type="text"]:focus {
 }
 
 .recipe-tag {
-  background: #fff0f5 !important;
+  background: var(--tint-red) !important;
   color: #ff4081 !important;
   padding: 0.4rem 1rem !important;
   border-radius: 20px !important;
@@ -2237,7 +2311,7 @@ input[type="text"]:focus {
   align-items: center;
   box-shadow: 0 2px 4px rgba(255, 105, 180, 0.1);
   transition: all 0.2s ease;
-  border: 1px solid #ffd6e7;
+  border: 1px solid var(--tint-pink);
   position: relative;
   overflow: hidden;
 }
@@ -2252,7 +2326,7 @@ input[type="text"]:focus {
 .recipe-tag:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(255, 105, 180, 0.15);
-  background: #fff9fb !important;
+  background: var(--surface) !important;
 }
 
 .history-category {
@@ -2303,7 +2377,7 @@ input[type="text"]:focus {
 }
 
 .history-category.seasonings h4::before {
-  background-color: #a5d6a7;
+  background-color: var(--tint-green);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M20.5 11H19V7c0-1.1-.9-2-2-2h-3V3.5C14 2.12 12.88 1 11.5 1S9 2.12 9 3.5V5H6c-1.1 0-2 .9-2 2v4H2.5c-.83 0-1.5.67-1.5 1.5S1.67 14 2.5 14h18c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5zM10 3.5c0-.28.22-.5.5-.5s.5.22.5.5V5h-1V3.5zM6 9h12v2H6V9zm12 4l-6 6-6-6h12z'/%3E%3C/svg%3E");
   background-size: 60%;
   background-position: center;
@@ -2333,22 +2407,22 @@ input[type="text"]:focus {
 }
 
 .history-list::-webkit-scrollbar-track {
-  background: #fff0f5;
+  background: var(--tint-red);
   border-radius: 4px;
 }
 
 .history-list::-webkit-scrollbar-thumb {
-  background: #ffb6c1;
+  background: var(--tint-pink);
   border-radius: 4px;
 }
 
 .history-list::-webkit-scrollbar-thumb:hover {
-  background: #ff8fa3;
+  background: var(--tint-pink);
 }
 
 .shopping-section {
   padding: 1rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--ui-border);
 }
 
 .shopping-section:last-child {
@@ -2356,26 +2430,26 @@ input[type="text"]:focus {
 }
 
 .shopping-section.custom-items {
-  background: #fff;
+  background: var(--surface);
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   padding: 1rem 1.2rem;
   margin-top: 1.2rem;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--ui-border);
 }
 
 /* 材料リストのスタイリング */
 .shopping-section.ingredients {
-  background: #fff;
+  background: var(--surface);
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   padding: 1rem 1.2rem;
   margin-bottom: 1.2rem;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--ui-border);
 }
 
 .section-title {
-  color: #4e342e;
+  color: var(--color-text);
   font-size: 1.12rem;
   margin: 0 0 10px 0;
   padding-bottom: 0;
@@ -2405,7 +2479,7 @@ input[type="text"]:focus {
 
 /* カスタムアイテム用のスタイル */
 .shopping-item.custom-item {
-  border-left: 4px solid #64b5f6; /* 青色の左ボーダー */
+  border-left: 4px solid var(--color-accent-blue); /* 青色の左ボーダー */
 }
 
 /* 買い物リストセクションのスタイル */
@@ -2418,25 +2492,25 @@ input[type="text"]:focus {
   padding: 12px 15px;
   display: flex;
   align-items: center;
-  background: #fff !important;
+  background: var(--surface) !important;
   border-radius: 8px;
   margin-bottom: 8px;
-  border-left: 4px solid #e0e0e0;
+  border-left: 4px solid var(--ui-border);
   box-shadow: none !important;
   border-bottom: none;
-  color: #222 !important;
+  color: var(--color-text) !important;
 }
 
 #shopping-container .shopping-section.seasoning-section .section-header:hover {
-  background: #fff;
+  background: var(--surface);
   box-shadow: none;
-  color: #222;
+  color: var(--color-text);
 }
 
 /* 調味料セクションヘッダーにのみ適用される基本スタイル */
 /* 買い物履歴ボタンのスタイル */
 .btn-history {
-  background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%) !important;
+  background: linear-gradient(90deg, var(--color-primary-amber) 0%, var(--color-primary) 100%) !important;
   color: white !important;
   border: none !important;
   border-radius: 4px !important;
@@ -2453,18 +2527,18 @@ input[type="text"]:focus {
 }
 
 .btn-history:hover {
-  background: linear-gradient(90deg, #ffa726 0%, #f57c00 100%) !important;
+  background: linear-gradient(90deg, var(--color-primary-amber) 0%, var(--color-primary-deep) 100%) !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15) !important;
 }
 
 .btn-history:active {
 #shopping-container .shopping-section.seasoning-section .section-header:hover {
-  background: #fff;
+  background: var(--surface);
   box-shadow: none;
-  color: #222;
+  color: var(--color-text);
 }
-  background: #fff;
+  background: var(--surface);
   transform: translateY(-1px);
   box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
@@ -2477,12 +2551,12 @@ input[type="text"]:focus {
   filter: none !important;
   background: none !important;
   border: none !important;
-  color: #222 !important;
+  color: var(--color-text) !important;
 }
 
 .shopping-section {
   margin-bottom: 1.5rem;
-  background: #fff;
+  background: var(--surface);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   min-height: auto !important;
@@ -2493,12 +2567,12 @@ input[type="text"]:focus {
 
 .section-header {
   padding: 12px 16px;
-  background-color: #f5f5f5;
+  background-color: var(--surface-2);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--ui-border);
   user-select: none;
 }
 
@@ -2506,13 +2580,13 @@ input[type="text"]:focus {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
 }
 
 .toggle-icon {
   transition: transform 0.2s ease;
   font-size: 0.8em;
-  color: #666;
+  color: var(--color-text-sub);
 }
 
 .section-content {
@@ -2537,14 +2611,14 @@ input[type="text"]:focus {
   display: flex;
   align-items: center;
   padding: 10px 14px;
-  border-bottom: 1px solid #f5e6d3;
+  border-bottom: 1px solid var(--color-border);
   transition: all 0.2s ease;
-  background: #fffdf8;
+  background: var(--surface-warm);
   transform: translateY(0);
   border-left: 4px solid #ff80ab; /* デフォルトのピンクボーダー */
-  border-top: 1px solid #f7ecdd;
-  border-right: 1px solid #f7ecdd;
-  border-bottom: 1px solid #f7ecdd;
+  border-top: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   border-radius: 10px;
   margin-bottom: 6px;
   position: relative;
@@ -2558,11 +2632,11 @@ input[type="text"]:focus {
 /* 調味料アイテムのスタイル - 詳細度を上げて適用 */
 #shopping-container .shopping-section.seasoning-section .shopping-item[data-seasoning="true"] {
   border-left: 4px solid #66bb6a !important; /* 緑色のボーダー */
-  background-color: #f1f8e9 !important; /* 薄い緑の背景 */
+  background-color: var(--tint-green) !important; /* 薄い緑の背景 */
 }
 
 #shopping-container .shopping-section.seasoning-section .shopping-item[data-seasoning="true"]:hover {
-  background-color: #e8f5e9 !important; /* ホバー時の色を少し濃く */
+  background-color: var(--tint-green) !important; /* ホバー時の色を少し濃く */
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -2570,7 +2644,7 @@ input[type="text"]:focus {
 /* チェックボックスがチェックされた調味料アイテム */
 #shopping-container .shopping-section.seasoning-section .shopping-item[data-seasoning="true"].completed {
   opacity: 0.7;
-  background-color: #e8f5e9 !important;
+  background-color: var(--tint-green) !important;
 }
 
 #shopping-container .shopping-section.seasoning-section .shopping-item[data-seasoning="true"] .item-name,
@@ -2591,7 +2665,7 @@ input[type="text"]:focus {
 .shopping-item:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fafafa;
+  background-color: var(--surface-2);
 }
 
 .item-checkbox-container {
@@ -2611,7 +2685,7 @@ input[type="text"]:focus {
 
 .completed .item-name {
   text-decoration: line-through;
-  color: #999;
+  color: var(--color-text-muted);
 }
 
 .recipe-tags {
@@ -2622,8 +2696,8 @@ input[type="text"]:focus {
 }
 
 .recipe-tag {
-  background-color: #e3f2fd;
-  color: #1976d2;
+  background-color: var(--tint-blue);
+  color: var(--color-accent-blue);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.8em;
@@ -2657,11 +2731,11 @@ input[type="text"]:focus {
 .ingredient-name,
 .ingredient-quantity {
   padding: 8px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--ui-border);
   border-radius: 6px;
   font-size: 1em;
   font-family: inherit;
-  background: #fff;
+  background: var(--surface);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -2669,7 +2743,7 @@ input[type="text"]:focus {
 .ingredient-name:focus,
 .ingredient-quantity:focus {
   outline: none;
-  border-color: #ff9800;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
 }
 
@@ -2684,8 +2758,8 @@ input[type="text"]:focus {
 }
 
 .btn-remove-ingredient {
-  background: #ffebee;
-  border: 1px solid #ffcdd2;
+  background: var(--tint-red);
+  border: 1px solid var(--tint-pink);
   color: #c62828;
   border-radius: 6px;
   width: 36px;
@@ -2698,7 +2772,7 @@ input[type="text"]:focus {
 }
 
 .btn-remove-ingredient:hover {
-  background: #ffcdd2;
+  background: var(--tint-pink);
 }
 
 .btn-remove-ingredient i {
@@ -2715,14 +2789,14 @@ input[type="text"]:focus {
 
 .ingredients-header label {
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
   font-size: 1em;
 }
 
 .btn-icon {
   background: none;
   border: none;
-  color: #ff9800;
+  color: var(--color-primary);
   cursor: pointer;
   font-size: 1.2em;
   padding: 4px 8px;
@@ -2755,13 +2829,13 @@ input[type="text"]:focus {
 
 .shopping-item.completed {
   opacity: 0.7;
-  background-color: #f9f9f9;
+  background-color: var(--surface-2);
 }
 
 .shopping-item.completed .item-name,
 .shopping-item.completed .item-quantity {
   text-decoration: line-through;
-  color: #999;
+  color: var(--color-text-muted);
 }
 
 .item-checkbox {
@@ -2774,15 +2848,15 @@ input[type="text"]:focus {
 .item-name {
   flex: 1;
   font-size: 0.95rem;
-  color: #333;
+  color: var(--color-text);
   margin-right: 0.5rem;
   word-break: break-word;
 }
 
 .item-quantity {
   font-size: 0.85rem;
-  color: #666;
-  background: #f5f5f5;
+  color: var(--color-text-sub);
+  background: var(--surface-2);
   padding: 0.1rem 0.5rem;
   border-radius: 10px;
   margin-right: 0.5rem;
@@ -2792,7 +2866,7 @@ input[type="text"]:focus {
 .btn-remove {
   background: none;
   border: none;
-  color: #999;
+  color: var(--color-text-muted);
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0 0.3rem;
@@ -2807,7 +2881,7 @@ input[type="text"]:focus {
   color: #ff5252;
 }
 .recipes-header .section-title {
-  color: #222 !important;
+  color: var(--color-text) !important;
 }
 /* --- 調味料セクションのヘッダーとアイコンを完全リセット --- */
 .shopping-section.seasoning-section .section-header,
@@ -2829,7 +2903,7 @@ input[type="text"]:focus {
 .shopping-section.seasoning-section .toggle-icon {
   order: 0 !important;
   margin-right: 8px !important;
-  color: #888 !important;
+  color: var(--color-text-muted) !important;
   font-size: 1.3em !important;
   display: flex !important;
   align-items: center !important;
@@ -2856,9 +2930,9 @@ input[type="text"]:focus {
 #shopping-container .shopping-section.seasoning-section .section-header .toggle-icon,
 #shopping-container .shopping-section.seasoning-section .section-header .toggle-icon::before,
 #shopping-container .shopping-section.seasoning-section .section-header .toggle-icon i {
-  color: #888 !important;
-  fill: #888 !important;
-  stroke: #888 !important;
+  color: var(--color-text-muted) !important;
+  fill: var(--color-text-muted) !important;
+  stroke: var(--color-text-muted) !important;
   font-size: 1.3em !important;
   margin: 0 !important;
   filter: none !important;
@@ -2889,8 +2963,8 @@ input[type="text"]:focus {
   top: 100%;
   left: 0;
   margin-top: 4px;
-  background: #fff;
-  border: 1px solid #ddd;
+  background: var(--surface);
+  border: 1px solid var(--ui-border);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   min-width: 200px;
@@ -2907,11 +2981,11 @@ input[type="text"]:focus {
   text-align: left;
   font-size: 0.9em;
   cursor: pointer;
-  color: #333;
+  color: var(--color-text);
 }
 
 .clear-menu-item:hover {
-  background: #f5f5f5;
+  background: var(--surface-2);
 }
 
 .clear-menu-item--danger {
@@ -2927,9 +3001,9 @@ input[type="text"]:focus {
   max-width: 100%;
   padding: 1em;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--ui-border);
   font-size: 1.1em;
-  background: #fff8e1;
+  background: var(--app-bg);
   box-sizing: border-box;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
@@ -2981,7 +3055,7 @@ input[type="text"]:focus {
 .custom-items-note {
   margin-top: 10px;
   font-size: 0.9em;
-  color: #666;
+  color: var(--color-text-sub);
 }
 
 /* ヘッダーのSVGアイコン */
@@ -3011,12 +3085,12 @@ input[type="text"]:focus {
 }
 
 .modal-card {
-  background: linear-gradient(160deg, #fffbe9 70%, #ffedd0 100%);
+  background: linear-gradient(160deg, var(--surface) 70%, #ffedd0 100%);
   padding: 2.2em 1.9em 2em;
   max-width: 430px;
   width: 92vw;
   border-radius: 22px;
-  border: 1px solid #ffe0b2;
+  border: 1px solid var(--color-border);
   box-shadow: 0 12px 40px rgba(230, 81, 0, 0.22), 0 2px 10px rgba(0, 0, 0, 0.14);
   position: relative;
   overflow-y: auto;
@@ -3042,7 +3116,7 @@ input[type="text"]:focus {
   margin-top: 0;
   font-family: 'Kiwi Maru', sans-serif;
   font-size: 1.7em;
-  color: #ff9800;
+  color: var(--color-primary);
   text-shadow: 0 1px 0 #fffde7, 0 2px 6px #ffd54f80;
   letter-spacing: 0.03em;
   display: flex;
@@ -3065,19 +3139,19 @@ input[type="text"]:focus {
   box-shadow: 0 2px 8px #ffd54f55;
 }
 .modal-block--ingredients {
-  background: #fffde7;
+  background: var(--surface);
 }
 .modal-block--seasoning {
-  background: #fff8e1;
+  background: var(--app-bg);
 }
 .modal-block--notes {
-  background: #ffe0b2;
+  background: var(--tint-warm);
   margin-bottom: 0;
 }
 
 .modal-block-title {
   margin-bottom: 0.5em;
-  color: #ff9800;
+  color: var(--color-primary);
   font-size: 1.13em;
   display: inline-block;
   vertical-align: middle;
@@ -3093,7 +3167,7 @@ input[type="text"]:focus {
 .modal-notes {
   white-space: pre-line;
   font-size: 1.08em;
-  color: #795548;
+  color: var(--color-text-sub);
   margin-bottom: 0.5em;
 }
 
@@ -3124,14 +3198,14 @@ input[type="text"]:focus {
 .recipe-card-name {
   font-size: 1.4em;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
   margin-right: 10px;
   margin-bottom: 0.5rem;
   word-break: break-word;
 }
 .btn-detail.btn-detail-link {
   font-size: 0.93em;
-  color: #2196f3;
+  color: var(--color-accent-blue);
   background: none;
   border: none;
   border-radius: 0;
@@ -3142,7 +3216,7 @@ input[type="text"]:focus {
 }
 .btn-detail.btn-detail-link:hover {
   background: none;
-  color: #1976d2;
+  color: var(--color-accent-blue);
 }
 .recipe-ingredients-hidden {
   display: none;
@@ -3162,7 +3236,7 @@ input[type="text"]:focus {
   flex-direction: column;
   align-items: flex-end;
   font-size: 0.88em;
-  color: #ff9800;
+  color: var(--color-primary);
   margin-bottom: 0.2em;
   line-height: 1.15;
 }
@@ -3177,14 +3251,14 @@ input[type="text"]:focus {
 }
 .modal-note-image-title {
   margin-bottom: 8px;
-  color: #ff9800;
+  color: var(--color-primary);
   font-size: 1.1em;
 }
 .modal-note-image {
   max-width: 100%;
   max-height: 300px;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--ui-border);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -3218,8 +3292,8 @@ input[type="text"]:focus {
 .view-mode-btn {
   width: 32px;
   height: 32px;
-  border: 1px solid #ffe0b2;
-  background: #fffdf8;
+  border: 1px solid var(--color-border);
+  background: var(--surface-warm);
   color: #b07a3f;
   border-radius: 8px;
   cursor: pointer;
@@ -3230,12 +3304,12 @@ input[type="text"]:focus {
   transition: all 0.15s ease;
 }
 .view-mode-btn:hover {
-  background: #fff3e0;
-  color: #e65100;
+  background: var(--tint-warm);
+  color: var(--color-primary-dark);
 }
 .view-mode-btn.active {
-  background: linear-gradient(135deg, #ffb300 0%, #ff9800 100%);
-  border-color: #ff9800;
+  background: linear-gradient(135deg, var(--color-primary-amber) 0%, var(--color-primary) 100%);
+  border-color: var(--color-primary);
   color: #fff;
   box-shadow: 0 2px 6px rgba(255, 152, 0, 0.3);
 }
@@ -3259,7 +3333,7 @@ input[type="text"]:focus {
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 10px;
-  background: #ffe0b2;
+  background: var(--tint-warm);
   display: block;
 }
 .recipe-tile-img-placeholder {
@@ -3288,14 +3362,14 @@ input[type="text"]:focus {
   height: 30px;
   font-size: 1em;
   background: rgba(255, 255, 255, 0.92);
-  border: 1px solid #ffd54f;
+  border: 1px solid var(--color-highlight);
   border-radius: 50%;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 .recipe-tile-name {
   font-size: 0.72em;
   font-weight: 600;
-  color: #4e342e;
+  color: var(--color-text);
   line-height: 1.3;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -3312,7 +3386,7 @@ input[type="text"]:focus {
 }
 .recipe-tile-count {
   font-size: 0.62em;
-  color: #a1887f;
+  color: var(--color-text-muted);
 }
 
 /* コンパクト表示 */
@@ -3335,14 +3409,14 @@ input[type="text"]:focus {
   min-width: 0;
   font-size: 0.92em;
   font-weight: 600;
-  color: #4e342e;
+  color: var(--color-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .recipe-compact-count {
   font-size: 0.75em;
-  color: #a1887f;
+  color: var(--color-text-muted);
   white-space: nowrap;
 }
 .btn-favorite-compact {
@@ -3361,9 +3435,9 @@ input[type="text"]:focus {
 }
 .category-chip {
   padding: 5px 12px;
-  border: 1px solid #ffe0b2;
-  background: #fffdf8;
-  color: #8d6e63;
+  border: 1px solid var(--color-border);
+  background: var(--surface-warm);
+  color: var(--color-text-sub);
   border-radius: 16px;
   font-size: 0.8em;
   cursor: pointer;
@@ -3371,18 +3445,18 @@ input[type="text"]:focus {
   font-family: var(--font-main);
 }
 .category-chip:hover {
-  background: #fff3e0;
-  color: #e65100;
+  background: var(--tint-warm);
+  color: var(--color-primary-dark);
 }
 .category-chip.active {
-  background: linear-gradient(135deg, #ffb300 0%, #ff9800 100%);
-  border-color: #ff9800;
+  background: linear-gradient(135deg, var(--color-primary-amber) 0%, var(--color-primary) 100%);
+  border-color: var(--color-primary);
   color: #fff;
   box-shadow: 0 2px 6px rgba(255, 152, 0, 0.3);
 }
 .recipe-category-badge {
   display: inline-block;
-  background: #e8f5e9;
+  background: var(--tint-green);
   color: #2e7d32;
   font-size: 0.72em;
   font-weight: 600;
@@ -3394,7 +3468,7 @@ input[type="text"]:focus {
 }
 .modal-category {
   display: inline-block;
-  background: #e8f5e9;
+  background: var(--tint-green);
   color: #2e7d32;
   font-size: 0.85em;
   font-weight: 600;
@@ -3419,27 +3493,27 @@ input[type="text"]:focus {
 .recipe-search input {
   width: 100%;
   padding: 10px 12px 10px 34px;
-  border: 1.5px solid #ffe0b2;
+  border: 1.5px solid var(--color-border);
   border-radius: 10px;
   font-size: 0.95em;
-  background: #fffdf8;
+  background: var(--surface-warm);
   font-family: var(--font-main);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .recipe-search input:focus {
   outline: none;
-  border-color: #ff9800;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.15);
 }
 
 /* ===== 買い物リストカテゴリ ===== */
 .shopping-category-title {
   font-size: 0.95em;
-  color: #6d4c41;
+  color: var(--color-text-sub);
 }
 .shopping-category-title::before {
   content: '・';
-  color: #ff9800;
+  color: var(--color-primary);
 }
 
 /* ===== 献立モード ===== */
@@ -3453,23 +3527,23 @@ input[type="text"]:focus {
   display: flex;
   align-items: center;
   gap: 0.8em;
-  background: #fffdf5;
-  border: 1px solid #ffe0b2;
+  background: var(--surface);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 0.7em 0.9em;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
 }
 .meal-day:active {
-  background: #ffecb3;
+  background: var(--tint-warm);
 }
 .meal-day.assigned {
-  border-color: #ffb74d;
-  background: linear-gradient(160deg, #fff8e1, #ffecb3);
+  border-color: var(--color-primary-amber);
+  background: linear-gradient(160deg, var(--app-bg), var(--tint-warm));
 }
 .meal-day-date {
   font-weight: 700;
-  color: #e65100;
+  color: var(--color-primary-dark);
   min-width: 4.5em;
   font-size: 0.9em;
   white-space: nowrap;
@@ -3482,11 +3556,11 @@ input[type="text"]:focus {
   white-space: nowrap;
 }
 .meal-day-empty {
-  color: #bcaaa4;
+  color: var(--color-text-muted);
 }
 .meal-day-clear {
   border: none;
-  background: #ffccbc;
+  background: var(--tint-pink);
   color: #bf360c;
   border-radius: 50%;
   width: 1.8em;
@@ -3519,7 +3593,7 @@ input[type="text"]:focus {
   max-height: 80vh;
 }
 .meal-picker-subtitle {
-  color: #8d6e63;
+  color: var(--color-text-sub);
   margin: -0.5em 0 0.8em 0;
   font-size: 0.9em;
 }
@@ -3535,16 +3609,16 @@ input[type="text"]:focus {
   justify-content: space-between;
   gap: 0.5em;
   padding: 0.7em 0.9em;
-  border: 1px solid #ffe0b2;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
-  background: #fffdf5;
+  background: var(--surface);
   cursor: pointer;
   text-align: left;
   font-size: 0.98em;
   font-family: inherit;
 }
 .meal-picker-item:active {
-  background: #ffecb3;
+  background: var(--tint-warm);
 }
 .meal-picker-item-name {
   overflow: hidden;
@@ -3552,7 +3626,7 @@ input[type="text"]:focus {
   white-space: nowrap;
 }
 .meal-picker-empty {
-  color: #8d6e63;
+  color: var(--color-text-sub);
   text-align: center;
   padding: 1em;
 }
@@ -3560,7 +3634,7 @@ input[type="text"]:focus {
 /* ===== 詳細モーダルのアクション・統計 ===== */
 .modal-recipe-stats {
   font-size: 0.85em;
-  color: #8d6e63;
+  color: var(--color-text-sub);
   margin: -0.6em 0 0.6em 0;
 }
 .modal-actions {
@@ -3579,7 +3653,7 @@ input[type="text"]:focus {
 .item-recipes {
   display: block;
   font-size: 0.75em;
-  color: #a1887f;
+  color: var(--color-text-muted);
   margin-top: 0.1em;
 }
 
@@ -3593,19 +3667,19 @@ input[type="text"]:focus {
 }
 .shopping-progress {
   font-size: 0.85em;
-  color: #8d6e63;
+  color: var(--color-text-sub);
 }
 .btn-text-small {
   background: none;
   border: none;
-  color: #ff9800;
+  color: var(--color-primary);
   font-size: 0.85em;
   cursor: pointer;
   padding: 0.3em 0.5em;
   text-decoration: underline;
 }
 .btn-text-small:active {
-  color: #e65100;
+  color: var(--color-primary-dark);
 }
 
 /* ===== 買い物アイテム：2段構成のコンパクト設計 ===== */
@@ -3647,19 +3721,19 @@ input[type="text"]:focus {
   flex-shrink: 0;
   border: none;
   background: none;
-  color: #a1887f;
+  color: var(--color-text-muted);
   font-size: 0.75em;
   padding: 2px 4px;
   line-height: 1;
   cursor: pointer;
 }
 #shopping-container .shopping-item .btn-recipes-toggle.open {
-  color: #8d6e63;
+  color: var(--color-text-sub);
 }
 #shopping-container .shopping-item .item-quantity {
   flex-shrink: 0;
   font-size: 0.78em;
-  color: #8d6e63;
+  color: var(--color-text-sub);
   white-space: nowrap;
   background: none;
   padding: 0;
@@ -3679,7 +3753,7 @@ input[type="text"]:focus {
 }
 #shopping-container .shopping-item .item-recipes {
   font-size: 0.68em;
-  color: #a1887f;
+  color: var(--color-text-muted);
   padding-left: 24px;
   margin-top: 2px;
   word-break: break-word;
@@ -3727,4 +3801,37 @@ input[type="text"]:focus {
 }
 #shopping .shopping-header {
   margin-bottom: 0.4em;
+}
+
+/* ===== テーマ選択ボタン ===== */
+.theme-select-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+.theme-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border: 2px solid var(--ui-border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--color-text-sub);
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-main);
+}
+.theme-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark);
+}
+.theme-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+[data-theme="dark"] .theme-btn.active {
+  color: #221c18;
 }

@@ -12,6 +12,15 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="なつどん飯店">
     <meta name="theme-color" content="#ff9800">
+    <script>
+      // テーマを早期適用（フラッシュ防止）
+      (function () {
+        try {
+          var t = localStorage.getItem('appTheme') || 'light';
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
     <!-- Google Fonts: Kiwi Maru -->
     <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;700&display=swap" rel="stylesheet">
     <!-- CSSファイルの読み込み -->
@@ -330,6 +339,15 @@
                     </div>
                 </div>
                 <div class="card-content">
+                    <div class="form-group">
+                        <label>テーマ</label>
+                        <p class="custom-items-note">画面の色合いを変更します。</p>
+                        <div class="theme-select-row" id="theme-select-row">
+                            <button type="button" class="theme-btn" data-theme="light">オレンジ</button>
+                            <button type="button" class="theme-btn" data-theme="blue">水色</button>
+                            <button type="button" class="theme-btn" data-theme="dark">ダーク</button>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label>データのバックアップ</label>
                         <p class="custom-items-note">レシピ・買い物リスト・履歴・その他を1つのファイルに保存します。機種変更やデータ消失に備えて定期的にエクスポートしてください。</p>
