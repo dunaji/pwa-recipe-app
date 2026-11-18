@@ -242,6 +242,12 @@ export const shoppingMethods = {
       return;
     }
 
+    // 調味料セクションの開閉状態を記録（再描画で閉じないようにする）
+    const seasoningEl = shoppingListEl.querySelector('.seasoning-section');
+    if (seasoningEl) {
+      this._seasoningSectionOpen = !seasoningEl.classList.contains('collapsed');
+    }
+
     const totalItems = (this.shoppingList.ingredients?.length || 0) + (this.shoppingList.customItems?.length || 0);
     if (totalItems === 0) {
       shoppingListEl.innerHTML = '<p class="empty-message">リストにアイテムがありません</p>';
@@ -359,10 +365,10 @@ export const shoppingMethods = {
               ${items.map(item => `
                 <div class="shopping-item ${item.completed ? 'completed' : ''}" data-id="${item.id}" data-custom="false">
                   <div class="item-line1">
-                    <div class="item-checkbox-container">
+                    <label class="item-checkbox-container">
                       <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
                       <span class="checkmark"></span>
-                    </div>
+                    </label>
                     <span class="item-name">${this.escapeHtml(item.name)}</span>
                     ${this._shoppingItemRecipeLabel(item) ? `<button type="button" class="btn-recipes-toggle" title="使うレシピ">▸</button>` : ''}
                   </div>
@@ -382,7 +388,7 @@ export const shoppingMethods = {
     // 2. 調味料セクション
     if (seasoningItems.length > 0) {
       html += `
-        <div class="shopping-section seasoning-section collapsed">
+        <div class="shopping-section seasoning-section${this._seasoningSectionOpen ? '' : ' collapsed'}">
           <div class="section-header">
             <h3>調味料</h3>
 <span class="toggle-icon">
@@ -433,10 +439,10 @@ export const shoppingMethods = {
                      data-custom="true"
                      data-index="${index}">
                   <div class="item-line1">
-                    <div class="item-checkbox-container">
+                    <label class="item-checkbox-container">
                       <input type="checkbox" class="item-checkbox" ${item.completed ? 'checked' : ''}>
                       <span class="checkmark"></span>
-                    </div>
+                    </label>
                     <span class="item-name">${this.escapeHtml(item.name)}</span>
                   </div>
                   <div class="item-line2">
