@@ -75,10 +75,33 @@ export const shoppingMethods = {
 
   // 買い物リスト追加ボタンの表示を更新する関数
   updateShoppingButton() {
+    const visible = this.selectedRecipes.size > 0 ? 'block' : 'none';
     const addToShoppingBtn = document.getElementById('add-to-shopping');
     if (addToShoppingBtn) {
-      addToShoppingBtn.style.display = this.selectedRecipes.size > 0 ? 'block' : 'none';
+      addToShoppingBtn.style.display = visible;
     }
+    const multiplierSelect = document.getElementById('shopping-multiplier');
+    if (multiplierSelect) {
+      multiplierSelect.style.display = visible;
+      multiplierSelect.classList.toggle('hidden', this.selectedRecipes.size === 0);
+    }
+  },
+
+  // 買い物リスト追加時の数量倍率を取得（デフォルト×1）
+  getShoppingMultiplier() {
+    const select = document.getElementById('shopping-multiplier');
+    const value = select ? parseFloat(select.value) : 1;
+    return isNaN(value) || value <= 0 ? 1 : value;
+  },
+
+  // 材料の数量文字列に倍率表記を付与（×1の場合はそのまま）
+  applyQuantityMultiplier(ingredients, multiplier) {
+    if (!multiplier || multiplier === 1) return ingredients;
+    const suffix = '×' + (Number.isInteger(multiplier) ? multiplier : multiplier);
+    return ingredients.map(ing => ({
+      ...ing,
+      quantity: ing.quantity ? `${ing.quantity}${suffix}` : suffix
+    }));
   },
 
   // 選択中のレシピの材料を買い物リストに追加する処理
@@ -719,6 +742,9 @@ export const shoppingMethods = {
       ...ing,
       isSeasoning: ing.isSeasoning !== undefined ? ing.isSeasoning : isSeasoning
     }));
+
+    // 数量に倍率表記を付与（例: 200g → 200g×2）
+    ingredients = this.applyQuantityMultiplier(ingredients, this.getShoppingMultiplier());
 
     if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
       return false;
