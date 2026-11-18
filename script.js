@@ -11,6 +11,7 @@ class RecipeApp {
   recipeSortMode = "popular"; // デフォルトはよく作る順
   recipeSortOrder = "desc"; // デフォルトは降順
   recipeViewMode = localStorage.getItem('recipeViewMode') || 'list'; // list / tile / compact
+  recipeCategoryFilter = localStorage.getItem('recipeCategoryFilter') || ''; // カテゴリ絞り込み
   db = null;
   isInitialized = false;
   editingRecipeId = null; // 編集モード用のID

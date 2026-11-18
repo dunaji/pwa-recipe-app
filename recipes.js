@@ -357,6 +357,8 @@ export const recipesMethods = {
   addRecipe() {
     const name = document.getElementById("recipe-name").value.trim();
     const notes = document.getElementById("recipe-notes").value.trim();
+    const categoryInput = document.getElementById("recipe-category");
+    const category = categoryInput ? categoryInput.value.trim() : "";
     
     // 材料を取得
     const ingredientRows = document.querySelectorAll("#ingredients-container .ingredient-row");
@@ -428,7 +430,8 @@ export const recipesMethods = {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       cookedCount: 0,
-      favorite: false
+      favorite: false,
+      category: category
     };
 
     // お気に入りプロパティの初期化
@@ -615,7 +618,7 @@ export const recipesMethods = {
           <i class="${recipe.favorite ? 'fas fa-star' : 'far fa-star'}"></i>
         </button>
         ${imageHtml}
-        <div class="recipe-tile-name">${this.escapeHtml(recipe.name)}</div>
+        <div class="recipe-tile-name">${recipe.category ? `<span class="recipe-category-badge">${this.escapeHtml(recipe.category)}</span>` : ''}${this.escapeHtml(recipe.name)}</div>
         <div class="recipe-tile-meta">
           <span class="recipe-tile-count">調理${count}回</span>
           <button class="btn-detail btn-detail-link" data-id="${recipe.id}">詳細</button>
@@ -631,7 +634,7 @@ export const recipesMethods = {
     return `
       <div class="recipe-item recipe-compact recipe-selectable ${selected}" data-id="${recipe.id}">
         <input type="checkbox" class="recipe-checkbox" ${selected ? "checked" : ""}>
-        <span class="recipe-compact-name">${this.escapeHtml(recipe.name)}</span>
+        <span class="recipe-compact-name">${recipe.category ? `<span class="recipe-category-badge">${this.escapeHtml(recipe.category)}</span>` : ''}${this.escapeHtml(recipe.name)}</span>
         <span class="recipe-compact-count">${count}回</span>
         <button class="btn-favorite btn-favorite-compact" data-id="${recipe.id}">
           <i class="${recipe.favorite ? 'fas fa-star' : 'far fa-star'}"></i>
@@ -639,6 +642,48 @@ export const recipesMethods = {
         <button class="btn-detail btn-detail-link" data-id="${recipe.id}">詳細</button>
       </div>
     `;
+  },
+
+  // カテゴリフィルターチップと入力候補を描画
+  renderCategoryChips(categories) {
+    const chipsContainer = document.getElementById('category-chips');
+    const datalist = document.getElementById('category-suggestions');
+
+    // datalist（フォームの入力候補）を更新
+    if (datalist) {
+      datalist.innerHTML = categories.map(c => `<option value="${this.escapeHtml(c)}"></option>`).join('');
+    }
+
+    if (!chipsContainer) return;
+
+    // カテゴリが1つもなければチップ自体を非表示
+    if (categories.length === 0) {
+      chipsContainer.innerHTML = '';
+      chipsContainer.style.display = 'none';
+      return;
+    }
+    chipsContainer.style.display = '';
+
+    const counts = {};
+    this.recipes.forEach(r => {
+      const c = (r.category || '').trim();
+      if (c) counts[c] = (counts[c] || 0) + 1;
+    });
+
+    const allChip = `<button type="button" class="category-chip ${!this.recipeCategoryFilter ? 'active' : ''}" data-category="">すべて</button>`;
+    const catChips = categories.map(c =>
+      `<button type="button" class="category-chip ${this.recipeCategoryFilter === c ? 'active' : ''}" data-category="${this.escapeHtml(c)}">${this.escapeHtml(c)} (${counts[c] || 0})</button>`
+    ).join('');
+
+    chipsContainer.innerHTML = allChip + catChips;
+
+    chipsContainer.querySelectorAll('.category-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        this.recipeCategoryFilter = chip.dataset.category || '';
+        localStorage.setItem('recipeCategoryFilter', this.recipeCategoryFilter);
+        this.renderRecipes();
+      });
+    });
   },
 
   // レシピ一覧を画面に表示する処理
@@ -695,15 +740,26 @@ export const recipesMethods = {
       });
     }
 
+    // カテゴリ一覧とフィルターチップを更新
+    const categories = [...new Set(
+      this.recipes.map(r => (r.category || '').trim()).filter(Boolean)
+    )].sort((a, b) => a.localeCompare(b, 'ja'));
+    this.renderCategoryChips(categories);
+
+    // カテゴリでフィルタ
+    const displayRecipes = this.recipeCategoryFilter
+      ? sortedRecipes.filter(r => (r.category || '').trim() === this.recipeCategoryFilter)
+      : sortedRecipes;
+
     // 表示モードに応じたコンテナクラス
     container.className = `recipes-container view-${this.recipeViewMode || 'list'}`;
 
     if (this.recipeViewMode === 'tile') {
-      container.innerHTML = sortedRecipes.map((recipe) => this.renderRecipeTile(recipe)).join("");
+      container.innerHTML = displayRecipes.map((recipe) => this.renderRecipeTile(recipe)).join("");
     } else if (this.recipeViewMode === 'compact') {
-      container.innerHTML = sortedRecipes.map((recipe) => this.renderRecipeCompact(recipe)).join("");
+      container.innerHTML = displayRecipes.map((recipe) => this.renderRecipeCompact(recipe)).join("");
     } else {
-    container.innerHTML = sortedRecipes
+    container.innerHTML = displayRecipes
       .map((recipe) => {
         // Use cookCount if available, otherwise default to 0
         const count = recipe.cookCount || 0;
@@ -719,7 +775,7 @@ export const recipesMethods = {
               <input type="checkbox" class="recipe-checkbox recipe-checkbox-card" ${this.selectedRecipes.has(recipe.id) ? "checked" : ""}>
               <div class="recipe-content recipe-content-card">
                 <div class="recipe-title-row">
-                  <div class="recipe-name recipe-card-name">${recipe.name}</div>
+                  <div class="recipe-name recipe-card-name">${recipe.category ? `<span class="recipe-category-badge">${this.escapeHtml(recipe.category)}</span>` : ''}${recipe.name}</div>
                   <button class="btn-detail btn-detail-link" data-id="${recipe.id}">詳細</button>
                 </div>
                 <div class="recipe-ingredients recipe-ingredients-hidden">
@@ -803,6 +859,17 @@ export const recipesMethods = {
         if (target.classList.contains('btn-detail') || target.closest('.btn-detail')) {
         // モーダルにデータをセット
         document.getElementById("modal-recipe-title").textContent = recipe.name;
+
+        // カテゴリを表示
+        const modalCategory = document.getElementById("modal-recipe-category");
+        if (modalCategory) {
+          if (recipe.category) {
+            modalCategory.textContent = recipe.category;
+            modalCategory.style.display = '';
+          } else {
+            modalCategory.style.display = 'none';
+          }
+        }
         
         // 材料と調味料を分離
         const ingredients = (recipe.ingredients || []).filter(i => !i.type || i.type !== 'seasoning');
@@ -926,6 +993,8 @@ export const recipesMethods = {
     // フォームにレシピデータをセット
     document.getElementById("recipe-name").value = recipe.name || "";
     document.getElementById("recipe-notes").value = recipe.notes || "";
+    const categoryInput = document.getElementById("recipe-category");
+    if (categoryInput) categoryInput.value = recipe.category || "";
     
     // 見出しを「レシピ編集」に変更し、編集アイコンを追加（紫に設定）
     const formTitle = document.getElementById("register-title");
@@ -1156,6 +1225,7 @@ export const recipesMethods = {
       name,
       ingredients: [...ingredients, ...seasonings],
       notes: document.getElementById("recipe-notes").value.trim(),
+      category: (document.getElementById("recipe-category")?.value || "").trim(),
       image: imgSrc,
       noteImage: noteImgSrc,
       updatedAt: new Date().toISOString()

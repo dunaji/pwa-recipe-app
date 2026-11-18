@@ -75,6 +75,13 @@
                             <input type="text" id="recipe-name" placeholder="料理名を入力" required>
                         </div>
 
+                        <!-- カテゴリの入力欄（自由入力＋候補表示） -->
+                        <div class="form-group">
+                            <label for="recipe-category">カテゴリ（任意）</label>
+                            <input type="text" id="recipe-category" list="category-suggestions" placeholder="例: 主菜、おやつ、作り置き">
+                            <datalist id="category-suggestions"></datalist>
+                        </div>
+
                         <!-- 材料の入力欄（複数行可） -->
                         <div class="form-group">
                             <div class="ingredients-header">
@@ -198,6 +205,7 @@
                 </div>
               </div>
             </div>
+            <div id="category-chips" class="category-chips"></div>
             <div id="recipes-container" class="recipes-container">
                 <!-- レシピがここに動的に追加されます -->
             </div>
@@ -304,6 +312,7 @@
   <div class="modal-content pop-modal modal-card">
     <button id="close-detail-modal" class="modal-close-btn">×</button>
     <h2 id="modal-recipe-title" class="modal-title"><span class="modal-title-icon">🍳</span><span></span></h2>
+    <div id="modal-recipe-category" class="modal-category"></div>
     <div id="modal-recipe-image" class="modal-image-wrap"></div>
     <div class="modal-block modal-block--ingredients">
       <h3 class="modal-block-title">🥗 材料</h3>

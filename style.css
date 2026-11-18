@@ -3757,3 +3757,54 @@ input[type="text"]:focus {
   font-size: 0.9em;
   flex-shrink: 0;
 }
+
+/* ===== カテゴリ ===== */
+.category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 0.8em;
+}
+.category-chip {
+  padding: 5px 12px;
+  border: 1px solid #ffe0b2;
+  background: #fffdf8;
+  color: #8d6e63;
+  border-radius: 16px;
+  font-size: 0.8em;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-main);
+}
+.category-chip:hover {
+  background: #fff3e0;
+  color: #e65100;
+}
+.category-chip.active {
+  background: linear-gradient(135deg, #ffb300 0%, #ff9800 100%);
+  border-color: #ff9800;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(255, 152, 0, 0.3);
+}
+.recipe-category-badge {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 0.72em;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 8px;
+  margin-right: 6px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.modal-category {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 0.85em;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 12px;
+  margin: -0.6em 0 0.8em;
+}
