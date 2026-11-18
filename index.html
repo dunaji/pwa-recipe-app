@@ -281,30 +281,6 @@
 </div>
 
 
-<script>
-(function(){
-  // モーダル表示時はbodyのスクロールを禁止
-  const modal = document.getElementById('recipe-detail-modal');
-  const closeBtn = document.getElementById('close-detail-modal');
-  if(modal && closeBtn){
-    const preventScroll = () => { document.body.style.overflow = 'hidden'; };
-    const allowScroll = () => { document.body.style.overflow = ''; };
-    modal.addEventListener('show', preventScroll);
-    modal.addEventListener('hide', allowScroll);
-    // 既存の表示切替にもhook
-    const origDisplay = modal.style.display;
-    const observer = new MutationObserver(() => {
-      if(modal.style.display === 'flex') preventScroll();
-      else allowScroll();
-    });
-    observer.observe(modal, { attributes: true, attributeFilter: ['style'] });
-    closeBtn.addEventListener('click', allowScroll);
-    window.addEventListener('beforeunload', allowScroll);
-  }
-})();
-</script>
-
-
     <!-- 履歴モーダル -->
     <div id="history-modal" class="history-modal" style="display:none;">
       <div class="history-modal-content">

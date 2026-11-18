@@ -533,7 +533,7 @@ class RecipeApp {
         }
       }
     } catch (error) {
-
+      console.error('ストレージ使用量の更新に失敗しました:', error);
     }
   }
 
@@ -631,7 +631,7 @@ class RecipeApp {
         this.renderRecipes();
       }
     } catch (error) {
-
+      console.error('タブ切り替え中にエラーが発生しました:', error);
     }
   }
 
@@ -3489,6 +3489,28 @@ class RecipeApp {
       this.renderRecipes();
     }
   }
+  // 詳細モーダル表示中は背面スクロールを禁止する
+  setupDetailModalScrollLock() {
+    const modal = document.getElementById('recipe-detail-modal');
+    const closeBtn = document.getElementById('close-detail-modal');
+    if (!modal || !closeBtn) return;
+
+    const preventScroll = () => { document.body.style.overflow = 'hidden'; };
+    const allowScroll = () => { document.body.style.overflow = ''; };
+
+    modal.addEventListener('show', preventScroll);
+    modal.addEventListener('hide', allowScroll);
+
+    const observer = new MutationObserver(() => {
+      if (modal.style.display === 'flex') preventScroll();
+      else allowScroll();
+    });
+    observer.observe(modal, { attributes: true, attributeFilter: ['style'] });
+
+    closeBtn.addEventListener('click', allowScroll);
+    window.addEventListener('beforeunload', allowScroll);
+  }
+
   // カスタムアイテムをレンダリングするメソッド
   renderCustomItems() {
     const container = document.getElementById('custom-items-list');
@@ -3663,6 +3685,7 @@ class RecipeApp {
       this.renderShoppingList();
       
       this.renderCustomItems();
+      this.setupDetailModalScrollLock();
       
     } catch (error) {
       console.error('[ERROR] 初期化中にエラーが発生しました:', error);
