@@ -1,5 +1,5 @@
 // アプリ更新時はこのバージョンを上げる（例: natsudon-v2）
-const CACHE_NAME = 'natsudon-v10';
+const CACHE_NAME = 'natsudon-v11';
 const APP_SHELL = [
   './',
   './index.html',
@@ -12,6 +12,7 @@ const APP_SHELL = [
   './custom_items.js',
   './history.js',
   './settings.js',
+  './mealplan.js',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',

@@ -23,7 +23,8 @@ export const settingsMethods = {
           recipes: this.recipes || [],
           shoppingList: this.shoppingList || { ingredients: [], customItems: [] },
           shoppingHistory: this.shoppingHistory || [],
-          customItems: this.customItems || []
+          customItems: this.customItems || [],
+          mealPlan: this.mealPlan || []
         }
       };
 
@@ -79,7 +80,8 @@ export const settingsMethods = {
       `レシピ: ${data.recipes.length}件`,
       `買い物リスト: ${ingredients.length + slCustom.length}件`,
       `買い物履歴: ${data.shoppingHistory.length}件`,
-      `その他: ${data.customItems.length}件`
+      `その他: ${data.customItems.length}件`,
+      `献立: ${Array.isArray(data.mealPlan) ? data.mealPlan.filter(id => id != null).length : 0}品`
     ].join('\n');
 
     if (!confirm(`現在のデータをすべて削除して、以下の内容に置き換えます。よろしいですか？\n\n${counts}`)) {
@@ -92,6 +94,8 @@ export const settingsMethods = {
       this.shoppingList = { ingredients, customItems: slCustom };
       this.shoppingHistory = data.shoppingHistory;
       this.customItems = data.customItems;
+      // 献立は旧バックアップに無い場合があるため任意項目として扱う
+      this.mealPlan = this.normalizeMealPlan(Array.isArray(data.mealPlan) ? data.mealPlan : null);
       this.selectedRecipes = new Set();
       this.selectedRecipesInfo = [];
 
@@ -100,11 +104,13 @@ export const settingsMethods = {
       await this.saveShoppingList();
       await this.saveShoppingHistory();
       await this.saveCustomItems();
+      await this.saveMealPlan();
 
       // 画面を再描画
       this.renderRecipes();
       this.renderShoppingList();
       this.renderCustomItems();
+      this.renderMealPlan();
       await this.updateStorageUsage();
 
       this.showMessage('データをインポートしました', 'success');

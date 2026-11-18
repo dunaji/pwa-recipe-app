@@ -3847,3 +3847,118 @@ input[type="text"]:focus {
   content: '・';
   color: #ff9800;
 }
+
+/* ===== 献立モード ===== */
+.meal-plan-days {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  margin-bottom: 1em;
+}
+.meal-day {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  background: #fffdf5;
+  border: 1px solid #ffe0b2;
+  border-radius: 12px;
+  padding: 0.7em 0.9em;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.meal-day:active {
+  background: #ffecb3;
+}
+.meal-day.assigned {
+  border-color: #ffb74d;
+  background: linear-gradient(160deg, #fff8e1, #ffecb3);
+}
+.meal-day-date {
+  font-weight: 700;
+  color: #e65100;
+  min-width: 4.5em;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+.meal-day-recipe {
+  flex: 1;
+  font-size: 0.98em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.meal-day-empty {
+  color: #bcaaa4;
+}
+.meal-day-clear {
+  border: none;
+  background: #ffccbc;
+  color: #bf360c;
+  border-radius: 50%;
+  width: 1.8em;
+  height: 1.8em;
+  font-size: 1em;
+  cursor: pointer;
+  flex-shrink: 0;
+  line-height: 1;
+}
+#meal-plan-add-shopping {
+  width: 100%;
+}
+
+/* 献立レシピ選択モーダル */
+#meal-picker-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(62, 39, 35, 0.38);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 6vh;
+  display: none;
+}
+.meal-picker-card {
+  max-height: 80vh;
+}
+.meal-picker-subtitle {
+  color: #8d6e63;
+  margin: -0.5em 0 0.8em 0;
+  font-size: 0.9em;
+}
+.meal-picker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  overflow-y: auto;
+}
+.meal-picker-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+  padding: 0.7em 0.9em;
+  border: 1px solid #ffe0b2;
+  border-radius: 10px;
+  background: #fffdf5;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.98em;
+  font-family: inherit;
+}
+.meal-picker-item:active {
+  background: #ffecb3;
+}
+.meal-picker-item-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.meal-picker-empty {
+  color: #8d6e63;
+  text-align: center;
+  padding: 1em;
+}

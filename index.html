@@ -46,6 +46,10 @@
                 <span>レシピ</span>
             </button>
             <!-- 買い物リストタブを開くボタン -->
+            <button class="tab-btn" data-tab="mealplan">
+                <i class="fas fa-calendar-days"></i>
+                <span>献立</span>
+            </button>
             <button class="tab-btn" data-tab="shopping">
                 <i class="fas fa-shopping-cart"></i>
                 <span>リスト</span>
@@ -224,6 +228,27 @@
             </div>
         </div>
 
+        <!-- 献立タブ -->
+        <div class="tab-content" id="mealplan">
+            <div class="card app-card">
+                <div class="card-header">
+                    <div class="tab-header">
+                        <h2 class="section-title title-flush-right"><i class="fa-solid fa-calendar-days"></i>献立</h2>
+                        <button id="clear-meal-plan" class="btn-remove icon-trash" title="献立をすべてクリア">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p class="custom-items-note">1日1品ずつレシピを割り当てると、材料がまとめて買い物リストに追加できます。</p>
+                    <div id="meal-plan-days" class="meal-plan-days">
+                        <!-- 献立の日付行がここに表示されます -->
+                    </div>
+                    <button id="meal-plan-add-shopping" class="btn-primary" disabled>買い物リストに追加</button>
+                </div>
+            </div>
+        </div>
+
         <!-- 買い物リストタブ -->
         <div class="tab-content" id="shopping">
             <div class="card app-card">
@@ -319,6 +344,18 @@
             </div>
         </div>
     </main>
+
+    <!-- 献立レシピ選択モーダル -->
+    <div id="meal-picker-modal" class="modal">
+  <div class="modal-content pop-modal modal-card meal-picker-card">
+    <button id="close-meal-picker" class="modal-close-btn">×</button>
+    <h2 class="modal-title"><span class="modal-title-icon">📅</span><span>レシピを選択</span></h2>
+    <div id="meal-picker-subtitle" class="meal-picker-subtitle"></div>
+    <div id="meal-picker-list" class="meal-picker-list">
+      <!-- レシピ一覧がここに表示されます -->
+    </div>
+  </div>
+</div>
 
     <!-- レシピ詳細モーダル -->
     <div id="recipe-detail-modal" class="modal">

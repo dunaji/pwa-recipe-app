@@ -4,6 +4,7 @@ import { shoppingMethods } from './shopping.js';
 import { customItemsMethods } from './custom_items.js';
 import { recipesMethods } from './recipes.js';
 import { settingsMethods } from './settings.js';
+import { mealPlanMethods } from './mealplan.js';
 
 // レシピ管理アプリ全体を制御するクラス
 class RecipeApp {
@@ -31,6 +32,7 @@ class RecipeApp {
     this.shoppingList = { ingredients: [], customItems: [] };
     this.shoppingHistory = [];
     this.customItems = [];
+    this.mealPlan = [];
     this.selectedRecipes = new Set();
     this.selectedRecipesInfo = []; // 選択されたレシピの情報を保持する配列
   }
@@ -215,6 +217,7 @@ class RecipeApp {
       const shoppingListData = shoppingLists.find(item => item && item.type === 'shoppingList');
       const historyData = shoppingLists.find(item => item && item.type === 'history');
       const customItemsRecords = shoppingLists.filter(item => item && item.type === 'customItems');
+      const mealPlanData = shoppingLists.find(item => item && item.type === 'mealPlan');
       
       // デバッグ用ログ
 
@@ -293,6 +296,11 @@ class RecipeApp {
 
       // 買い物履歴の設定
       this.shoppingHistory = (historyData && historyData.data) || [];
+
+      // 献立データの読み込み（type='mealPlan' のレコード）
+      this.mealPlan = this.normalizeMealPlan(
+        mealPlanData && mealPlanData.data ? mealPlanData.data.recipes : null
+      );
 
 
 
@@ -432,6 +440,8 @@ class RecipeApp {
         this.renderShoppingList();
       } else if (tabName === 'recipes') {
         this.renderRecipes();
+      } else if (tabName === 'mealplan') {
+        this.renderMealPlan();
       }
     } catch (error) {
       console.error('タブ切り替え中にエラーが発生しました:', error);
@@ -750,6 +760,7 @@ class RecipeApp {
       this.renderCustomItems();
       this.setupDetailModalScrollLock();
       this.setupDataSettings();
+      this.setupMealPlanEvents();
       
     } catch (error) {
       console.error('[ERROR] 初期化中にエラーが発生しました:', error);
@@ -759,7 +770,7 @@ class RecipeApp {
 }
 
 // 分割したモジュールのメソッドをプロトタイプに合成
-Object.assign(RecipeApp.prototype, historyMethods, shoppingMethods, customItemsMethods, recipesMethods, settingsMethods);
+Object.assign(RecipeApp.prototype, historyMethods, shoppingMethods, customItemsMethods, recipesMethods, settingsMethods, mealPlanMethods);
 
 // ストレージ使用量表示のトグル機能
 function toggleStorageUsage() {
