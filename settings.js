@@ -1,5 +1,8 @@
 // settings.js - データのエクスポート/インポートなど設定系機能
 
+// 投げ銭ページのURL（OFUSE等。準備ができたらここに設定）
+const DONATION_URL = '';
+
 export const settingsMethods = {
 
   // エクスポート/インポートボタンのイベント設定
@@ -10,6 +13,16 @@ export const settingsMethods = {
       if (input) input.click();
     });
     this.addEventIfExists('import-data-file', 'change', (e) => this.importData(e));
+    this.addEventIfExists('donation-link', 'click', () => this.openDonationPage());
+  },
+
+  // 投げ銭ページを開く（URL未設定の場合は案内のみ）
+  openDonationPage() {
+    if (DONATION_URL) {
+      window.open(DONATION_URL, '_blank', 'noopener');
+    } else {
+      this.showMessage('投げ銭ページは準備中です', 'info');
+    }
   },
 
   // 全データをJSONファイルとしてダウンロード
