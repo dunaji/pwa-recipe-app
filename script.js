@@ -3,6 +3,7 @@ import { historyMethods } from './history.js';
 import { shoppingMethods } from './shopping.js';
 import { customItemsMethods } from './custom_items.js';
 import { recipesMethods } from './recipes.js';
+import { settingsMethods } from './settings.js';
 
 // レシピ管理アプリ全体を制御するクラス
 class RecipeApp {
@@ -728,6 +729,7 @@ class RecipeApp {
       
       this.renderCustomItems();
       this.setupDetailModalScrollLock();
+      this.setupDataSettings();
       
     } catch (error) {
       console.error('[ERROR] 初期化中にエラーが発生しました:', error);
@@ -737,7 +739,7 @@ class RecipeApp {
 }
 
 // 分割したモジュールのメソッドをプロトタイプに合成
-Object.assign(RecipeApp.prototype, historyMethods, shoppingMethods, customItemsMethods, recipesMethods);
+Object.assign(RecipeApp.prototype, historyMethods, shoppingMethods, customItemsMethods, recipesMethods, settingsMethods);
 
 // ストレージ使用量表示のトグル機能
 function toggleStorageUsage() {

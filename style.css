@@ -3599,3 +3599,13 @@ input[type="text"]:focus {
 .custom-items-submit {
   margin-top: 1em;
 }
+
+/* ===== 設定タブ ===== */
+.settings-action-btn {
+  width: 100%;
+  margin-top: 0.5em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
