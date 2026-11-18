@@ -3286,6 +3286,10 @@ input[type="text"]:focus {
   box-shadow: none !important;
 }
 /* 買い物リスト削除メニュー */
+.clear-menu-wrapper {
+  position: relative;
+  display: inline-block;
+}
 .clear-menu {
   position: absolute;
   top: 100%;
