@@ -601,6 +601,46 @@ export const recipesMethods = {
     }
   },
 
+  // タイル表示用のレシピカードを生成
+  renderRecipeTile(recipe) {
+    const count = recipe.cookCount || 0;
+    const selected = this.selectedRecipes.has(recipe.id) ? 'selected' : '';
+    const imageHtml = recipe.image
+      ? `<img src="${recipe.image}" alt="${this.escapeHtml(recipe.name)}" class="recipe-tile-img">`
+      : `<div class="recipe-tile-img recipe-tile-img-placeholder"><i class="fas fa-utensils"></i></div>`;
+    return `
+      <div class="recipe-item recipe-tile recipe-selectable ${selected}" data-id="${recipe.id}">
+        <input type="checkbox" class="recipe-checkbox recipe-checkbox-tile" ${selected ? "checked" : ""}>
+        <button class="btn-favorite btn-favorite-tile" data-id="${recipe.id}">
+          <i class="${recipe.favorite ? 'fas fa-star' : 'far fa-star'}"></i>
+        </button>
+        ${imageHtml}
+        <div class="recipe-tile-name">${this.escapeHtml(recipe.name)}</div>
+        <div class="recipe-tile-meta">
+          <span class="recipe-tile-count">調理${count}回</span>
+          <button class="btn-detail btn-detail-link" data-id="${recipe.id}">詳細</button>
+        </div>
+      </div>
+    `;
+  },
+
+  // コンパクト表示用の1行レシピを生成
+  renderRecipeCompact(recipe) {
+    const count = recipe.cookCount || 0;
+    const selected = this.selectedRecipes.has(recipe.id) ? 'selected' : '';
+    return `
+      <div class="recipe-item recipe-compact recipe-selectable ${selected}" data-id="${recipe.id}">
+        <input type="checkbox" class="recipe-checkbox" ${selected ? "checked" : ""}>
+        <span class="recipe-compact-name">${this.escapeHtml(recipe.name)}</span>
+        <span class="recipe-compact-count">${count}回</span>
+        <button class="btn-favorite btn-favorite-compact" data-id="${recipe.id}">
+          <i class="${recipe.favorite ? 'fas fa-star' : 'far fa-star'}"></i>
+        </button>
+        <button class="btn-detail btn-detail-link" data-id="${recipe.id}">詳細</button>
+      </div>
+    `;
+  },
+
   // レシピ一覧を画面に表示する処理
   renderRecipes() {
 
@@ -655,6 +695,14 @@ export const recipesMethods = {
       });
     }
 
+    // 表示モードに応じたコンテナクラス
+    container.className = `recipes-container view-${this.recipeViewMode || 'list'}`;
+
+    if (this.recipeViewMode === 'tile') {
+      container.innerHTML = sortedRecipes.map((recipe) => this.renderRecipeTile(recipe)).join("");
+    } else if (this.recipeViewMode === 'compact') {
+      container.innerHTML = sortedRecipes.map((recipe) => this.renderRecipeCompact(recipe)).join("");
+    } else {
     container.innerHTML = sortedRecipes
       .map((recipe) => {
         // Use cookCount if available, otherwise default to 0
@@ -696,6 +744,7 @@ export const recipesMethods = {
         `;
       })
       .join("")
+    }
 
     // 古いイベントリスナーを削除
     const newContainer = container.cloneNode(true);
@@ -728,7 +777,15 @@ export const recipesMethods = {
       }
       
       const target = e.target.closest('.btn-detail, .btn-favorite, .btn-edit, .btn-delete, .fa-star, .fa-pen, .fa-trash');
-      if (!target) return;
+      if (!target) {
+        // タイル/コンパクト表示ではカード本体のクリックで選択をトグル
+        const selectable = e.target.closest('.recipe-selectable');
+        if (selectable) {
+          const cb = selectable.querySelector('.recipe-checkbox');
+          if (cb) cb.click();
+        }
+        return;
+      }
       
       e.preventDefault();
       e.stopPropagation();

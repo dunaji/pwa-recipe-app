@@ -10,6 +10,7 @@ class RecipeApp {
   // 並び順の状態
   recipeSortMode = "popular"; // デフォルトはよく作る順
   recipeSortOrder = "desc"; // デフォルトは降順
+  recipeViewMode = localStorage.getItem('recipeViewMode') || 'list'; // list / tile / compact
   db = null;
   isInitialized = false;
   editingRecipeId = null; // 編集モード用のID
@@ -515,6 +516,17 @@ class RecipeApp {
     this.addEventIfExists('recipe-sort-order', 'change', (e) => {
       this.recipeSortOrder = e.target.value;
       this.renderRecipes();
+    });
+
+    // 表示モード切替ボタン
+    document.querySelectorAll('.view-mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.recipeViewMode = btn.dataset.viewMode;
+        localStorage.setItem('recipeViewMode', this.recipeViewMode);
+        document.querySelectorAll('.view-mode-btn').forEach(b => b.classList.toggle('active', b === btn));
+        this.renderRecipes();
+      });
+      btn.classList.toggle('active', btn.dataset.viewMode === this.recipeViewMode);
     });
 
     // レシピフォーム
