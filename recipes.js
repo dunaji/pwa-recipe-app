@@ -733,6 +733,31 @@ export const recipesMethods = {
         const nameB = b.name || "";
         return nameA.localeCompare(nameB, "ja") * sortOrder;
       });
+    } else if (this.recipeSortMode === "stale") {
+      // 久しぶり順: 最終調理が古い順（未調理は最も古い扱い）。常に昇順
+      sortedRecipes.sort((a, b) => {
+        const timeA = a.lastCookedAt ? new Date(a.lastCookedAt).getTime() : 0;
+        const timeB = b.lastCookedAt ? new Date(b.lastCookedAt).getTime() : 0;
+        if (timeA !== timeB) return timeA - timeB;
+        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+      });
+    } else if (this.recipeSortMode === "recommended") {
+      // おすすめ順: お気に入り・調理回数・直近調理をスコア化（常に降順）
+      const now = Date.now();
+      const score = (r) => {
+        let s = 0;
+        if (r.favorite) s += 100;
+        s += (r.cookCount || 0) * 10;
+        if (r.lastCookedAt) {
+          const days = (now - new Date(r.lastCookedAt).getTime()) / 86400000;
+          if (days <= 30) s += 20;
+          else if (days > 180) s -= 10;
+        } else if ((r.cookCount || 0) === 0) {
+          s += 5; // 一度も作っていないレシピは試す価値あり
+        }
+        return s;
+      };
+      sortedRecipes.sort((a, b) => score(b) - score(a));
     } else if (this.recipeSortMode === "favorite") {
       sortedRecipes.sort((a, b) => {
         if (a.favorite === b.favorite) return 0;

@@ -641,6 +641,8 @@ export const shoppingMethods = {
         
         // 調理回数を1増やす（1回の買い物で1回とカウント）
         recipe.cookCount += 1;
+        // 最終調理日時を記録（「久しぶりに作ろう」用）
+        recipe.lastCookedAt = new Date().toISOString();
         updatedRecipes.add(recipeId);
         
       }
