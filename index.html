@@ -195,9 +195,15 @@
                     <div class="shopping-header">
                         <div style="display:flex;align-items:center;gap:8px;">
   <h2 class="section-title" style="margin:0;"><i class="fa-solid fa-shopping-cart" style="margin-right:0.38em;"></i>リスト</h2>
+  <div class="clear-menu-wrapper" style="position:relative;display:inline-block;">
   <button id="clear-shopping" class="btn-secondary icon-trash" title="リスト初期化" style="background:none;border:none;cursor:pointer;color:#e53935;font-size:1.3em;padding:0 4px;">
     <i class="fas fa-trash"></i>
   </button>
+  <div id="clear-shopping-menu" class="clear-menu" hidden>
+    <button type="button" id="clear-shopping-list-only" class="clear-menu-item">リストのみ削除</button>
+    <button type="button" id="clear-shopping-all" class="clear-menu-item clear-menu-item--danger">すべて削除（その他含む）</button>
+  </div>
+</div>
 </div>
                         <div id="shopping-history-area" class="shopping-history-area">
   <div style="margin-top:4px;">

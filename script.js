@@ -760,8 +760,19 @@ class RecipeApp {
     // 買い物リストに追加
     this.addEventIfExists('add-to-shopping', 'click', () => this.addSelectedToShopping());
 
-    // 買い物リスト初期化ボタン
-    this.addEventIfExists('clear-shopping', 'click', () => this.clearShoppingList());
+    // 買い物リスト初期化ボタン（削除範囲を選ぶメニューを開く）
+    this.addEventIfExists('clear-shopping', 'click', (e) => {
+      e.stopPropagation();
+      const menu = document.getElementById('clear-shopping-menu');
+      if (menu) menu.hidden = !menu.hidden;
+    });
+    this.addEventIfExists('clear-shopping-list-only', 'click', () => this.clearShoppingList(false));
+    this.addEventIfExists('clear-shopping-all', 'click', () => this.clearShoppingList(true));
+    // メニュー外クリックで閉じる
+    document.addEventListener('click', () => {
+      const menu = document.getElementById('clear-shopping-menu');
+      if (menu) menu.hidden = true;
+    });
 
     // 買い物完了ボタン
     const completeButton = document.getElementById('complete-shopping');
@@ -2912,13 +2923,25 @@ class RecipeApp {
   
 
   // 買い物リストを初期化する関数
-  clearShoppingList() {
-    if (confirm("買い物リストをクリアしますか？レシピから追加したアイテムのみ削除されます。")) {
-      // カスタムアイテムを除くアイテムのみをクリア
+  // includeCustom=true の場合は「その他」タブから追加したアイテムも削除する
+  clearShoppingList(includeCustom = false) {
+    const menu = document.getElementById('clear-shopping-menu');
+    if (menu) menu.hidden = true;
+
+    const target = includeCustom ? '買い物リストとその他' : '買い物リスト';
+    const confirmMsg = includeCustom
+      ? "買い物リストとその他のアイテムをすべて削除しますか？この操作は元に戻せません。"
+      : "買い物リストをクリアしますか？その他から追加したアイテムは残ります。";
+
+    if (confirm(confirmMsg)) {
       this.shoppingList.ingredients = [];
+      if (includeCustom) {
+        this.shoppingList.customItems = [];
+      }
       this.saveShoppingList();
       this.renderShoppingList();
-      this.showMessage('買い物リストをクリアしました', 'success');
+      this.renderCustomItems();
+      this.showMessage(`${target}をクリアしました`, 'success');
     }
   }
 
