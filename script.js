@@ -204,7 +204,7 @@ class RecipeApp {
       // データを型に応じて分類
       const shoppingListData = shoppingLists.find(item => item && item.type === 'shoppingList');
       const historyData = shoppingLists.find(item => item && item.type === 'history');
-      const customItemsData = shoppingLists.find(item => item && item.type === 'customItems');
+      const customItemsRecords = shoppingLists.filter(item => item && item.type === 'customItems');
       
       // デバッグ用ログ
 
@@ -250,47 +250,35 @@ class RecipeApp {
         }
       }
 
-      // カスタムアイテムの処理
-      if (customItemsData) {
+      // カスタムアイテムの処理（type='customItems' のレコードをすべてマージ。
+      // 旧形式のautoIncrement idレコードと新形式のid='customItems'レコードが
+      // 混在していても取りこぼさない）
+      {
         try {
-          // 新しい形式（items プロパティに配列として格納）に対応
-          const customItems = Array.isArray(customItemsData.items) 
-            ? customItemsData.items 
-            : [];
-          
-          // 古い形式（data プロパティ）の互換性維持
-          const legacyCustomItems = (customItemsData.data && Array.isArray(customItemsData.data))
-            ? customItemsData.data
-            : [];
-          
-          // 重複を避けてマージ（新しい形式を優先）
-          const allItems = [...customItems];
-          const existingIds = new Set(allItems.map(item => item.id));
-          
-          for (const item of legacyCustomItems) {
-            if (item && item.id && !existingIds.has(item.id)) {
-              allItems.push(item);
-              existingIds.add(item.id);
+          const allItems = [];
+          const existingIds = new Set();
+
+          for (const record of customItemsRecords) {
+            const items = Array.isArray(record.items) ? record.items : [];
+            const legacy = Array.isArray(record.data) ? record.data : [];
+            for (const item of [...items, ...legacy]) {
+              if (!item || typeof item !== 'object') continue;
+              // idが無いアイテムは重複判定できないためそのまま残す
+              if (item.id == null || !existingIds.has(item.id)) {
+                allItems.push(item);
+                if (item.id != null) existingIds.add(item.id);
+              }
             }
           }
-          
-          // カスタムアイテムを設定
+
           this.customItems = allItems;
-          
-          // カスタムアイテムをレンダリング
           this.renderCustomItems();
-          
-          // 買い物リスト内のカスタムアイテムは別々に管理するため、ここでは更新しない
-          // 買い物リストに追加するには明示的な操作が必要
-          
+
         } catch (error) {
           console.error('カスタムアイテムの読み込み中にエラーが発生しました:', error);
           this.customItems = [];
           this.shoppingList.customItems = [];
         }
-      } else {
-        this.customItems = [];
-        this.shoppingList.customItems = [];
       }
 
       // 買い物履歴の設定
@@ -558,43 +546,47 @@ class RecipeApp {
 
 
   // カスタムアイテムを保存
+  // type='customItems' のレコードをすべて削除してから正規形で1件だけ書く。
+  // （旧形式のautoIncrement idレコードが残っていると読み込み時に二重化するため）
   async saveCustomItems() {
     if (!window.recipeDB || !window.recipeDB.db) {
       console.error('データベースが初期化されていません');
       return;
     }
 
+    const transaction = window.recipeDB.db.transaction(['shoppingList'], 'readwrite');
+    const store = transaction.objectStore('shoppingList');
+
     try {
-      // IndexedDBに保存
-      const transaction = window.recipeDB.db.transaction(['shoppingList'], 'readwrite');
-      const store = transaction.objectStore('shoppingList');
-      
-      // 既存のカスタムアイテムを削除
-      const clearRequest = store.delete('customItems');
-      
-      clearRequest.onsuccess = () => {
-        // 新しいカスタムアイテムを追加
-        const addRequest = store.add({
+      // 既存のカスタムアイテムレコードをすべて取得して削除
+      const existing = await new Promise((resolve, reject) => {
+        const request = store.index('type').getAll('customItems');
+        request.onsuccess = () => resolve(request.result || []);
+        request.onerror = () => reject(new Error('カスタムアイテムの取得に失敗しました'));
+      });
+
+      for (const record of existing) {
+        await new Promise((resolve, reject) => {
+          const request = store.delete(record.id);
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(new Error('カスタムアイテムの削除に失敗しました'));
+        });
+      }
+
+      // 正規形で保存
+      await new Promise((resolve, reject) => {
+        const request = store.add({
           id: 'customItems',
           type: 'customItems',
           items: this.customItems,
           updatedAt: new Date().toISOString()
         });
-        
-        addRequest.onsuccess = () => {
-
-        };
-        
-        addRequest.onerror = (event) => {
-
-        };
-      };
-      
-      clearRequest.onerror = (event) => {
-
-      };
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(new Error('カスタムアイテムの保存に失敗しました'));
+      });
     } catch (error) {
       console.error('カスタムアイテムの保存中にエラーが発生しました:', error);
+      transaction.abort();
     }
   }
 
