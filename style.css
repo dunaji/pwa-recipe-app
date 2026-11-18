@@ -1,3 +1,23 @@
+/* デザイン tokens */
+:root {
+  --color-primary: #ff9800;
+  --color-primary-dark: #e65100;
+  --color-primary-light: #fff8e1;
+  --color-primary-pale: #fff3e0;
+  --color-accent-blue: #1976d2;
+  --color-accent-green: #43a047;
+  --color-danger: #e53935;
+  --color-text: #333;
+  --color-text-sub: #666;
+  --color-border: #ffe0b2;
+  --color-card-bg: linear-gradient(135deg, rgba(255,251,233,0.95) 80%, rgba(255,224,178,0.95) 100%);
+  --radius-card: 16px;
+  --radius-btn: 10px;
+  --shadow-card: 0 2px 10px rgba(255, 152, 0, 0.10), 0 1px 4px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 8px 24px rgba(255, 152, 0, 0.18), 0 2px 10px rgba(0, 0, 0, 0.10);
+  --font-main: 'Kiwi Maru', 'Hiragino Maru Gothic ProN', 'Yuji Mai', 'Yuji Syuku', 'Meiryo', cursive, sans-serif;
+}
+
 /* すべての要素の余白・パディングをリセットし、ボックスサイズをborder-boxに統一 */
 * {
   margin: 0;
@@ -243,11 +263,18 @@
 
 /* 画面全体の基本スタイル */
 body {
-  font-family: 'Kiwi Maru', 'Hiragino Maru Gothic ProN', 'Yuji Mai', 'Yuji Syuku', 'Meiryo', cursive, sans-serif;
-  background: url("cafe_drink.png") repeat center center fixed;
+  font-family: var(--font-main);
+  background-color: #fff8e1;
+  background-image:
+    linear-gradient(rgba(255, 248, 225, 0.82), rgba(255, 248, 225, 0.82)),
+    url("cafe_drink.png");
+  background-repeat: repeat;
+  background-position: center center;
+  background-attachment: fixed;
   background-size: cover;
   min-height: 100vh;
-  color: #333;
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
 }
 
 /* アプリのタイトル部分（ヘッダー） */
@@ -255,10 +282,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+  padding: 1.1rem 1rem 1rem;
+  background: linear-gradient(135deg, #ffb300 0%, #ff9800 55%, #f57c00 100%);
   color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 14px rgba(245, 124, 0, 0.28);
   position: relative;
 }
 
@@ -268,8 +295,8 @@ body {
   height: 48px;
   width: 48px;
   object-fit: cover;
-  border-radius: 8px;
-  background: transparent;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.18);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -277,6 +304,8 @@ body {
   margin: 0;
   font-size: 1.65rem;
   font-weight: 700;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
 }
 
 /* アプリ全体の中央寄せ・幅調整 */
@@ -289,11 +318,13 @@ body {
 /* 上部のタブ切り替えボタン（登録・レシピ・買い物） */
 .tab-navigation {
   display: flex;
-  background: white;
-  border-radius: 12px;
-  padding: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  padding: 5px;
   margin-bottom: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(255, 152, 0, 0.12);
+  border: 1px solid rgba(255, 224, 178, 0.8);
 }
 
 .tab-btn {
@@ -637,19 +668,27 @@ input[type="text"]:focus {
 .btn-primary {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+  background: linear-gradient(135deg, #ffb300 0%, #ff9800 60%, #f57c00 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-btn);
   font-size: 1rem;
   font-weight: 600;
+  letter-spacing: 0.03em;
   cursor: pointer;
-  transition: transform 0.2s ease;
-  font-family: 'Kiwi Maru', 'Hiragino Maru Gothic ProN', 'Yuji Mai', 'Yuji Syuku', 'Meiryo', cursive, sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: var(--font-main);
+  box-shadow: 0 3px 10px rgba(245, 124, 0, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 124, 0, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(245, 124, 0, 0.3);
 }
 
 .btn-secondary {
@@ -828,17 +867,15 @@ input[type="text"]:focus {
   transition: color 0.18s, transform 0.18s;
 }
 .tab-btn.active {
-  color: #ff9800;
-  background: #fff8e1;
-  box-shadow: 0 2px 10px rgba(255,152,0,0.06);
-  transform: scale(1.04);
+  color: #e65100;
+  background: linear-gradient(135deg, #fff8e1 0%, #ffe0b2 100%);
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.22);
 }
 .tab-btn:hover,
 .tab-btn:focus {
   color: #e65100;
   background: #fffde7;
-  box-shadow: 0 4px 16px #ffd54f22;
-  transform: scale(1.06);
+  box-shadow: 0 4px 14px rgba(255, 213, 79, 0.35);
 }
 .tab-btn:hover i,
 .tab-btn:focus i {
@@ -1580,28 +1617,29 @@ input[type="text"]:focus {
 }
 
 .card {
-  background: linear-gradient(135deg, rgba(255,251,233,0.95) 80%, rgba(255,224,178,0.95) 100%);
-  border-radius: 15px;
-  box-shadow: 0 2px 8px #ffd54f55;
-  padding: 1em 1em 0.8em 1em;
+  background: var(--color-card-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1.1em 1.1em 0.9em;
   margin-bottom: 1em;
-  border: 1.5px solid #ffe0b2;
-  transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+  border: 1px solid var(--color-border);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
   position: relative;
 }
 .card:hover {
-  box-shadow: 0 6px 24px #ffd54f66, 0 2px 12px #ffecb366;
+  box-shadow: var(--shadow-card-hover);
   border-color: #ffd54f;
+  transform: translateY(-1px);
 }
 
 .recipe-item {
-  background: linear-gradient(135deg, rgba(255,251,233,0.95) 80%, rgba(255,224,178,0.95) 100%);
-  border-radius: 14px;
-  box-shadow: 0 2px 8px #ffd54f44;
+  background: var(--color-card-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   margin-bottom: 1.1em;
-  padding: 0.9em 1em 0.7em 1em;
-  border: 1.5px solid #ffe0b2;
-  transition: box-shadow 0.17s, border-color 0.17s, transform 0.13s;
+  padding: 1em 1.05em 0.85em;
+  border: 1px solid var(--color-border);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -1610,9 +1648,9 @@ input[type="text"]:focus {
 }
 
 .recipe-item:hover {
-  box-shadow: 0 8px 28px #ffd54f44, 0 2px 10px #ffecb388;
+  box-shadow: var(--shadow-card-hover);
   border-color: #ffd54f;
-  transform: scale(1.012);
+  transform: translateY(-1px);
 }
 
 .recipe-item .recipe-thumb {
@@ -3027,13 +3065,13 @@ input[type="text"]:focus {
 }
 
 .section-title {
-  color: #222;
-  font-size: 1.08rem;
-  margin: 0 0 8px 0;
+  color: #4e342e;
+  font-size: 1.12rem;
+  margin: 0 0 10px 0;
   padding-bottom: 0;
   border-bottom: none;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -3214,12 +3252,17 @@ input[type="text"]:focus {
 .shopping-item {
   display: flex;
   align-items: center;
-  padding: 8px 16px;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 10px 14px;
+  border-bottom: 1px solid #f5e6d3;
   transition: all 0.2s ease;
-  background: #fff;
+  background: #fffdf8;
   transform: translateY(0);
   border-left: 4px solid #ff80ab; /* デフォルトのピンクボーダー */
+  border-top: 1px solid #f7ecdd;
+  border-right: 1px solid #f7ecdd;
+  border-bottom: 1px solid #f7ecdd;
+  border-radius: 10px;
+  margin-bottom: 6px;
   position: relative;
   z-index: 1;
   opacity: 1 !important;
@@ -3732,7 +3775,8 @@ input[type="text"]:focus {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(255, 180, 50, 0.12);
+  background: rgba(62, 39, 35, 0.38);
+  backdrop-filter: blur(2px);
   z-index: 1000;
   justify-content: center;
   align-items: center;
@@ -3740,12 +3784,13 @@ input[type="text"]:focus {
 }
 
 .modal-card {
-  background: linear-gradient(135deg, #fffbe9 80%, #ffe0b2 100%);
-  padding: 2.2em 2em 2em 2em;
+  background: linear-gradient(160deg, #fffbe9 70%, #ffedd0 100%);
+  padding: 2.2em 1.9em 2em;
   max-width: 430px;
   width: 92vw;
-  border-radius: 20px;
-  box-shadow: 0 4px 32px rgba(255, 152, 0, 0.18), 0 1.5px 8px rgba(0, 0, 0, 0.12);
+  border-radius: 22px;
+  border: 1px solid #ffe0b2;
+  box-shadow: 0 12px 40px rgba(230, 81, 0, 0.22), 0 2px 10px rgba(0, 0, 0, 0.14);
   position: relative;
   overflow-y: auto;
   max-height: 90vh;
