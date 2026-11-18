@@ -229,16 +229,11 @@ export const mealPlanMethods = {
   async addMealPlanToShopping() {
     if (!Array.isArray(this.mealPlan)) return;
 
-    const recipeIds = [...new Set(
-      this.mealPlan.filter(e => e.recipeId != null).map(e => e.recipeId)
-    )];
-    if (recipeIds.length === 0) {
-      this.showMessage('献立が登録されていません', 'error');
-      return;
-    }
-
-    const plannedRecipes = recipeIds
-      .map(id => this.recipes.find(r => String(r.id) === String(id)))
+    // 同じレシピが複数日に割り当てられている場合は日数分カウントする
+    // （材料数量はaddToShoppingList内で合算される）
+    const plannedRecipes = this.mealPlan
+      .filter(e => e.recipeId != null)
+      .map(e => this.recipes.find(r => String(r.id) === String(e.recipeId)))
       .filter(Boolean);
 
     if (plannedRecipes.length === 0) {
@@ -288,7 +283,7 @@ export const mealPlanMethods = {
       if (multSelect && prevValue !== null) multSelect.value = prevValue;
     }
 
-    this.showMessage(`${plannedRecipes.length}品の材料で買い物リストを更新しました`);
+    this.showMessage(`${plannedRecipes.length}日分の材料で買い物リストを更新しました`);
     this.switchTab('shopping');
   },
 
