@@ -2,7 +2,7 @@
 
 // RecipeApp.prototype に Object.assign で合成される
 
-export const custom_itemsMethods = {
+export const customItemsMethods = {
 
   // 一括削除ボタンのセットアップ
   setupClearButton() {
