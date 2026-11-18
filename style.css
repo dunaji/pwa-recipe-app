@@ -2830,8 +2830,7 @@ input[type="text"]:focus {
 }
 
 .shopping-item.completed {
-  opacity: 0.7;
-  background-color: var(--surface-2);
+  background-color: var(--tint-green);
 }
 
 .shopping-item.completed .item-name,

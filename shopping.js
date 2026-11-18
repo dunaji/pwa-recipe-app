@@ -248,11 +248,26 @@ export const shoppingMethods = {
       return;
     }
 
-    // 全アイテムを結合
+    // 全アイテムを結合（過去データにネスト配列が残る場合に備えてフラット化）
     const allItems = [
-      ...(this.shoppingList.ingredients || []),
-      ...(this.shoppingList.customItems || [])
+      ...(this.shoppingList.ingredients || []).flat(),
+      ...(this.shoppingList.customItems || []).flat()
     ];
+
+    // IDがない・重複しているアイテムに一意のIDを補完（チェック状態の誤爆防止）
+    const seenIds = new Set();
+    let idsFixed = false;
+    allItems.forEach(item => {
+      if (!item || typeof item !== 'object') return;
+      if (!item.id || seenIds.has(String(item.id))) {
+        item.id = `item-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        idsFixed = true;
+      }
+      seenIds.add(String(item.id));
+    });
+    if (idsFixed) {
+      this.saveShoppingList();
+    }
     
     // 選択されたレシピを表示するセクションのHTMLを構築
     let selectedRecipesHtml = '';
@@ -453,7 +468,7 @@ export const shoppingMethods = {
     this.setupSeasoningSectionToggles();
 
     // レシピ名の表示/非表示トグル
-    document.querySelectorAll('.btn-recipes-toggle').forEach((btn) => {
+    shoppingListEl.querySelectorAll('.btn-recipes-toggle').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const item = e.currentTarget.closest('.shopping-item');
@@ -466,24 +481,28 @@ export const shoppingMethods = {
       });
     });
 
-    // チェックボックスのイベントリスナーを設定
-    document.querySelectorAll('.item-checkbox').forEach((checkbox) => {
+    // チェックボックスのイベントリスナーを設定（買い物リスト内に限定）
+    shoppingListEl.querySelectorAll('.item-checkbox').forEach((checkbox) => {
       checkbox.addEventListener('change', (e) => {
-        const itemId = e.target.closest('.shopping-item').dataset.id;
-        this.toggleShoppingItem(itemId);
+        const itemEl = e.target.closest('.shopping-item');
+        if (!itemEl) return;
+        this.toggleShoppingItem(itemEl.dataset.id, e.target.checked);
       });
     });
   },
 
   // 調味料セクションのトグルイベントを設定
   setupSeasoningSectionToggles() {
-    document.querySelectorAll('.seasoning-section .section-header').forEach(header => {
+    const container = document.getElementById('shopping-container');
+    if (!container) return;
+
+    container.querySelectorAll('.seasoning-section .section-header').forEach(header => {
       header.removeEventListener('click', this.toggleSeasoningSection);
       header.addEventListener('click', this.toggleSeasoningSection);
     });
 
-    // 削除ボタンのイベントリスナー
-    document.querySelectorAll('.btn-remove').forEach((button) => {
+    // 削除ボタンのイベントリスナー（買い物リスト内に限定）
+    container.querySelectorAll('.btn-remove').forEach((button) => {
       button.addEventListener('click', (e) => {
         e.stopPropagation();
         const itemId = e.currentTarget.dataset.id;
@@ -491,9 +510,10 @@ export const shoppingMethods = {
       });
     });
 
-    // カスタムアイテム一括削除ボタンのイベントリスナー
+    // カスタムアイテム一括削除ボタンのイベントリスナー（重複バインド防止）
     const clearCustomBtn = document.querySelector('.btn-clear-custom');
-    if (clearCustomBtn) {
+    if (clearCustomBtn && !clearCustomBtn.dataset.bound) {
+      clearCustomBtn.dataset.bound = '1';
       clearCustomBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         this.clearAllCustomItems();
@@ -524,18 +544,24 @@ export const shoppingMethods = {
   },
 
   // 買い物リストのチェックボックスON/OFFで完了状態を切り替える
-  toggleShoppingItem(itemId) {
-    // すべてのアイテムを検索
-    const allItems = [...(this.shoppingList.ingredients || []), ...(this.shoppingList.customItems || [])];
-    const item = allItems.find((item) => item.id === itemId || item.name.toLowerCase() === itemId.toLowerCase());
+  toggleShoppingItem(itemId, checked) {
+    // すべてのアイテムを検索（過去データのネスト配列・ID欠損に備える）
+    const allItems = [
+      ...(this.shoppingList.ingredients || []).flat(),
+      ...(this.shoppingList.customItems || []).flat()
+    ];
+    const item = allItems.find((it) => it && typeof it === 'object' && (
+      String(it.id) === String(itemId) ||
+      (it.name && String(it.name).toLowerCase() === String(itemId).toLowerCase())
+    ));
 
     if (item) {
-      // アイテムの完了状態をトグル
-      item.completed = !item.completed;
+      // チェックボックスの実状態に同期（多重発火・二重トグルを防止）
+      item.completed = typeof checked === 'boolean' ? checked : !item.completed;
 
       // カスタムアイテムの場合は、カスタムアイテムリストも更新
       if (item.isCustom) {
-        const customItem = this.customItems.find((i) => i.id === item.id);
+        const customItem = this.customItems.find((i) => String(i.id) === String(item.id));
         if (customItem) {
           customItem.completed = item.completed;
           this.saveCustomItems();
