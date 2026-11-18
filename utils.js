@@ -151,9 +151,10 @@ const SHOPPING_CATEGORY_KEYWORDS = [
 ];
 
 export function getShoppingCategory(name) {
-  const lower = (name || '').toLowerCase();
+  // 表記ゆれを正規化した名前でも判定する（「とりにく」→「鶏肉」等）
+  const candidates = [(name || '').toLowerCase(), normalizeIngredientKey(name)];
   for (const group of SHOPPING_CATEGORY_KEYWORDS) {
-    if (group.keywords.some(k => lower.includes(k.toLowerCase()))) {
+    if (candidates.some(c => group.keywords.some(k => c.includes(k.toLowerCase())))) {
       return group.category;
     }
   }
@@ -254,11 +255,11 @@ const INGREDIENT_ALIAS_GROUPS = [
   ['ひらたけ', '平茸', 'ヒラタケ', 'ひらたけ茸'],
   ['ぶなしめじ', 'ブナシメジ'],
   // 肉
-  ['鶏肉', 'とり肉', '鳥肉', '鶏にく'],
-  ['鶏もも肉', '鶏もも'],
-  ['鶏むね肉', '鶏むね'],
+  ['鶏肉', 'とり肉', '鳥肉', '鶏にく', 'とりにく'],
+  ['鶏もも肉', '鶏もも', 'とりもも'],
+  ['鶏むね肉', '鶏むね', 'とりむね'],
   ['鶏ささみ', 'ささみ', 'ささ身', '鶏ささ身'],
-  ['鶏ひき肉', 'とりひき肉', '鶏ミンチ', '鶏挽き肉', '鶏ひきにく'],
+  ['鶏ひき肉', 'とりひき肉', '鶏ミンチ', '鶏挽き肉', '鶏ひきにく', 'とりひきにく'],
   ['鶏皮', 'とりかわ', '鳥皮'],
   ['手羽元', 'てばもと'],
   ['手羽先', 'てばさき'],

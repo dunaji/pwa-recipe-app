@@ -4017,21 +4017,21 @@ input[type="text"]:focus {
 /* ===== 買い物アイテム：2段構成のコンパクト設計 ===== */
 #shopping-container .shopping-item {
   display: block;
-  padding: 6px 8px;
-  margin-bottom: 4px;
+  padding: 4px 6px;
+  margin-bottom: 3px;
   min-height: 0;
 }
 #shopping-container .shopping-item .item-line1 {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 #shopping-container .shopping-item .item-line2 {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 2px;
-  padding-left: 24px; /* チェックボックス分だけ下げて名前の下に揃える */
+  gap: 5px;
+  margin-top: 1px;
+  padding-left: 23px; /* チェックボックス分だけ下げて名前の下に揃える */
 }
 #shopping-container .shopping-item .item-checkbox-container {
   margin-right: 0;
@@ -4114,4 +4114,22 @@ input[type="text"]:focus {
   #shopping-container .ingredients-list {
     column-count: 2;
   }
+}
+
+/* 買い物タブの外側余白を圧縮してリスト幅を最大化 */
+#shopping .app-card {
+  padding: 0.7em 0.7em 0.7em;
+}
+#shopping .card-header {
+  padding: 0.9rem 0.9rem 0;
+}
+#shopping .card-content {
+  padding: 0.9rem;
+}
+#shopping .shopping-list-container {
+  padding: 8px;
+  gap: 10px;
+}
+#shopping .shopping-header {
+  margin-bottom: 0.4em;
 }

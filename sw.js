@@ -1,5 +1,5 @@
 // アプリ更新時はこのバージョンを上げる（例: natsudon-v2）
-const CACHE_NAME = 'natsudon-v26';
+const CACHE_NAME = 'natsudon-v27';
 const APP_SHELL = [
   './',
   './index.html',
