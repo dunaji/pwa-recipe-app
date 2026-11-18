@@ -545,12 +545,8 @@ export const shoppingMethods = {
       // 状態を保存してUIを更新
       this.saveShoppingList();
       this.updateCompleteShoppingButton();
-
-      // チェックボックスの状態を更新
-      const checkbox = document.querySelector(`.shopping-item[data-id="${item.id}"] .item-checkbox`);
-      if (checkbox) {
-        checkbox.checked = item.completed;
-      }
+      // completed クラス・セクション内ソート・進捗を即時反映するため再描画
+      this.renderShoppingList();
     } else {
 
     }
