@@ -71,7 +71,7 @@ export const shoppingMethods = {
       transaction.abort();
       throw error; // エラーを再スローして呼び出し元で処理できるようにする
     }
-  }
+  },
 
   // 買い物リスト追加ボタンの表示を更新する関数
   updateShoppingButton() {
@@ -79,7 +79,7 @@ export const shoppingMethods = {
     if (addToShoppingBtn) {
       addToShoppingBtn.style.display = this.selectedRecipes.size > 0 ? 'block' : 'none';
     }
-  }
+  },
 
   // 選択中のレシピの材料を買い物リストに追加する処理
   addSelectedToShopping() {
@@ -198,7 +198,7 @@ export const shoppingMethods = {
       this.switchTab('shopping');
       this.showMessage("買い物リストを更新しました。", "success");
     }
-  }
+  },
 
   // 買い物リストを画面に表示する処理
   renderShoppingList() {
@@ -394,7 +394,7 @@ export const shoppingMethods = {
         this.toggleShoppingItem(itemId);
       });
     });
-  }
+  },
 
   // 調味料セクションのトグルイベントを設定
   setupSeasoningSectionToggles() {
@@ -422,7 +422,7 @@ export const shoppingMethods = {
     }
 
       // 買い物完了ボタンのイベントリスナーはsetupEventListenersで登録済みのため削除
-  }
+  },
 
   // 買い物リストのチェックボックスON/OFFで完了状態を切り替える
   toggleShoppingItem(itemId) {
@@ -688,7 +688,7 @@ export const shoppingMethods = {
       // 処理中フラグをリセット
       this.isCompletingShopping = false;
     }
-  }
+  },
 
   // 買い物リストを初期化する関数
   // includeCustom=true の場合は「その他」タブから追加したアイテムも削除する
@@ -827,7 +827,7 @@ export const shoppingMethods = {
     }
 
     return added;
-  }
+  },
 
   // 「買い物完了」ボタンの有効/無効を切り替える
   updateCompleteShoppingButton() {

@@ -18,7 +18,7 @@ export const custom_itemsMethods = {
     } else {
 
     }
-  }
+  },
 
   // カスタムアイテムを保存
   // type='customItems' のレコードをすべて削除してから正規形で1件だけ書く。
@@ -63,7 +63,7 @@ export const custom_itemsMethods = {
       console.error('カスタムアイテムの保存中にエラーが発生しました:', error);
       transaction.abort();
     }
-  }
+  },
 
   // その他をすべて削除
   clearAllCustomItems() {
@@ -97,7 +97,7 @@ export const custom_itemsMethods = {
         }
       }, 50);
     }
-  }
+  },
 
   // カスタムアイテムを削除
   async removeCustomItem(id) {
@@ -130,7 +130,7 @@ export const custom_itemsMethods = {
       console.error('カスタムアイテムの削除中にエラーが発生しました:', error);
       this.showMessage('カスタムアイテムの削除中にエラーが発生しました', 'error');
     }
-  }
+  },
 
   // カスタムアイテムを追加
   async addCustomItem() {
@@ -194,7 +194,7 @@ export const custom_itemsMethods = {
       this.showMessage('カスタムアイテムの追加中にエラーが発生しました', 'error');
       this.customItems = this.customItems.filter(item => item.id !== newItem.id);
     }
-  }
+  },
 
   // 選択されたカスタムアイテムを買い物リストに追加
   async addSelectedCustomItemsToShoppingList() {
@@ -264,7 +264,7 @@ export const custom_itemsMethods = {
       console.error('買い物リストへの追加中にエラーが発生しました:', error);
       this.showMessage('買い物リストへの追加中にエラーが発生しました', 'error');
     }
-  }
+  },
 
   // カスタムアイテムをレンダリングするメソッド
   renderCustomItems() {
