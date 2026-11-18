@@ -492,7 +492,7 @@ export const shoppingMethods = {
       checkbox.addEventListener('change', (e) => {
         const itemEl = e.target.closest('.shopping-item');
         if (!itemEl) return;
-        this.toggleShoppingItem(itemEl.dataset.id, e.target.checked);
+        this.toggleShoppingItem(itemEl.dataset.id, e.target.checked, itemEl);
       });
     });
   },
@@ -550,7 +550,7 @@ export const shoppingMethods = {
   },
 
   // 買い物リストのチェックボックスON/OFFで完了状態を切り替える
-  toggleShoppingItem(itemId, checked) {
+  toggleShoppingItem(itemId, checked, itemEl) {
     // すべてのアイテムを検索（過去データのネスト配列・ID欠損に備える）
     const allItems = [
       ...(this.shoppingList.ingredients || []).flat(),
@@ -574,11 +574,24 @@ export const shoppingMethods = {
         }
       }
 
-      // 状態を保存してUIを更新
+      // 状態を保存してUIを更新（全再描画はせず対象行だけ更新して副作用を防ぐ）
       this.saveShoppingList();
       this.updateCompleteShoppingButton();
-      // completed クラス・セクション内ソート・進捗を即時反映するため再描画
-      this.renderShoppingList();
+      if (itemEl && itemEl.isConnected) {
+        itemEl.classList.toggle('completed', item.completed);
+        const list = itemEl.closest('.ingredients-list');
+        if (list) {
+          if (item.completed) {
+            list.appendChild(itemEl); // 完了はセクション末尾へ
+          } else {
+            // 未完了に戻した場合は最初の完了済みの前へ（無ければ先頭）
+            const firstCompleted = [...list.querySelectorAll('.shopping-item')]
+              .find(el => el !== itemEl && el.classList.contains('completed'));
+            if (firstCompleted) list.insertBefore(itemEl, firstCompleted);
+            else list.prepend(itemEl);
+          }
+        }
+      }
     } else {
 
     }
