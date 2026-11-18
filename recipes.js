@@ -660,24 +660,24 @@ export const recipesMethods = {
         // Use cookCount if available, otherwise default to 0
         const count = recipe.cookCount || 0;
         const countHtml = `
-          <div class="recipe-count" style="display:flex;flex-direction:column;align-items:flex-end;font-size:0.88em;color:#ff9800;margin-bottom:0.2em;line-height:1.15;">
-            <span style='font-weight:bold;'>調理</span>
+          <div class="recipe-count recipe-cook-count">
+            <span class="recipe-cook-count-label">調理</span>
             <span>${count}回</span>
           </div>`;
         
         return `
-          <div class="recipe-item ${this.selectedRecipes.has(recipe.id) ? "selected" : ""}" data-id="${recipe.id}" style="width: 100%;">
-            <div class="recipe-header" style="display: flex; align-items: flex-start; width: 100%;">
-              <input type="checkbox" class="recipe-checkbox" ${this.selectedRecipes.has(recipe.id) ? "checked" : ""} style="margin-top: 0.5em;">
-              <div class="recipe-content" style="flex: 1; margin-left: 10px; width: calc(100% - 40px);">
-                <div style="display: flex; align-items: center; margin-bottom: 10px; width: 100%;">
-                  <div class="recipe-name" style="font-size: 1.4em; font-weight: 600; color: #333; margin-right: 10px;">${recipe.name}</div>
-                  <button class="btn-detail" data-id="${recipe.id}" style="font-size: 0.93em; color: #2196f3; background: none; border: none; cursor: pointer; white-space: nowrap; padding: 0 8px;">詳細</button>
+          <div class="recipe-item recipe-item-full ${this.selectedRecipes.has(recipe.id) ? "selected" : ""}" data-id="${recipe.id}">
+            <div class="recipe-header">
+              <input type="checkbox" class="recipe-checkbox recipe-checkbox-card" ${this.selectedRecipes.has(recipe.id) ? "checked" : ""}>
+              <div class="recipe-content recipe-content-card">
+                <div class="recipe-title-row">
+                  <div class="recipe-name recipe-card-name">${recipe.name}</div>
+                  <button class="btn-detail btn-detail-link" data-id="${recipe.id}">詳細</button>
                 </div>
-                <div class="recipe-ingredients" style="display:none;margin-bottom:10px;">
+                <div class="recipe-ingredients recipe-ingredients-hidden">
                   ${recipe.ingredients.map(ing => `<span class="ingredient-badge">${ing.name} ${ing.quantity}</span>`).join("")}
                 </div>
-                ${recipe.image ? `<img src="${recipe.image}" alt="${recipe.name}" class="recipe-image" style="width:100%;max-width:300px;height:auto;border-radius:8px;margin-top:5px;">` : ""}
+                ${recipe.image ? `<img src="${recipe.image}" alt="${recipe.name}" class="recipe-image recipe-card-img">` : ""}
               </div>
               <div class="recipe-actions">
                 <button class="btn-favorite" data-id="${recipe.id}">
@@ -778,9 +778,9 @@ export const recipesMethods = {
         const notePhotoContainer = document.getElementById('modal-note-photo');
         if (recipe.noteImage) {
           notePhotoContainer.innerHTML = `
-            <div style="margin-top: 15px; text-align: center;">
-              <h3 style="margin-bottom: 8px; color: #ff9800; font-size: 1.1em;">添付写真</h3>
-              <img src="${recipe.noteImage}" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div class="modal-note-image-section">
+              <h3 class="modal-note-image-title">添付写真</h3>
+              <img src="${recipe.noteImage}" class="modal-note-image">
             </div>
           `;
         } else {
@@ -873,7 +873,7 @@ export const recipesMethods = {
     // 見出しを「レシピ編集」に変更し、編集アイコンを追加（紫に設定）
     const formTitle = document.getElementById("register-title");
     if (formTitle) {
-      formTitle.innerHTML = '<i class="fas fa-edit" style="color: #9c27b0;"></i> レシピ編集';
+      formTitle.innerHTML = '<i class="fas fa-edit edit-icon-purple"></i> レシピ編集';
     }
     
     // 材料をセット

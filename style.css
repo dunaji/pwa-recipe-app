@@ -3647,3 +3647,275 @@ input[type="text"]:focus {
 .clear-menu-item--danger {
   color: #e53935;
 }
+
+/* ===== インラインstyle集約（index.html） ===== */
+
+/* レシピ登録フォームのメモ欄 */
+.notes-textarea {
+  width: 100%;
+  min-height: 120px;
+  max-width: 100%;
+  padding: 1em;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1.1em;
+  background: #fff8e1;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* ファイル選択input（常時非表示） */
+.file-input-hidden {
+  display: none;
+}
+
+/* JSで表示切替する要素の初期非表示（inline style.display で上書きされる） */
+.hidden {
+  display: none;
+}
+
+/* 並び替えコントロール */
+.sort-controls {
+  margin-bottom: 0.7em;
+}
+.sort-label {
+  font-size: 0.95em;
+  margin-right: 0.4em;
+}
+.sort-select {
+  font-size: 1em;
+  padding: 0.2em 0.8em;
+  border-radius: 6px;
+}
+.sort-select + .sort-select {
+  margin-left: 0.5em;
+}
+
+/* リストタブのヘッダー行 */
+.shopping-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.title-flush {
+  margin: 0;
+}
+.tab-header h2.title-flush-right {
+  margin: 0 10px 0 0;
+}
+
+/* その他タブのヘッダー行・注記 */
+.history-button-wrap {
+  margin-top: 4px;
+}
+.custom-items-note {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* ヘッダーのSVGアイコン */
+.header-title-svg {
+  vertical-align: middle;
+  margin-left: 0.3em;
+}
+
+/* ストレージ使用量（初期非表示。JSのstyle.displayで切替） */
+#storage-usage {
+  display: none;
+}
+
+/* ===== レシピ詳細モーダル ===== */
+#recipe-detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 180, 50, 0.12);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.modal-card {
+  background: linear-gradient(135deg, #fffbe9 80%, #ffe0b2 100%);
+  padding: 2.2em 2em 2em 2em;
+  max-width: 430px;
+  width: 92vw;
+  border-radius: 20px;
+  box-shadow: 0 4px 32px rgba(255, 152, 0, 0.18), 0 1.5px 8px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.1em;
+  right: 1.1em;
+  background: rgba(255, 235, 59, 0.88);
+  border: none;
+  font-size: 1.7em;
+  cursor: pointer;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px #ffd54f80;
+  transition: background 0.2s;
+}
+
+.modal-title {
+  margin-top: 0;
+  font-family: 'Kiwi Maru', sans-serif;
+  font-size: 1.7em;
+  color: #ff9800;
+  text-shadow: 0 1px 0 #fffde7, 0 2px 6px #ffd54f80;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.modal-title-icon {
+  font-size: 1.1em;
+}
+
+.modal-image-wrap {
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.modal-block {
+  border-radius: 12px;
+  padding: 1em 1.2em 0.7em 1.2em;
+  margin-bottom: 1.3em;
+  box-shadow: 0 2px 8px #ffd54f55;
+}
+.modal-block--ingredients {
+  background: #fffde7;
+}
+.modal-block--seasoning {
+  background: #fff8e1;
+}
+.modal-block--notes {
+  background: #ffe0b2;
+  margin-bottom: 0;
+}
+
+.modal-block-title {
+  margin-bottom: 0.5em;
+  color: #ff9800;
+  font-size: 1.13em;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.modal-list {
+  margin: 0 0 0.7em 0.5em;
+  padding: 0;
+  list-style: none;
+  font-size: 1.08em;
+}
+
+.modal-notes {
+  white-space: pre-line;
+  font-size: 1.08em;
+  color: #795548;
+  margin-bottom: 0.5em;
+}
+
+/* ===== JS生成HTMLのインラインstyle集約 ===== */
+
+/* レシピカード */
+.recipe-item-full {
+  width: 100%;
+}
+.recipe-header {
+  width: 100%;
+}
+.recipe-checkbox-card {
+  margin-top: 0.5em;
+}
+.recipe-content-card {
+  flex: 1;
+  min-width: 0;
+  margin-left: 10px;
+  width: calc(100% - 40px);
+}
+.recipe-title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.recipe-card-name {
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #333;
+  margin-right: 10px;
+  margin-bottom: 0.5rem;
+  word-break: break-word;
+}
+.btn-detail-link {
+  font-size: 0.93em;
+  color: #2196f3;
+  background: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 0 8px;
+}
+.recipe-ingredients-hidden {
+  display: none;
+  margin-bottom: 10px;
+}
+.recipe-card-img {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 5px;
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+}
+.recipe-cook-count {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.88em;
+  color: #ff9800;
+  margin-bottom: 0.2em;
+  line-height: 1.15;
+}
+.recipe-cook-count-label {
+  font-weight: bold;
+}
+
+/* 詳細モーダル内の添付写真 */
+.modal-note-image-section {
+  margin-top: 15px;
+  text-align: center;
+}
+.modal-note-image-title {
+  margin-bottom: 8px;
+  color: #ff9800;
+  font-size: 1.1em;
+}
+.modal-note-image {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 編集モードのフォームタイトルアイコン */
+.edit-icon-purple {
+  color: #9c27b0;
+}
+
+/* その他タブの追加ボタン */
+.custom-items-submit {
+  margin-top: 1em;
+}

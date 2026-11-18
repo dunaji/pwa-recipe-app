@@ -291,7 +291,7 @@ export const customItemsMethods = {
           </div>
         `).join('')}
         <div class="custom-items-actions">
-          <button id="add-selected-items" class="btn-primary" style="margin-top: 1em; width: 100%;">
+          <button id="add-selected-items" class="btn-primary custom-items-submit">
             選択した物を'リスト'に追加
           </button>
         </div>
