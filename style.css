@@ -3617,7 +3617,7 @@ input[type="text"]:focus {
 .clear-menu {
   position: absolute;
   top: 100%;
-  right: 0;
+  left: 0;
   margin-top: 4px;
   background: #fff;
   border: 1px solid #ddd;
