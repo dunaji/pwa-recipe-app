@@ -3857,14 +3857,20 @@ input[type="text"]:focus {
   margin-bottom: 0.5rem;
   word-break: break-word;
 }
-.btn-detail-link {
+.btn-detail.btn-detail-link {
   font-size: 0.93em;
   color: #2196f3;
   background: none;
   border: none;
+  border-radius: 0;
+  box-shadow: none;
   cursor: pointer;
   white-space: nowrap;
   padding: 0 8px;
+}
+.btn-detail.btn-detail-link:hover {
+  background: none;
+  color: #1976d2;
 }
 .recipe-ingredients-hidden {
   display: none;
