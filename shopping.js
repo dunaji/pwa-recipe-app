@@ -5,6 +5,15 @@ import { getShoppingCategory } from './utils.js';
 
 export const shoppingMethods = {
 
+  // 買い物アイテムがどのレシピ用かのラベルを返す（複数レシピで合算された場合は「・」区切り）
+  _shoppingItemRecipeLabel(item) {
+    let names = Array.isArray(item.recipeNames) && item.recipeNames.length > 0
+      ? item.recipeNames
+      : (item.recipeName ? [item.recipeName] : []);
+    names = names.filter(n => n && n !== '未分類');
+    return names.length > 0 ? `（${names.join('・')}）` : '';
+  },
+
   // 買い物リストを保存
   async saveShoppingList() {
 
@@ -334,6 +343,7 @@ export const shoppingMethods = {
                     <span class="checkmark"></span>
                   </div>
                   <span class="item-name">${this.escapeHtml(item.name)}</span>
+                  ${this._shoppingItemRecipeLabel(item) ? `<span class="item-recipes">${this.escapeHtml(this._shoppingItemRecipeLabel(item))}</span>` : ''}
                   ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
                   <button class="btn-remove" data-id="${item.id}" data-custom="false">×</button>
                 </div>
@@ -365,6 +375,7 @@ export const shoppingMethods = {
                     <span class="checkmark"></span>
                   </label>
                   <span class="item-name">${this.escapeHtml(item.name)}</span>
+                  ${this._shoppingItemRecipeLabel(item) ? `<span class="item-recipes">${this.escapeHtml(this._shoppingItemRecipeLabel(item))}</span>` : ''}
                   ${item.quantity ? `<span class="item-quantity">${this.escapeHtml(item.quantity)}</span>` : ''}
                   <button class="btn-remove" data-id="${item.id}" data-custom="false">×</button>
                 </div>

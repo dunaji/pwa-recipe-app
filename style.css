@@ -3962,3 +3962,29 @@ input[type="text"]:focus {
   text-align: center;
   padding: 1em;
 }
+
+/* ===== 詳細モーダルのアクション・統計 ===== */
+.modal-recipe-stats {
+  font-size: 0.85em;
+  color: #8d6e63;
+  margin: -0.6em 0 0.6em 0;
+}
+.modal-actions {
+  display: flex;
+  gap: 0.8em;
+  margin-top: 1.2em;
+}
+.modal-action-btn {
+  flex: 1;
+  padding: 0.8em 0.5em;
+  font-size: 0.95em;
+  white-space: nowrap;
+}
+
+/* ===== 買い物アイテムのレシピ名 ===== */
+.item-recipes {
+  display: block;
+  font-size: 0.75em;
+  color: #a1887f;
+  margin-top: 0.1em;
+}

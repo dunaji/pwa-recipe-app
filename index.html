@@ -370,6 +370,7 @@
     <button id="close-detail-modal" class="modal-close-btn">×</button>
     <h2 id="modal-recipe-title" class="modal-title"><span class="modal-title-icon">🍳</span><span></span></h2>
     <div id="modal-recipe-category" class="modal-category"></div>
+    <div id="modal-recipe-stats" class="modal-recipe-stats"></div>
     <div id="modal-recipe-image" class="modal-image-wrap"></div>
     <div class="modal-block modal-block--ingredients">
       <h3 class="modal-block-title">🥗 材料</h3>
@@ -385,6 +386,14 @@
       <h3 class="modal-block-title">📝 作り方・その他メモ</h3>
       <div id="modal-recipe-notes" class="modal-notes"></div>
       <div id="modal-note-photo"></div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" id="cooked-recipe-button" class="btn-primary modal-action-btn">
+        <i class="fas fa-check"></i> 作った！
+      </button>
+      <button type="button" id="add-to-shopping-from-detail" class="btn-secondary modal-action-btn">
+        <i class="fas fa-cart-plus"></i> リストに追加
+      </button>
     </div>
   </div>
 </div>

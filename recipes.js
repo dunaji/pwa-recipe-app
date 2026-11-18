@@ -958,7 +958,27 @@ export const recipesMethods = {
         if (editButton) {
           editButton.onclick = () => this.editRecipe(recipe.id);
         }
-        
+
+        // 調理回数・最終調理日の表示
+        const statsEl = document.getElementById('modal-recipe-stats');
+        if (statsEl) {
+          const count = recipe.cookCount || 0;
+          let statsText = `調理回数: ${count}回`;
+          if (recipe.lastCookedAt) {
+            const d = new Date(recipe.lastCookedAt);
+            statsText += ` / 前回: ${d.getMonth() + 1}/${d.getDate()}`;
+          } else {
+            statsText += ' / 未調理';
+          }
+          statsEl.textContent = statsText;
+        }
+
+        // 「作った！」ボタンのイベントを設定
+        const cookedButton = document.getElementById('cooked-recipe-button');
+        if (cookedButton) {
+          cookedButton.onclick = () => this.markRecipeCooked(recipe.id);
+        }
+
         // 買い物リストに追加ボタンのイベントを設定
         const addToShoppingButton = document.getElementById('add-to-shopping-from-detail');
         if (addToShoppingButton) {
@@ -970,6 +990,9 @@ export const recipesMethods = {
         
         // 調味料セクションの表示設定（トグル機能は削除）
         
+        // 調理中に画面が消灯しないよう Wake Lock を取得（対応ブラウザのみ）
+        this._acquireWakeLock();
+
         // モーダルを表示
         document.getElementById('recipe-detail-modal').style.display = 'block';
         document.body.style.overflow = 'hidden';
@@ -1005,6 +1028,7 @@ export const recipesMethods = {
             this.updateShoppingButton();
             this.showMessage("レシピを削除しました");
             // 詳細モーダルを閉じる
+            this._releaseWakeLock();
             document.getElementById('recipe-detail-modal').style.display = 'none';
             document.body.style.overflow = 'auto';
           }).catch(error => {
@@ -1019,8 +1043,60 @@ export const recipesMethods = {
     const closeDetailBtn = document.getElementById("close-detail-modal");
     if (closeDetailBtn) {
       closeDetailBtn.onclick = () => {
+        this._releaseWakeLock();
         document.getElementById("recipe-detail-modal").style.display = "none";
+        document.body.style.overflow = 'auto';
       };
+    }
+  },
+
+  // 「作った！」記録: 調理回数と最終調理日を更新して保存
+  // 同日に既に記録済み（買い物完了等）の場合は回数を増やさず日時のみ更新
+  async markRecipeCooked(recipeId) {
+    const recipe = this.recipes.find(r => String(r.id) === String(recipeId));
+    if (!recipe) return;
+
+    const now = new Date();
+    const last = recipe.lastCookedAt ? new Date(recipe.lastCookedAt) : null;
+    const sameDay = last && last.toDateString() === now.toDateString();
+
+    recipe.lastCookedAt = now.toISOString();
+    if (!sameDay) {
+      recipe.cookCount = (typeof recipe.cookCount === 'number' ? recipe.cookCount : 0) + 1;
+    }
+
+    try {
+      await this.saveRecipes();
+      this.renderRecipes();
+      this.showMessage('作った記録をつけました', 'success');
+
+      // モーダル内の統計表示を更新
+      const statsEl = document.getElementById('modal-recipe-stats');
+      if (statsEl) {
+        const d = new Date(recipe.lastCookedAt);
+        statsEl.textContent = `調理回数: ${recipe.cookCount}回 / 前回: ${d.getMonth() + 1}/${d.getDate()}`;
+      }
+    } catch (error) {
+      console.error('[ERROR] 調理記録の保存に失敗しました:', error);
+      this.showMessage('記録の保存に失敗しました', 'error');
+    }
+  },
+
+  // 詳細モーダル表示中に画面の消灯を防ぐ（Wake Lock API）
+  async _acquireWakeLock() {
+    this._releaseWakeLock();
+    if (!('wakeLock' in navigator)) return;
+    try {
+      this.wakeLockSentinel = await navigator.wakeLock.request('screen');
+    } catch (e) {
+      // バッテリーセーバー等で拒否されることがある。無視してよい
+    }
+  },
+
+  _releaseWakeLock() {
+    if (this.wakeLockSentinel) {
+      this.wakeLockSentinel.release().catch(() => {});
+      this.wakeLockSentinel = null;
     }
   },
 
