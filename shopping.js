@@ -1,5 +1,5 @@
 // shopping.js - script.js から分割された機能モジュール
-import { getShoppingCategory } from './utils.js';
+import { getShoppingCategory, normalizeIngredientKey } from './utils.js';
 
 // RecipeApp.prototype に Object.assign で合成される
 
@@ -782,8 +782,8 @@ export const shoppingMethods = {
     let added = false;
     const timestamp = Date.now();
 
-    // 正規化関数
-    const normalizeString = (str) => str ? str.toString().trim().toLowerCase() : '';
+    // 材料名の正規化（同義語・表記ゆれを統合してマージ判定する）
+    const normalizeString = (str) => normalizeIngredientKey(str);
 
     for (const ingredient of ingredients) {
       const isItemCustom = Boolean(ingredient.isCustom);
