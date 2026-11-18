@@ -78,7 +78,7 @@ export const mealPlanMethods = {
       pickerList.addEventListener('click', (e) => {
         const item = e.target.closest('.meal-picker-item');
         if (item) {
-          this.assignMealRecipe(parseInt(item.dataset.recipeId, 10));
+          this.assignMealRecipe(item.dataset.recipeId);
         }
       });
     }
@@ -107,7 +107,7 @@ export const mealPlanMethods = {
     if (addBtn) addBtn.disabled = plannedCount === 0;
 
     container.innerHTML = this.mealPlan.map((recipeId, i) => {
-      const recipe = recipeId != null ? this.recipes.find(r => r.id === recipeId) : null;
+      const recipe = recipeId != null ? this.recipes.find(r => String(r.id) === String(recipeId)) : null;
       const name = recipe ? recipe.name : (recipeId != null ? '（削除されたレシピ）' : '');
       const label = this.mealPlanDayLabel(i);
       return `
@@ -204,7 +204,7 @@ export const mealPlanMethods = {
     }
 
     const plannedRecipes = recipeIds
-      .map(id => this.recipes.find(r => r.id === id))
+      .map(id => this.recipes.find(r => String(r.id) === String(id)))
       .filter(Boolean);
 
     if (plannedRecipes.length === 0) {
